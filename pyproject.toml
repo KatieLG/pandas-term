@@ -1,0 +1,45 @@
+[project]
+name = "pandas-cli"
+version = "0.1.0"
+description = "A powerful CLI for pandas dataframe operations"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "typer>=0.20.0",
+]
+
+[dependency-groups]
+dev = [
+    "coverage>=7.12.0",
+    "pytest>=9.0.1",
+    "ruff>=0.14.6",
+]
+
+[tool.ruff]
+line-length = 100
+lint.select = [
+    "ANN",     # Catch missing type annotations
+    "B",       # Highlight common bugs in python
+    "C4",      # Catch incorrect use of comprehensions, dict, list, etc
+    "ICN",     # Follow flake8 import conventions
+    "LOG",     # Catch invalid logging
+    "RSE",     # Unnecessary parens on exception raise
+    "RET",     # Good practice for return statements
+    "SIM",     # Common simplification rules
+    "TID",     # Flake8 tidy imports
+    "ARG",     # Flag unused arguments
+    "PTH",     # Use pathlib instead of os.path
+    "I",       # Use isort for imports
+    "PD",      # Follow pandas conventions,
+    "N",       # Use pep8 naming,
+    "F",       # Use pyflakes,
+    "PLC",     # Pylint conventions
+]
+
+[tool.coverage.run]
+source = ["src"]
+
+[project.scripts]
+pd = "src.main:app"
