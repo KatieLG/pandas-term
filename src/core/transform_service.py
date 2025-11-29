@@ -1,5 +1,7 @@
 """Service for dataframe transformation operations."""
 
+from typing import Literal
+
 import pandas as pd
 
 
@@ -42,3 +44,23 @@ def drop_duplicates(df: pd.DataFrame, subset: list[str] | None = None) -> pd.Dat
 def reset_index(df: pd.DataFrame) -> pd.DataFrame:
     """Reset the dataframe index."""
     return df.reset_index(drop=True)
+
+
+def merge_dataframes(
+    left_df: pd.DataFrame,
+    right_df: pd.DataFrame,
+    on: list[str] | None = None,
+    how: Literal["inner", "left", "right", "outer", "cross"] = "inner",
+    left_on: str | None = None,
+    right_on: str | None = None,
+) -> pd.DataFrame:
+    """Merge two dataframes."""
+    if left_on and right_on:
+        return left_df.merge(right_df, left_on=left_on, right_on=right_on, how=how)
+    return left_df.merge(right_df, on=on, how=how)
+
+
+def batch_dataframe(df: pd.DataFrame, batch_size: int) -> list[pd.DataFrame]:
+    """Split dataframe into batches of specified size."""
+    num_batches = len(df) // batch_size + (1 if len(df) % batch_size != 0 else 0)
+    return [df.iloc[i * batch_size : (i + 1) * batch_size] for i in range(num_batches)]

@@ -8,11 +8,35 @@ A CLI for applying common pandas functions to data files in the terminal.
 uv sync
 ```
 
+## Command Reference
+
+| CLI Command       | Pandas Function          | Description                    |
+| ----------------- | ------------------------ | ------------------------------ |
+| `pd select`       | `df[columns]`            | Select specific columns        |
+| `pd drop`         | `df.drop()`              | Drop columns                   |
+| `pd sort`         | `df.sort_values()`       | Sort by columns                |
+| `pd dedup`        | `df.drop_duplicates()`   | Remove duplicate rows          |
+| `pd reset-index`  | `df.reset_index()`       | Reset the dataframe index      |
+| `pd merge`        | `pd.merge()`             | Merge two dataframes           |
+| `pd batch`        | `df.iloc[]`              | Split dataframe into batches   |
+| `pd query`        | `df.query()`             | Filter using query expressions |
+| `pd head`         | `df.head()`              | Get first n rows               |
+| `pd tail`         | `df.tail()`              | Get last n rows                |
+| `pd sample`       | `df.sample()`            | Random sample of rows          |
+| `pd dropna`       | `df[df[col].notna()]`    | Drop rows with null values     |
+| `pd describe`     | `df.describe()`          | Descriptive statistics         |
+| `pd info`         | `df.info()`              | DataFrame information          |
+| `pd value-counts` | `df[col].value_counts()` | Count unique values            |
+| `pd groupby`      | `df.groupby().agg()`     | Group by and aggregate         |
+| `pd corr`         | `df.corr()`              | Correlation matrix             |
+| `pd missing`      | `df.isna().sum()`        | Missing values analysis        |
+| `pd unique`       | `df[col].unique()`       | Unique values in column        |
+
 ## Usage
 
 All commands accept an input file path (or `-` for stdin) and an optional `-o/--output` flag for the output file (or `-` for stdout).
 
-### Transform Commands
+### Transform commands
 
 ```bash
 # Select specific columns
@@ -23,7 +47,7 @@ pd drop data.csv unwanted_column
 
 # Sort by columns
 pd sort data.csv age --ascending
-pd sort data.csv age --descending
+pd sort data.csv age name --descending
 
 # Remove duplicate rows
 pd dedup data.csv
@@ -31,17 +55,26 @@ pd dedup data.csv --subset name email
 
 # Reset the dataframe index
 pd reset-index data.csv
+
+# Merge two dataframes
+pd merge left.csv right.csv --on user_id --how inner
+pd merge left.csv right.csv --left-on id --right-on user_id --how left
+
+# Split dataframe into batches
+pd batch data.csv 100 -o "output_batch_{}.csv"
 ```
 
-### Filter Commands
+### Filter commands
 
 ```bash
 # Filter using pandas query expressions
 pd query data.csv "age > 30 and city == 'NYC'"
 
-# Get first/last n rows
-pd head data.csv --n 10
-pd tail data.csv --n 5
+# First N rows
+pd head data.csv --n 100
+
+# Last N rows
+pd tail data.csv --n 50
 
 # Random sample
 pd sample data.csv --n 100
@@ -51,7 +84,7 @@ pd sample data.csv --frac 0.1 --seed 42
 pd dropna data.csv column_name
 ```
 
-### Statistics Commands
+### Stats commands
 
 ```bash
 # Descriptive statistics
@@ -76,7 +109,7 @@ pd corr data.csv --columns age --columns salary
 pd missing data.csv
 
 # Unique values in a column
-pd unique data.csv city
+pd unique data.csv country
 ```
 
 ### Piping

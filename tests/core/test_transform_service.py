@@ -72,3 +72,55 @@ def test_reset_index(sample_df: pd.DataFrame) -> None:
 
     assert result.index[0] == 0
     assert list(result.index) == list(range(len(result)))
+
+
+def test_merge_on_column(sample_df: pd.DataFrame) -> None:
+    """Test merging dataframes on a common column."""
+    left_df = sample_df[["name", "age"]].copy()
+    right_df = sample_df[["name", "salary"]].copy()
+
+    result = transform_service.merge_dataframes(left_df, right_df, on=["name"])
+    assert len(result) == 5
+    assert "age" in result.columns
+    assert "salary" in result.columns
+
+
+def test_merge_left_right_on(sample_df: pd.DataFrame) -> None:
+    """Test merging dataframes with different column names."""
+    left_df = sample_df[["name", "age"]].copy()
+    right_df = sample_df[["name", "salary"]].copy()
+    right_df = right_df.rename(columns={"name": "person"})
+
+    result = transform_service.merge_dataframes(
+        left_df, right_df, left_on="name", right_on="person", how="inner"
+    )
+    assert len(result) == 5
+    assert "age" in result.columns
+    assert "salary" in result.columns
+
+
+def test_merge_outer(sample_df: pd.DataFrame) -> None:
+    """Test outer merge."""
+    left_df = sample_df[["name", "age"]].head(3)
+    right_df = sample_df[["name", "salary"]].tail(3)
+
+    result = transform_service.merge_dataframes(left_df, right_df, on=["name"], how="outer")
+    assert len(result) == 5
+
+
+def test_batch_dataframe(sample_df: pd.DataFrame) -> None:
+    """Test splitting dataframe into batches."""
+    batches = transform_service.batch_dataframe(sample_df, batch_size=2)
+    assert len(batches) == 3
+    assert len(batches[0]) == 2
+    assert len(batches[1]) == 2
+    assert len(batches[2]) == 1
+
+
+def test_batch_dataframe_exact_division(sample_df: pd.DataFrame) -> None:
+    """Test batching when size divides evenly."""
+    df = sample_df.head(4)
+    batches = transform_service.batch_dataframe(df, batch_size=2)
+    assert len(batches) == 2
+    assert len(batches[0]) == 2
+    assert len(batches[1]) == 2
