@@ -4,7 +4,7 @@ from typing import Annotated
 
 import typer
 
-from src.core import filter_service, io_service
+from pandas_cli.core import filter_service, io_service
 
 app = typer.Typer(add_completion=False)
 
@@ -76,13 +76,18 @@ def sample(
 @app.command()
 def dropna(
     input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
-    column: Annotated[str, typer.Argument(help="Column to check for null values")],
+    column: Annotated[
+        str | None,
+        typer.Option(
+            "--column", "-c", help="Column to check for null values (default: any column)"
+        ),
+    ] = None,
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
     ] = None,
 ) -> None:
-    """Remove rows with null values in the specified column."""
+    """Remove rows with null values in specified column or any column."""
     df = io_service.read_dataframe(input_file)
     result = filter_service.filter_null(df, column, keep_null=False)
     io_service.write_dataframe(result, output)

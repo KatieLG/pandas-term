@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 from typer.testing import CliRunner
 
-from src.main import app
+from pandas_cli.main import app
 
 runner = CliRunner()
 

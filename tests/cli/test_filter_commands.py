@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 from typer.testing import CliRunner
 
-from src.main import app
+from pandas_cli.main import app
 
 runner = CliRunner()
 
@@ -73,14 +73,25 @@ def test_sample_command_by_frac(sample_csv_file: Path) -> None:
 
 
 def test_dropna_command(tmp_path: Path, sample_df_with_nulls: pd.DataFrame) -> None:
-    """Test dropna command."""
+    """Test dropna command with specific column."""
     csv_file = tmp_path / "test_with_nulls.csv"
     sample_df_with_nulls.to_csv(csv_file, index=False)
 
-    result = runner.invoke(app, ["dropna", str(csv_file), "name"])
+    result = runner.invoke(app, ["dropna", str(csv_file), "--column", "name"])
     assert result.exit_code == 0
     lines = result.stdout.strip().split("\n")
     assert len(lines) == 5
+
+
+def test_dropna_command_any_column(tmp_path: Path, sample_df_with_nulls: pd.DataFrame) -> None:
+    """Test dropna command without specifying column."""
+    csv_file = tmp_path / "test_with_nulls.csv"
+    sample_df_with_nulls.to_csv(csv_file, index=False)
+
+    result = runner.invoke(app, ["dropna", str(csv_file)])
+    assert result.exit_code == 0
+    lines = result.stdout.strip().split("\n")
+    assert len(lines) == 2
 
 
 def test_query_with_output_file(sample_csv_file: Path, tmp_path: Path) -> None:

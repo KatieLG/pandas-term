@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from src.core import filter_service
+from pandas_cli.core import filter_service
 
 
 def test_filter_by_query(sample_df: pd.DataFrame) -> None:

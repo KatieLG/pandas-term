@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from src.core import stats_service
+from pandas_cli.core import stats_service
 
 
 def test_describe(sample_df: pd.DataFrame) -> None:
@@ -59,38 +59,8 @@ def test_group_by_count(sample_df: pd.DataFrame) -> None:
     assert nyc_count == 2
 
 
-def test_correlation_all_columns(sample_df: pd.DataFrame) -> None:
-    """Test correlation matrix for all numeric columns."""
-    result = stats_service.correlation(sample_df)
-    assert "age" in result.columns
-    assert "salary" in result.columns
-    assert result.loc["age", "age"] == 1.0
-
-
-def test_correlation_specific_columns(sample_df: pd.DataFrame) -> None:
-    """Test correlation matrix for specific columns."""
-    result = stats_service.correlation(sample_df, ["age", "salary"])
-    assert list(result.columns) == ["age", "salary"]
-    assert list(result.index) == ["age", "salary"]
-
-
 def test_unique_values(sample_df: pd.DataFrame) -> None:
     """Test getting unique values from a column."""
     result = stats_service.unique_values(sample_df, "city")
     assert len(result) == 3
     assert set(result) == {"NYC", "LA", "Chicago"}
-
-
-def test_missing_values_no_missing(sample_df: pd.DataFrame) -> None:
-    """Test missing values with no nulls."""
-    result = stats_service.missing_values(sample_df)
-    assert len(result) == 0
-
-
-def test_missing_values_with_nulls(sample_df_with_nulls: pd.DataFrame) -> None:
-    """Test missing values with nulls present."""
-    result = stats_service.missing_values(sample_df_with_nulls)
-    assert len(result) > 0
-    assert "column" in result.columns
-    assert "missing_count" in result.columns
-    assert "missing_percent" in result.columns

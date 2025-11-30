@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from src.core import io_service
+from pandas_cli.core import io_service
 
 
 def test_read_csv(sample_csv_file: Path) -> None:

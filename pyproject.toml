@@ -43,7 +43,7 @@ lint.select = [
 ]
 
 [tool.coverage.run]
-source = ["src"]
+source = ["src/pandas_cli"]
 
 [project.scripts]
-pd = "src.main:app"
+pd = "pandas_cli.main:app"

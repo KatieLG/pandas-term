@@ -4,7 +4,7 @@ from typing import Annotated, Literal
 
 import typer
 
-from src.core import io_service, transform_service
+from pandas_cli.core import io_service, transform_service
 
 app = typer.Typer(add_completion=False)
 

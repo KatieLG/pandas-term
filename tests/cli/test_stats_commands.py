@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 from typer.testing import CliRunner
 
-from src.main import app
+from pandas_cli.main import app
 
 runner = CliRunner()
 
@@ -48,9 +48,9 @@ def test_groupby_command(sample_csv_file: Path) -> None:
             "groupby",
             str(sample_csv_file),
             "department",
-            "--agg-column",
+            "--col",
             "salary",
-            "--agg-func",
+            "--agg",
             "sum",
         ],
     )
@@ -62,42 +62,10 @@ def test_groupby_command(sample_csv_file: Path) -> None:
 def test_groupby_with_mean(sample_csv_file: Path) -> None:
     """Test groupby command with mean aggregation."""
     result = runner.invoke(
-        app, ["groupby", str(sample_csv_file), "city", "--agg-column", "age", "--agg-func", "mean"]
+        app, ["groupby", str(sample_csv_file), "city", "--col", "age", "--agg", "mean"]
     )
     assert result.exit_code == 0
     assert "NYC" in result.stdout
-
-
-def test_corr_command(sample_csv_file: Path) -> None:
-    """Test correlation command."""
-    result = runner.invoke(app, ["corr", str(sample_csv_file)])
-    assert result.exit_code == 0
-    assert "age" in result.stdout
-    assert "salary" in result.stdout
-
-
-def test_corr_specific_columns(sample_csv_file: Path) -> None:
-    """Test correlation command with specific columns."""
-    result = runner.invoke(
-        app, ["corr", str(sample_csv_file), "--columns", "age", "--columns", "salary"]
-    )
-    assert result.exit_code == 0
-
-
-def test_missing_command_no_nulls(sample_csv_file: Path) -> None:
-    """Test missing command with no null values."""
-    result = runner.invoke(app, ["missing", str(sample_csv_file)])
-    assert result.exit_code == 0
-
-
-def test_missing_command_with_nulls(tmp_path: Path, sample_df_with_nulls: pd.DataFrame) -> None:
-    """Test missing command with null values."""
-    csv_file = tmp_path / "test_with_nulls.csv"
-    sample_df_with_nulls.to_csv(csv_file, index=False)
-
-    result = runner.invoke(app, ["missing", str(csv_file)])
-    assert result.exit_code == 0
-    assert "missing_count" in result.stdout or "name" in result.stdout
 
 
 def test_unique_command(sample_csv_file: Path) -> None:

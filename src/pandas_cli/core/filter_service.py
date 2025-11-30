@@ -13,11 +13,15 @@ def filter_by_value(df: pd.DataFrame, column: str, value: str | int | float) -> 
     return df[df[column] == value]
 
 
-def filter_null(df: pd.DataFrame, column: str, keep_null: bool = False) -> pd.DataFrame:
-    """Filter rows based on null values in a column."""
-    if keep_null:
-        return df[df[column].isna()]
-    return df[df[column].notna()]
+def filter_null(
+    df: pd.DataFrame, column: str | None = None, keep_null: bool = False
+) -> pd.DataFrame:
+    """Filter rows based on null values in specified column or any column."""
+    if column:
+        if keep_null:
+            return df[df[column].isna()]
+        return df[df[column].notna()]
+    return df.dropna() if not keep_null else df[df.isna().any(axis=1)]
 
 
 def head(df: pd.DataFrame, n: int = 10) -> pd.DataFrame:

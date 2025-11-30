@@ -3,7 +3,7 @@
 import pandas as pd
 import pytest
 
-from src.core import transform_service
+from pandas_cli.core import transform_service
 
 
 def test_select_columns(sample_df: pd.DataFrame) -> None:

@@ -23,13 +23,11 @@ uv sync
 | `pd head`         | `df.head()`              | Get first n rows               |
 | `pd tail`         | `df.tail()`              | Get last n rows                |
 | `pd sample`       | `df.sample()`            | Random sample of rows          |
-| `pd dropna`       | `df[df[col].notna()]`    | Drop rows with null values     |
+| `pd dropna`       | `df.dropna()`            | Drop rows with null values     |
 | `pd describe`     | `df.describe()`          | Descriptive statistics         |
 | `pd info`         | `df.info()`              | DataFrame information          |
 | `pd value-counts` | `df[col].value_counts()` | Count unique values            |
 | `pd groupby`      | `df.groupby().agg()`     | Group by and aggregate         |
-| `pd corr`         | `df.corr()`              | Correlation matrix             |
-| `pd missing`      | `df.isna().sum()`        | Missing values analysis        |
 | `pd unique`       | `df[col].unique()`       | Unique values in column        |
 
 ## Usage
@@ -80,8 +78,11 @@ pd tail data.csv --n 50
 pd sample data.csv --n 100
 pd sample data.csv --frac 0.1 --seed 42
 
-# Drop rows with null values
-pd dropna data.csv column_name
+# Drop rows with null values in any column
+pd dropna data.csv
+
+# Drop rows with null values in specific column
+pd dropna data.csv --column column_name
 ```
 
 ### Stats commands
@@ -98,15 +99,8 @@ pd value-counts data.csv city
 pd value-counts data.csv department --normalize
 
 # Group by and aggregate
-pd groupby data.csv department --agg-column salary --agg-func sum
-pd groupby data.csv city --agg-column age --agg-func mean
-
-# Correlation matrix
-pd corr data.csv
-pd corr data.csv --columns age --columns salary
-
-# Missing values analysis
-pd missing data.csv
+pd groupby data.csv department --col salary --agg sum
+pd groupby data.csv city --col age --agg mean
 
 # Unique values in a column
 pd unique data.csv country
