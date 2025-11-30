@@ -69,7 +69,7 @@ def test_batch_command(tmp_path: Path, sample_df: pd.DataFrame) -> None:
     sample_df.to_csv(input_file, index=False)
 
     result = runner.invoke(
-        app, ["batch", str(input_file), "2", "-o", str(tmp_path / "batch_{}.csv")]
+        app, ["batch", "2", str(input_file), "-o", str(tmp_path / "batch_{}.csv")]
     )
     assert result.exit_code == 0
     assert "batch 0" in result.stdout
@@ -91,7 +91,7 @@ def test_batch_exact_division(tmp_path: Path, sample_df: pd.DataFrame) -> None:
     df.to_csv(input_file, index=False)
 
     result = runner.invoke(
-        app, ["batch", str(input_file), "2", "-o", str(tmp_path / "chunk_{}.csv")]
+        app, ["batch", "2", str(input_file), "-o", str(tmp_path / "chunk_{}.csv")]
     )
     assert result.exit_code == 0
 

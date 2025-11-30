@@ -11,8 +11,8 @@ app = typer.Typer(add_completion=False)
 
 @app.command()
 def select(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
-    columns: Annotated[list[str], typer.Argument(help="Columns to select")],
+    columns: Annotated[str, typer.Argument(help="Comma-separated list of columns to select")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
@@ -20,14 +20,15 @@ def select(
 ) -> None:
     """Select specific columns from the dataframe."""
     df = io_service.read_dataframe(input_file)
-    result = transform_service.select_columns(df, columns)
+    column_list = [col.strip() for col in columns.split(",")]
+    result = transform_service.select_columns(df, column_list)
     io_service.write_dataframe(result, output)
 
 
 @app.command()
 def drop(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
-    columns: Annotated[list[str], typer.Argument(help="Columns to drop")],
+    columns: Annotated[str, typer.Argument(help="Comma-separated list of columns to drop")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
@@ -35,14 +36,15 @@ def drop(
 ) -> None:
     """Drop specific columns from the dataframe."""
     df = io_service.read_dataframe(input_file)
-    result = transform_service.drop_columns(df, columns)
+    column_list = [col.strip() for col in columns.split(",")]
+    result = transform_service.drop_columns(df, column_list)
     io_service.write_dataframe(result, output)
 
 
 @app.command()
 def sort(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
-    columns: Annotated[list[str], typer.Argument(help="Columns to sort by")],
+    columns: Annotated[str, typer.Argument(help="Comma-separated list of columns to sort by")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     ascending: Annotated[bool, typer.Option("--ascending/--descending", help="Sort order")] = True,
     output: Annotated[
         str | None,
@@ -51,13 +53,14 @@ def sort(
 ) -> None:
     """Sort dataframe by specified columns."""
     df = io_service.read_dataframe(input_file)
-    result = transform_service.sort_by(df, columns, ascending)
+    column_list = [col.strip() for col in columns.split(",")]
+    result = transform_service.sort_by(df, column_list, ascending)
     io_service.write_dataframe(result, output)
 
 
 @app.command()
 def dedup(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     subset: Annotated[
         list[str] | None,
         typer.Option("--subset", "-s", help="Columns to consider for duplicates"),
@@ -75,7 +78,7 @@ def dedup(
 
 @app.command()
 def reset_index(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
@@ -121,8 +124,8 @@ def merge(
 
 @app.command()
 def batch(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
     batch_size: Annotated[int, typer.Argument(help="Number of rows per batch")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output_pattern: Annotated[
         str,
         typer.Option("--output", "-o", help="Output file pattern (e.g., 'batch_{}.csv')"),

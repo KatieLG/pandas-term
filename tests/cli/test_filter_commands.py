@@ -12,7 +12,7 @@ runner = CliRunner()
 
 def test_query_command(sample_csv_file: Path) -> None:
     """Test query command."""
-    result = runner.invoke(app, ["query", str(sample_csv_file), "age > 30"])
+    result = runner.invoke(app, ["query", "age > 30", str(sample_csv_file)])
     assert result.exit_code == 0
     assert "Charlie" in result.stdout
     assert "Alice" not in result.stdout
@@ -20,7 +20,7 @@ def test_query_command(sample_csv_file: Path) -> None:
 
 def test_query_command_multiple_conditions(sample_csv_file: Path) -> None:
     """Test query command with multiple conditions."""
-    result = runner.invoke(app, ["query", str(sample_csv_file), "age > 30 and city == 'NYC'"])
+    result = runner.invoke(app, ["query", "age > 30 and city == 'NYC'", str(sample_csv_file)])
     assert result.exit_code == 0
     assert "David" in result.stdout
 
@@ -77,7 +77,7 @@ def test_dropna_command(tmp_path: Path, sample_df_with_nulls: pd.DataFrame) -> N
     csv_file = tmp_path / "test_with_nulls.csv"
     sample_df_with_nulls.to_csv(csv_file, index=False)
 
-    result = runner.invoke(app, ["dropna", str(csv_file), "--column", "name"])
+    result = runner.invoke(app, ["dropna", "--column", "name", str(csv_file)])
     assert result.exit_code == 0
     lines = result.stdout.strip().split("\n")
     assert len(lines) == 5
@@ -97,7 +97,7 @@ def test_dropna_command_any_column(tmp_path: Path, sample_df_with_nulls: pd.Data
 def test_query_with_output_file(sample_csv_file: Path, tmp_path: Path) -> None:
     """Test query command with output file."""
     output_file = tmp_path / "output.csv"
-    result = runner.invoke(app, ["query", str(sample_csv_file), "age > 30", "-o", str(output_file)])
+    result = runner.invoke(app, ["query", "age > 30", "-o", str(output_file), str(sample_csv_file)])
     assert result.exit_code == 0
     assert output_file.exists()
 

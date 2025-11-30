@@ -27,7 +27,7 @@ def test_info_command(sample_csv_file: Path) -> None:
 
 def test_value_counts_command(sample_csv_file: Path) -> None:
     """Test value_counts command."""
-    result = runner.invoke(app, ["value-counts", str(sample_csv_file), "city"])
+    result = runner.invoke(app, ["value-counts", "city", str(sample_csv_file)])
     assert result.exit_code == 0
     assert "NYC" in result.stdout
     assert "LA" in result.stdout
@@ -35,7 +35,7 @@ def test_value_counts_command(sample_csv_file: Path) -> None:
 
 def test_value_counts_normalized(sample_csv_file: Path) -> None:
     """Test value_counts command with normalization."""
-    result = runner.invoke(app, ["value-counts", str(sample_csv_file), "city", "--normalize"])
+    result = runner.invoke(app, ["value-counts", "city", "--normalize", str(sample_csv_file)])
     assert result.exit_code == 0
     assert "0." in result.stdout
 
@@ -46,12 +46,12 @@ def test_groupby_command(sample_csv_file: Path) -> None:
         app,
         [
             "groupby",
-            str(sample_csv_file),
             "department",
             "--col",
             "salary",
             "--agg",
             "sum",
+            str(sample_csv_file),
         ],
     )
     assert result.exit_code == 0
@@ -62,7 +62,7 @@ def test_groupby_command(sample_csv_file: Path) -> None:
 def test_groupby_with_mean(sample_csv_file: Path) -> None:
     """Test groupby command with mean aggregation."""
     result = runner.invoke(
-        app, ["groupby", str(sample_csv_file), "city", "--col", "age", "--agg", "mean"]
+        app, ["groupby", "city", "--col", "age", "--agg", "mean", str(sample_csv_file)]
     )
     assert result.exit_code == 0
     assert "NYC" in result.stdout
@@ -70,7 +70,7 @@ def test_groupby_with_mean(sample_csv_file: Path) -> None:
 
 def test_unique_command(sample_csv_file: Path) -> None:
     """Test unique command."""
-    result = runner.invoke(app, ["unique", str(sample_csv_file), "city"])
+    result = runner.invoke(app, ["unique", "city", str(sample_csv_file)])
     assert result.exit_code == 0
     assert "NYC" in result.stdout
     assert "LA" in result.stdout
@@ -80,7 +80,7 @@ def test_unique_command(sample_csv_file: Path) -> None:
 def test_describe_with_output_file(sample_csv_file: Path, tmp_path: Path) -> None:
     """Test describe command with output file."""
     output_file = tmp_path / "output.csv"
-    result = runner.invoke(app, ["describe", str(sample_csv_file), "-o", str(output_file)])
+    result = runner.invoke(app, ["describe", "-o", str(output_file), str(sample_csv_file)])
     assert result.exit_code == 0
     assert output_file.exists()
 

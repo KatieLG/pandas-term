@@ -11,8 +11,8 @@ app = typer.Typer(add_completion=False)
 
 @app.command()
 def query(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
     expression: Annotated[str, typer.Argument(help="Pandas query expression")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
@@ -26,8 +26,8 @@ def query(
 
 @app.command()
 def head(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
     n: Annotated[int, typer.Option("--n", "-n", help="Number of rows")] = 10,
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
@@ -41,8 +41,8 @@ def head(
 
 @app.command()
 def tail(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
     n: Annotated[int, typer.Option("--n", "-n", help="Number of rows")] = 10,
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
@@ -56,12 +56,12 @@ def tail(
 
 @app.command()
 def sample(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
     n: Annotated[int | None, typer.Option("--n", "-n", help="Number of rows to sample")] = None,
     frac: Annotated[
         float | None, typer.Option("--frac", "-f", help="Fraction of rows to sample")
     ] = None,
     seed: Annotated[int | None, typer.Option("--seed", "-s", help="Random seed")] = None,
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
@@ -75,13 +75,13 @@ def sample(
 
 @app.command()
 def dropna(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
     column: Annotated[
         str | None,
         typer.Option(
             "--column", "-c", help="Column to check for null values (default: any column)"
         ),
     ] = None,
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),

@@ -12,7 +12,7 @@ runner = CliRunner()
 
 def test_select_command(sample_csv_file: Path) -> None:
     """Test select command."""
-    result = runner.invoke(app, ["select", str(sample_csv_file), "name", "age"])
+    result = runner.invoke(app, ["select", "name,age", str(sample_csv_file)])
     assert result.exit_code == 0
     assert "name" in result.stdout
     assert "age" in result.stdout
@@ -21,7 +21,7 @@ def test_select_command(sample_csv_file: Path) -> None:
 
 def test_drop_command(sample_csv_file: Path) -> None:
     """Test drop command."""
-    result = runner.invoke(app, ["drop", str(sample_csv_file), "age", "salary"])
+    result = runner.invoke(app, ["drop", "age,salary", str(sample_csv_file)])
     assert result.exit_code == 0
     assert "name" in result.stdout
     assert "age" not in result.stdout
@@ -30,7 +30,7 @@ def test_drop_command(sample_csv_file: Path) -> None:
 
 def test_sort_command(sample_csv_file: Path) -> None:
     """Test sort command."""
-    result = runner.invoke(app, ["sort", str(sample_csv_file), "age"])
+    result = runner.invoke(app, ["sort", "age", str(sample_csv_file)])
     assert result.exit_code == 0
     lines = result.stdout.strip().split("\n")
     assert "25" in lines[1]
@@ -38,7 +38,7 @@ def test_sort_command(sample_csv_file: Path) -> None:
 
 def test_sort_descending(sample_csv_file: Path) -> None:
     """Test sort command in descending order."""
-    result = runner.invoke(app, ["sort", str(sample_csv_file), "age", "--descending"])
+    result = runner.invoke(app, ["sort", "age", "--descending", str(sample_csv_file)])
     assert result.exit_code == 0
     lines = result.stdout.strip().split("\n")
     assert "45" in lines[1]
@@ -67,7 +67,7 @@ def test_select_with_output_file(sample_csv_file: Path, tmp_path: Path) -> None:
     """Test select command with output file."""
     output_file = tmp_path / "output.csv"
     result = runner.invoke(
-        app, ["select", str(sample_csv_file), "name", "age", "-o", str(output_file)]
+        app, ["select", "name,age", str(sample_csv_file), "-o", str(output_file)]
     )
     assert result.exit_code == 0
     assert output_file.exists()

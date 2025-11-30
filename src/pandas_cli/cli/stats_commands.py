@@ -11,7 +11,7 @@ app = typer.Typer(add_completion=False)
 
 @app.command()
 def describe(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     output: Annotated[
         str | None,
         typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
@@ -25,7 +25,7 @@ def describe(
 
 @app.command()
 def info(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
 ) -> None:
     """Display a concise summary of the dataframe."""
     df = io_service.read_dataframe(input_file)
@@ -35,8 +35,8 @@ def info(
 
 @app.command()
 def value_counts(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
     column: Annotated[str, typer.Argument(help="Column to count values in")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     normalize: Annotated[
         bool,
         typer.Option("--normalize", "-n", help="Return proportions instead of counts"),
@@ -54,9 +54,9 @@ def value_counts(
 
 @app.command()
 def groupby(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
-    group_cols: Annotated[list[str], typer.Argument(help="Columns to group by")],
-    col: Annotated[str, typer.Option("--col", "-c", help="Column to aggregate")],
+    group_cols: Annotated[str, typer.Argument(help="Comma-separated list of columns to group by")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
+    col: Annotated[str | None, typer.Option("--col", "-c", help="Column to aggregate")] = None,
     agg: Annotated[
         str,
         typer.Option("--agg", "-a", help="Aggregation function (sum, mean, count, etc.)"),
@@ -67,15 +67,18 @@ def groupby(
     ] = None,
 ) -> None:
     """Group by columns and apply aggregation function."""
+    if col is None:
+        raise typer.BadParameter("--col is required")
     df = io_service.read_dataframe(input_file)
-    result = stats_service.group_by(df, group_cols, col, agg)
+    group_col_list = [col.strip() for col in group_cols.split(",")]
+    result = stats_service.group_by(df, group_col_list, col, agg)
     io_service.write_dataframe(result, output)
 
 
 @app.command()
 def unique(
-    input_file: Annotated[str, typer.Argument(help="Input file path or '-' for stdin")],
     column: Annotated[str, typer.Argument(help="Column to get unique values from")],
+    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
 ) -> None:
     """Display unique values in a column."""
     df = io_service.read_dataframe(input_file)
