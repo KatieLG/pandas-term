@@ -1,0 +1,17 @@
+{
+    "dropna_any": {
+        "exit_code": 0,
+        "stdout": "name,age,city\nAlice,25.0,NYC\nEve,45.0,LA\n",
+        "stderr": null
+    },
+    "dropna_column_age": {
+        "exit_code": 0,
+        "stdout": "name,age,city\nAlice,25.0,NYC\nBob,30.0,\n,35.0,Chicago\nEve,45.0,LA\n",
+        "stderr": null
+    },
+    "dropna_column_city": {
+        "exit_code": 0,
+        "stdout": "name,age,city\nAlice,25.0,NYC\n,35.0,Chicago\nDavid,,NYC\nEve,45.0,LA\n",
+        "stderr": null
+    }
+}

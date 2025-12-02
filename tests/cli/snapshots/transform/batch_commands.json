@@ -1,0 +1,19 @@
+{
+    "exit_code": 0,
+    "stdout": "Written batch 0 to <TMP>/batch_0.csv (2 rows)\nWritten batch 1 to <TMP>/batch_1.csv (2 rows)\nWritten batch 2 to <TMP>/batch_2.csv (1 rows)\n",
+    "stderr": null,
+    "batch_files": [
+        {
+            "filename": "batch_0.csv",
+            "content": "name,age,city,salary\nAlice,25,NYC,50000\nBob,30,LA,60000\n"
+        },
+        {
+            "filename": "batch_1.csv",
+            "content": "name,age,city,salary\nCharlie,35,Chicago,70000\nDavid,40,NYC,80000\n"
+        },
+        {
+            "filename": "batch_2.csv",
+            "content": "name,age,city,salary\nEve,45,LA,90000\n"
+        }
+    ]
+}

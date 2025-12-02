@@ -1,0 +1,57 @@
+{
+    "describe": {
+        "exit_code": 0,
+        "stdout": "age,salary\n5.0,5.0\n35.0,70000.0\n7.905694150420948,15811.388300841896\n25.0,50000.0\n30.0,60000.0\n35.0,70000.0\n40.0,80000.0\n45.0,90000.0\n",
+        "stderr": null
+    },
+    "info": {
+        "exit_code": 0,
+        "stdout": "<class 'pandas.core.frame.DataFrame'>\nRangeIndex: 5 entries, 0 to 4\nData columns (total 5 columns):\n #   Column      Non-Null Count  Dtype \n---  ------      --------------  ----- \n 0   name        5 non-null      object\n 1   age         5 non-null      int64 \n 2   city        5 non-null      object\n 3   salary      5 non-null      int64 \n 4   department  5 non-null      object\ndtypes: int64(2), object(3)\nmemory usage: 332.0+ bytes\n\n",
+        "stderr": null
+    },
+    "value_counts_city": {
+        "exit_code": 0,
+        "stdout": "city,count\nNYC,2\nLA,2\nChicago,1\n",
+        "stderr": null
+    },
+    "value_counts_department": {
+        "exit_code": 0,
+        "stdout": "department,count\nEngineering,3\nSales,2\n",
+        "stderr": null
+    },
+    "value_counts_normalized": {
+        "exit_code": 0,
+        "stdout": "city,proportion\nNYC,0.4\nLA,0.4\nChicago,0.2\n",
+        "stderr": null
+    },
+    "groupby_single_col_sum": {
+        "exit_code": 0,
+        "stdout": "city,salary\nChicago,70000\nLA,150000\nNYC,130000\n",
+        "stderr": null
+    },
+    "groupby_single_col_mean": {
+        "exit_code": 0,
+        "stdout": "department,age\nEngineering,35.0\nSales,35.0\n",
+        "stderr": null
+    },
+    "groupby_single_col_count": {
+        "exit_code": 0,
+        "stdout": "city,age\nChicago,1\nLA,2\nNYC,2\n",
+        "stderr": null
+    },
+    "groupby_multi_col": {
+        "exit_code": 0,
+        "stdout": "city,department,salary\nChicago,Engineering,70000\nLA,Engineering,90000\nLA,Sales,60000\nNYC,Engineering,50000\nNYC,Sales,80000\n",
+        "stderr": null
+    },
+    "unique_city": {
+        "exit_code": 0,
+        "stdout": "NYC\nLA\nChicago\n",
+        "stderr": null
+    },
+    "unique_department": {
+        "exit_code": 0,
+        "stdout": "Engineering\nSales\n",
+        "stderr": null
+    }
+}

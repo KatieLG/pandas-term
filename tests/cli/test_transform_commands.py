@@ -1,8 +1,11 @@
-"""Tests for transform CLI commands."""
+"""Snapshot tests for transform CLI commands."""
 
+import json
 from pathlib import Path
 
 import pandas as pd
+import pytest
+from pytest_snapshot.plugin import Snapshot
 from typer.testing import CliRunner
 
 from pandas_cli.main import app
@@ -10,109 +13,178 @@ from pandas_cli.main import app
 runner = CliRunner()
 
 
-def test_select_command(sample_csv_file: Path) -> None:
-    """Test select command."""
-    result = runner.invoke(app, ["select", "name,age", str(sample_csv_file)])
-    assert result.exit_code == 0
-    assert "name" in result.stdout
-    assert "age" in result.stdout
-    assert "salary" not in result.stdout
-
-
-def test_drop_command(sample_csv_file: Path) -> None:
-    """Test drop command."""
-    result = runner.invoke(app, ["drop", "age,salary", str(sample_csv_file)])
-    assert result.exit_code == 0
-    assert "name" in result.stdout
-    assert "age" not in result.stdout
-    assert "salary" not in result.stdout
-
-
-def test_sort_command(sample_csv_file: Path) -> None:
-    """Test sort command."""
-    result = runner.invoke(app, ["sort", "age", str(sample_csv_file)])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert "25" in lines[1]
-
-
-def test_sort_descending(sample_csv_file: Path) -> None:
-    """Test sort command in descending order."""
-    result = runner.invoke(app, ["sort", "age", "--descending", str(sample_csv_file)])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert "45" in lines[1]
-
-
-def test_dedup_command(tmp_path: Path, sample_df: pd.DataFrame) -> None:
-    """Test dedup command."""
-    csv_file = tmp_path / "test_with_dups.csv"
-    df_with_dups = sample_df.copy()
-    df_with_dups = pd.concat([df_with_dups, sample_df.iloc[[0]]], ignore_index=True)
-    df_with_dups.to_csv(csv_file, index=False)
-
-    result = runner.invoke(app, ["dedup", str(csv_file)])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 6
-
-
-def test_reset_index_command(sample_csv_file: Path) -> None:
-    """Test reset_index command."""
-    result = runner.invoke(app, ["reset-index", str(sample_csv_file)])
-    assert result.exit_code == 0
-
-
-def test_select_with_output_file(sample_csv_file: Path, tmp_path: Path) -> None:
-    """Test select command with output file."""
-    output_file = tmp_path / "output.csv"
-    result = runner.invoke(
-        app, ["select", "name,age", str(sample_csv_file), "-o", str(output_file)]
+@pytest.fixture
+def test_data() -> pd.DataFrame:
+    """Standard test dataset for transform command tests."""
+    return pd.DataFrame(
+        {
+            "name": ["Alice", "Bob", "Charlie", "David", "Eve"],
+            "age": [25, 30, 35, 40, 45],
+            "city": ["NYC", "LA", "Chicago", "NYC", "LA"],
+            "salary": [50000, 60000, 70000, 80000, 90000],
+        }
     )
-    assert result.exit_code == 0
-    assert output_file.exists()
-
-    df = pd.read_csv(output_file)
-    assert list(df.columns) == ["name", "age"]
 
 
-def test_dedup_with_subset_multiple_columns(tmp_path: Path) -> None:
-    """Test dedup command with multiple subset columns."""
-    csv_file = tmp_path / "test_multi_subset.csv"
-    df = pd.DataFrame(
+@pytest.fixture
+def test_data_with_duplicates() -> pd.DataFrame:
+    """Test dataset with duplicate rows."""
+    return pd.DataFrame(
         {
             "name": ["Alice", "Bob", "Alice", "Charlie", "Alice"],
             "age": [30, 25, 30, 35, 31],
-            "city": ["NYC", "LA", "SF", "NYC", "NYC"],
+            "city": ["NYC", "LA", "NYC", "NYC", "NYC"],
         }
     )
-    df.to_csv(csv_file, index=False)
-
-    result = runner.invoke(app, ["dedup", str(csv_file), "--subset", "name,age"])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 5
-
-    alice_30_count = sum(1 for line in lines if "Alice" in line and "30" in line)
-    assert alice_30_count == 1
 
 
-def test_dedup_with_subset_single_column(tmp_path: Path) -> None:
-    """Test dedup command with single subset column."""
-    csv_file = tmp_path / "test_single_subset.csv"
-    df = pd.DataFrame(
+@pytest.fixture
+def left_data() -> pd.DataFrame:
+    """Left dataframe for merge tests."""
+    return pd.DataFrame(
         {
-            "name": ["Alice", "Bob", "Alice", "Charlie"],
-            "age": [30, 25, 31, 35],
-            "city": ["NYC", "LA", "SF", "NYC"],
+            "id": [1, 2, 3],
+            "dept": ["Eng", "Sales", "Eng"],
+            "name": ["Alice", "Bob", "Charlie"],
         }
     )
-    df.to_csv(csv_file, index=False)
 
-    result = runner.invoke(app, ["dedup", str(csv_file), "--subset", "name"])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 4
 
-    alice_count = sum(1 for line in lines if "Alice" in line)
-    assert alice_count == 1
+@pytest.fixture
+def right_data() -> pd.DataFrame:
+    """Right dataframe for merge tests."""
+    return pd.DataFrame(
+        {
+            "id": [1, 2, 3],
+            "dept": ["Eng", "Sales", "HR"],
+            "budget": [100000, 80000, 90000],
+        }
+    )
+
+
+TRANSFORM_COMMANDS = {
+    "select_single": ["select", "name"],
+    "select_multiple": ["select", "name,age,city"],
+    "drop_single": ["drop", "salary"],
+    "drop_multiple": ["drop", "city,salary"],
+    "sort_single_asc": ["sort", "age", "--ascending"],
+    "sort_single_desc": ["sort", "age", "--descending"],
+    "sort_multiple_asc": ["sort", "city,age", "--ascending"],
+    "sort_multiple_desc": ["sort", "city,age", "--descending"],
+    "reset_index": ["reset-index"],
+}
+
+
+DEDUP_COMMANDS = {
+    "dedup_all": ["dedup"],
+    "dedup_subset_single": ["dedup", "--subset", "name"],
+    "dedup_subset_multiple": ["dedup", "--subset", "name,age"],
+}
+
+
+MERGE_COMMANDS = {
+    "merge_on_single_inner": ["--on", "id", "--how", "inner"],
+    "merge_on_single_outer": ["--on", "id", "--how", "outer"],
+    "merge_on_multiple_inner": ["--on", "id,dept", "--how", "inner"],
+    "merge_on_multiple_outer": ["--on", "id,dept", "--how", "outer"],
+    "merge_left_on_right_on": ["--left-on", "id", "--right-on", "id", "--how", "inner"],
+}
+
+
+def test_transform_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
+    """Test all basic transform commands against snapshots."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/transform"
+
+    csv_file = tmp_path / "test.csv"
+    test_data.to_csv(csv_file, index=False)
+
+    results = {}
+    for test_name, command in TRANSFORM_COMMANDS.items():
+        result = runner.invoke(app, command + [str(csv_file)])
+        results[test_name] = {
+            "exit_code": result.exit_code,
+            "stdout": result.stdout,
+            "stderr": result.stderr if result.stderr else None,
+        }
+
+    snapshot.assert_match(
+        json.dumps(results, indent=4, ensure_ascii=False), "transform_commands.json"
+    )
+
+
+def test_dedup_commands(
+    tmp_path: Path, test_data_with_duplicates: pd.DataFrame, snapshot: Snapshot
+) -> None:
+    """Test dedup commands against snapshots."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/transform"
+
+    csv_file = tmp_path / "test_dups.csv"
+    test_data_with_duplicates.to_csv(csv_file, index=False)
+
+    results = {}
+    for test_name, command in DEDUP_COMMANDS.items():
+        result = runner.invoke(app, command + [str(csv_file)])
+        results[test_name] = {
+            "exit_code": result.exit_code,
+            "stdout": result.stdout,
+            "stderr": result.stderr if result.stderr else None,
+        }
+
+    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "dedup_commands.json")
+
+
+def test_merge_commands(
+    tmp_path: Path, left_data: pd.DataFrame, right_data: pd.DataFrame, snapshot: Snapshot
+) -> None:
+    """Test merge commands against snapshots."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/transform"
+
+    left_file = tmp_path / "left.csv"
+    right_file = tmp_path / "right.csv"
+    left_data.to_csv(left_file, index=False)
+    right_data.to_csv(right_file, index=False)
+
+    results = {}
+    for test_name, command in MERGE_COMMANDS.items():
+        result = runner.invoke(app, ["merge", str(left_file), str(right_file)] + command)
+        results[test_name] = {
+            "exit_code": result.exit_code,
+            "stdout": result.stdout,
+            "stderr": result.stderr if result.stderr else None,
+        }
+
+    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "merge_commands.json")
+
+
+def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
+    """Test batch command against snapshots."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/transform"
+
+    csv_file = tmp_path / "test.csv"
+    test_data.to_csv(csv_file, index=False)
+
+    output_pattern = str(tmp_path / "batch_{}.csv")
+    result = runner.invoke(app, ["batch", "2", str(csv_file), "-o", output_pattern])
+
+    batch_files = []
+    for i in range(3):
+        batch_file = tmp_path / f"batch_{i}.csv"
+        if batch_file.exists():
+            batch_files.append(
+                {
+                    "filename": f"batch_{i}.csv",
+                    "content": batch_file.read_text(),
+                }
+            )
+
+    # Normalize paths in stdout by replacing tmp_path with <TMP>
+    normalized_stdout = result.stdout.replace(str(tmp_path), "<TMP>")
+
+    results = {
+        "exit_code": result.exit_code,
+        "stdout": normalized_stdout,
+        "stderr": result.stderr if result.stderr else None,
+        "batch_files": batch_files,
+    }
+
+    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "batch_commands.json")

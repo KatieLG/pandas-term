@@ -1,0 +1,47 @@
+{
+    "select_single": {
+        "exit_code": 0,
+        "stdout": "name\nAlice\nBob\nCharlie\nDavid\nEve\n",
+        "stderr": null
+    },
+    "select_multiple": {
+        "exit_code": 0,
+        "stdout": "name,age,city\nAlice,25,NYC\nBob,30,LA\nCharlie,35,Chicago\nDavid,40,NYC\nEve,45,LA\n",
+        "stderr": null
+    },
+    "drop_single": {
+        "exit_code": 0,
+        "stdout": "name,age,city\nAlice,25,NYC\nBob,30,LA\nCharlie,35,Chicago\nDavid,40,NYC\nEve,45,LA\n",
+        "stderr": null
+    },
+    "drop_multiple": {
+        "exit_code": 0,
+        "stdout": "name,age\nAlice,25\nBob,30\nCharlie,35\nDavid,40\nEve,45\n",
+        "stderr": null
+    },
+    "sort_single_asc": {
+        "exit_code": 0,
+        "stdout": "name,age,city,salary\nAlice,25,NYC,50000\nBob,30,LA,60000\nCharlie,35,Chicago,70000\nDavid,40,NYC,80000\nEve,45,LA,90000\n",
+        "stderr": null
+    },
+    "sort_single_desc": {
+        "exit_code": 0,
+        "stdout": "name,age,city,salary\nEve,45,LA,90000\nDavid,40,NYC,80000\nCharlie,35,Chicago,70000\nBob,30,LA,60000\nAlice,25,NYC,50000\n",
+        "stderr": null
+    },
+    "sort_multiple_asc": {
+        "exit_code": 0,
+        "stdout": "name,age,city,salary\nCharlie,35,Chicago,70000\nBob,30,LA,60000\nEve,45,LA,90000\nAlice,25,NYC,50000\nDavid,40,NYC,80000\n",
+        "stderr": null
+    },
+    "sort_multiple_desc": {
+        "exit_code": 0,
+        "stdout": "name,age,city,salary\nDavid,40,NYC,80000\nAlice,25,NYC,50000\nEve,45,LA,90000\nBob,30,LA,60000\nCharlie,35,Chicago,70000\n",
+        "stderr": null
+    },
+    "reset_index": {
+        "exit_code": 0,
+        "stdout": "name,age,city,salary\nAlice,25,NYC,50000\nBob,30,LA,60000\nCharlie,35,Chicago,70000\nDavid,40,NYC,80000\nEve,45,LA,90000\n",
+        "stderr": null
+    }
+}

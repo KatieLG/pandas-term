@@ -1,8 +1,11 @@
-"""Tests for filter CLI commands."""
+"""Snapshot tests for filter CLI commands."""
 
+import json
 from pathlib import Path
 
 import pandas as pd
+import pytest
+from pytest_snapshot.plugin import Snapshot
 from typer.testing import CliRunner
 
 from pandas_cli.main import app
@@ -10,97 +13,85 @@ from pandas_cli.main import app
 runner = CliRunner()
 
 
-def test_query_command(sample_csv_file: Path) -> None:
-    """Test query command."""
-    result = runner.invoke(app, ["query", "age > 30", str(sample_csv_file)])
-    assert result.exit_code == 0
-    assert "Charlie" in result.stdout
-    assert "Alice" not in result.stdout
+@pytest.fixture
+def test_data() -> pd.DataFrame:
+    """Standard test dataset for filter command tests."""
+    return pd.DataFrame(
+        {
+            "name": ["Alice", "Bob", "Charlie", "David", "Eve"],
+            "age": [25, 30, 35, 40, 45],
+            "city": ["NYC", "LA", "Chicago", "NYC", "LA"],
+            "salary": [50000, 60000, 70000, 80000, 90000],
+        }
+    )
 
 
-def test_query_command_multiple_conditions(sample_csv_file: Path) -> None:
-    """Test query command with multiple conditions."""
-    result = runner.invoke(app, ["query", "age > 30 and city == 'NYC'", str(sample_csv_file)])
-    assert result.exit_code == 0
-    assert "David" in result.stdout
+@pytest.fixture
+def test_data_with_nulls() -> pd.DataFrame:
+    """Test dataset with null values for dropna tests."""
+    return pd.DataFrame(
+        {
+            "name": ["Alice", "Bob", None, "David", "Eve"],
+            "age": [25, 30, 35, None, 45],
+            "city": ["NYC", None, "Chicago", "NYC", "LA"],
+        }
+    )
 
 
-def test_head_command_default(sample_csv_file: Path) -> None:
-    """Test head command with default value."""
-    result = runner.invoke(app, ["head", str(sample_csv_file)])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 6
+FILTER_COMMANDS = {
+    "query_simple": ["query", "age > 30"],
+    "query_complex": ["query", "age > 30 and city == 'NYC'"],
+    "head_default": ["head"],
+    "head_n3": ["head", "--n", "3"],
+    "tail_default": ["tail"],
+    "tail_n2": ["tail", "--n", "2"],
+    "sample_n3_seed42": ["sample", "--n", "3", "--seed", "42"],
+    "sample_frac05_seed42": ["sample", "--frac", "0.5", "--seed", "42"],
+}
 
 
-def test_head_command_custom_n(sample_csv_file: Path) -> None:
-    """Test head command with custom n value."""
-    result = runner.invoke(app, ["head", str(sample_csv_file), "--n", "3"])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 4
+DROPNA_COMMANDS = {
+    "dropna_any": ["dropna"],
+    "dropna_column_age": ["dropna", "--column", "age"],
+    "dropna_column_city": ["dropna", "--column", "city"],
+}
 
 
-def test_tail_command_default(sample_csv_file: Path) -> None:
-    """Test tail command with default value."""
-    result = runner.invoke(app, ["tail", str(sample_csv_file)])
-    assert result.exit_code == 0
-    assert "Eve" in result.stdout
+def test_filter_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
+    """Test all filter commands against snapshots."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/filter"
+
+    csv_file = tmp_path / "test.csv"
+    test_data.to_csv(csv_file, index=False)
+
+    results = {}
+    for test_name, command in FILTER_COMMANDS.items():
+        result = runner.invoke(app, command + [str(csv_file)])
+        results[test_name] = {
+            "exit_code": result.exit_code,
+            "stdout": result.stdout,
+            "stderr": result.stderr if result.stderr else None,
+        }
+
+    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "filter_commands.json")
 
 
-def test_tail_command_custom_n(sample_csv_file: Path) -> None:
-    """Test tail command with custom n value."""
-    result = runner.invoke(app, ["tail", str(sample_csv_file), "--n", "2"])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 3
+def test_dropna_commands(
+    tmp_path: Path, test_data_with_nulls: pd.DataFrame, snapshot: Snapshot
+) -> None:
+    """Test dropna commands against snapshots."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/filter"
 
+    csv_file = tmp_path / "test_nulls.csv"
+    test_data_with_nulls.to_csv(csv_file, index=False)
 
-def test_sample_command_by_n(sample_csv_file: Path) -> None:
-    """Test sample command with n parameter."""
-    result = runner.invoke(app, ["sample", str(sample_csv_file), "--n", "3", "--seed", "42"])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 4
+    results = {}
+    for test_name, command in DROPNA_COMMANDS.items():
+        result = runner.invoke(app, command + [str(csv_file)])
+        results[test_name] = {
+            "exit_code": result.exit_code,
+            "stdout": result.stdout,
+            "stderr": result.stderr if result.stderr else None,
+        }
 
-
-def test_sample_command_by_frac(sample_csv_file: Path) -> None:
-    """Test sample command with frac parameter."""
-    result = runner.invoke(app, ["sample", str(sample_csv_file), "--frac", "0.6", "--seed", "42"])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 4
-
-
-def test_dropna_command(tmp_path: Path, sample_df_with_nulls: pd.DataFrame) -> None:
-    """Test dropna command with specific column."""
-    csv_file = tmp_path / "test_with_nulls.csv"
-    sample_df_with_nulls.to_csv(csv_file, index=False)
-
-    result = runner.invoke(app, ["dropna", "--column", "name", str(csv_file)])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 5
-
-
-def test_dropna_command_any_column(tmp_path: Path, sample_df_with_nulls: pd.DataFrame) -> None:
-    """Test dropna command without specifying column."""
-    csv_file = tmp_path / "test_with_nulls.csv"
-    sample_df_with_nulls.to_csv(csv_file, index=False)
-
-    result = runner.invoke(app, ["dropna", str(csv_file)])
-    assert result.exit_code == 0
-    lines = result.stdout.strip().split("\n")
-    assert len(lines) == 2
-
-
-def test_query_with_output_file(sample_csv_file: Path, tmp_path: Path) -> None:
-    """Test query command with output file."""
-    output_file = tmp_path / "output.csv"
-    result = runner.invoke(app, ["query", "age > 30", "-o", str(output_file), str(sample_csv_file)])
-    assert result.exit_code == 0
-    assert output_file.exists()
-
-    df = pd.read_csv(output_file)
-    assert len(df) == 3
-    assert all(df["age"] > 30)
+    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "dropna_commands.json")

@@ -1,0 +1,27 @@
+{
+    "merge_on_single_inner": {
+        "exit_code": 0,
+        "stdout": "id,dept_x,name,dept_y,budget\n1,Eng,Alice,Eng,100000\n2,Sales,Bob,Sales,80000\n3,Eng,Charlie,HR,90000\n",
+        "stderr": null
+    },
+    "merge_on_single_outer": {
+        "exit_code": 0,
+        "stdout": "id,dept_x,name,dept_y,budget\n1,Eng,Alice,Eng,100000\n2,Sales,Bob,Sales,80000\n3,Eng,Charlie,HR,90000\n",
+        "stderr": null
+    },
+    "merge_on_multiple_inner": {
+        "exit_code": 0,
+        "stdout": "id,dept,name,budget\n1,Eng,Alice,100000\n2,Sales,Bob,80000\n",
+        "stderr": null
+    },
+    "merge_on_multiple_outer": {
+        "exit_code": 0,
+        "stdout": "id,dept,name,budget\n1,Eng,Alice,100000.0\n2,Sales,Bob,80000.0\n3,Eng,Charlie,\n3,HR,,90000.0\n",
+        "stderr": null
+    },
+    "merge_left_on_right_on": {
+        "exit_code": 0,
+        "stdout": "id,dept_x,name,dept_y,budget\n1,Eng,Alice,Eng,100000\n2,Sales,Bob,Sales,80000\n3,Eng,Charlie,HR,90000\n",
+        "stderr": null
+    }
+}
