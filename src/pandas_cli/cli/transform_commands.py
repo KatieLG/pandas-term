@@ -80,20 +80,6 @@ def dedup(
 
 
 @app.command()
-def reset_index(
-    input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
-    output: Annotated[
-        str | None,
-        typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
-    ] = None,
-) -> None:
-    """Reset the dataframe index."""
-    df = io_service.read_dataframe(input_file)
-    result = transform_service.reset_index(df)
-    io_service.write_dataframe(result, output)
-
-
-@app.command()
 def merge(
     left_file: Annotated[str, typer.Argument(help="Left dataframe file path")],
     right_file: Annotated[str, typer.Argument(help="Right dataframe file path")],

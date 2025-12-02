@@ -41,11 +41,6 @@ def drop_duplicates(df: pd.DataFrame, subset: list[str] | None = None) -> pd.Dat
     return df.drop_duplicates(subset=subset)
 
 
-def reset_index(df: pd.DataFrame) -> pd.DataFrame:
-    """Reset the dataframe index."""
-    return df.reset_index(drop=True)
-
-
 def merge_dataframes(
     left_df: pd.DataFrame,
     right_df: pd.DataFrame,

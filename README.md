@@ -16,7 +16,6 @@ uv sync
 | `pd drop`         | `df.drop()`              | Drop columns                   |
 | `pd sort`         | `df.sort_values()`       | Sort by columns                |
 | `pd dedup`        | `df.drop_duplicates()`   | Remove duplicate rows          |
-| `pd reset-index`  | `df.reset_index()`       | Reset the dataframe index      |
 | `pd merge`        | `pd.merge()`             | Merge two dataframes           |
 | `pd batch`        | `df.iloc[]`              | Split dataframe into batches   |
 | `pd query`        | `df.query()`             | Filter using query expressions |
@@ -50,9 +49,6 @@ pd sort "age,name" data.csv --descending
 # Remove duplicate rows
 pd dedup data.csv
 pd dedup --subset name,email data.csv
-
-# Reset the dataframe index
-pd reset-index data.csv
 
 # Merge two dataframes
 pd merge left.csv right.csv --on user_id --how inner

@@ -38,10 +38,5 @@
         "exit_code": 0,
         "stdout": "name,age,city,salary\nDavid,40,NYC,80000\nAlice,25,NYC,50000\nEve,45,LA,90000\nBob,30,LA,60000\nCharlie,35,Chicago,70000\n",
         "stderr": null
-    },
-    "reset_index": {
-        "exit_code": 0,
-        "stdout": "name,age,city,salary\nAlice,25,NYC,50000\nBob,30,LA,60000\nCharlie,35,Chicago,70000\nDavid,40,NYC,80000\nEve,45,LA,90000\n",
-        "stderr": null
     }
 }

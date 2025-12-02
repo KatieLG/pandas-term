@@ -64,16 +64,6 @@ def test_drop_duplicates(sample_df: pd.DataFrame) -> None:
     assert len(result) == 5
 
 
-def test_reset_index(sample_df: pd.DataFrame) -> None:
-    """Test resetting the index."""
-    df = sample_df.copy()
-    df = df[df["age"] > 30]
-    result = transform_service.reset_index(df)
-
-    assert result.index[0] == 0
-    assert list(result.index) == list(range(len(result)))
-
-
 def test_merge_on_column(sample_df: pd.DataFrame) -> None:
     """Test merging dataframes on a common column."""
     left_df = sample_df[["name", "age"]].copy()

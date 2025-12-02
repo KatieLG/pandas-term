@@ -71,7 +71,6 @@ TRANSFORM_COMMANDS = {
     "sort_single_desc": ["sort", "age", "--descending"],
     "sort_multiple_asc": ["sort", "city,age", "--ascending"],
     "sort_multiple_desc": ["sort", "city,age", "--descending"],
-    "reset_index": ["reset-index"],
 }
 
 
