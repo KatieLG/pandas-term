@@ -74,3 +74,45 @@ def test_select_with_output_file(sample_csv_file: Path, tmp_path: Path) -> None:
 
     df = pd.read_csv(output_file)
     assert list(df.columns) == ["name", "age"]
+
+
+def test_dedup_with_subset_multiple_columns(tmp_path: Path) -> None:
+    """Test dedup command with multiple subset columns."""
+    csv_file = tmp_path / "test_multi_subset.csv"
+    df = pd.DataFrame(
+        {
+            "name": ["Alice", "Bob", "Alice", "Charlie", "Alice"],
+            "age": [30, 25, 30, 35, 31],
+            "city": ["NYC", "LA", "SF", "NYC", "NYC"],
+        }
+    )
+    df.to_csv(csv_file, index=False)
+
+    result = runner.invoke(app, ["dedup", str(csv_file), "--subset", "name,age"])
+    assert result.exit_code == 0
+    lines = result.stdout.strip().split("\n")
+    assert len(lines) == 5
+
+    alice_30_count = sum(1 for line in lines if "Alice" in line and "30" in line)
+    assert alice_30_count == 1
+
+
+def test_dedup_with_subset_single_column(tmp_path: Path) -> None:
+    """Test dedup command with single subset column."""
+    csv_file = tmp_path / "test_single_subset.csv"
+    df = pd.DataFrame(
+        {
+            "name": ["Alice", "Bob", "Alice", "Charlie"],
+            "age": [30, 25, 31, 35],
+            "city": ["NYC", "LA", "SF", "NYC"],
+        }
+    )
+    df.to_csv(csv_file, index=False)
+
+    result = runner.invoke(app, ["dedup", str(csv_file), "--subset", "name"])
+    assert result.exit_code == 0
+    lines = result.stdout.strip().split("\n")
+    assert len(lines) == 4
+
+    alice_count = sum(1 for line in lines if "Alice" in line)
+    assert alice_count == 1

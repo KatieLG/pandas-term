@@ -130,13 +130,11 @@ Supported formats: CSV, XLSX, JSON, Parquet
 
 ## Development
 
-```bash
-# Format and lint
-make check
-
-# Run tests
-make test
-
-# Run coverage
-make coverage
-```
+| Command         | Description                               |
+| --------------- | ----------------------------------------- |
+| `make format`   | Format code with ruff                     |
+| `make lint`     | Run linting checks (ruff + type checking) |
+| `make test`     | Run pytest tests                          |
+| `make check`    | Format, lint, and run tests               |
+| `make coverage` | Run tests with coverage report            |
+| `make compile`  | Compile standalone binary with Nuitka     |

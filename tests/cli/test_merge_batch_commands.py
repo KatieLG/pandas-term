@@ -98,3 +98,69 @@ def test_batch_exact_division(tmp_path: Path, sample_df: pd.DataFrame) -> None:
     assert (tmp_path / "chunk_0.csv").exists()
     assert (tmp_path / "chunk_1.csv").exists()
     assert not (tmp_path / "chunk_2.csv").exists()
+
+
+def test_merge_on_multiple_columns(tmp_path: Path) -> None:
+    """Test merge command with multiple columns in --on."""
+    left_file = tmp_path / "left_multi.csv"
+    left_df = pd.DataFrame(
+        {
+            "id": [1, 2, 3],
+            "dept": ["Eng", "Sales", "Eng"],
+            "name": ["Alice", "Bob", "Charlie"],
+        }
+    )
+    left_df.to_csv(left_file, index=False)
+
+    right_file = tmp_path / "right_multi.csv"
+    right_df = pd.DataFrame(
+        {
+            "id": [1, 2, 3],
+            "dept": ["Eng", "Sales", "HR"],
+            "budget": [100000, 80000, 90000],
+        }
+    )
+    right_df.to_csv(right_file, index=False)
+
+    result = runner.invoke(
+        app, ["merge", str(left_file), str(right_file), "--on", "id,dept", "--how", "inner"]
+    )
+    assert result.exit_code == 0
+
+    lines = result.stdout.strip().split("\n")
+    assert len(lines) == 3
+    assert "Alice" in result.stdout
+    assert "Bob" in result.stdout
+    assert "Charlie" not in result.stdout
+
+
+def test_merge_on_single_column(tmp_path: Path) -> None:
+    """Test merge command with single column in --on."""
+    left_file = tmp_path / "left_single.csv"
+    left_df = pd.DataFrame(
+        {
+            "id": [1, 2, 3],
+            "name": ["Alice", "Bob", "Charlie"],
+        }
+    )
+    left_df.to_csv(left_file, index=False)
+
+    right_file = tmp_path / "right_single.csv"
+    right_df = pd.DataFrame(
+        {
+            "id": [1, 2, 4],
+            "salary": [100000, 80000, 90000],
+        }
+    )
+    right_df.to_csv(right_file, index=False)
+
+    result = runner.invoke(
+        app, ["merge", str(left_file), str(right_file), "--on", "id", "--how", "inner"]
+    )
+    assert result.exit_code == 0
+
+    lines = result.stdout.strip().split("\n")
+    assert len(lines) == 3
+    assert "Alice" in result.stdout
+    assert "Bob" in result.stdout
+    assert "Charlie" not in result.stdout

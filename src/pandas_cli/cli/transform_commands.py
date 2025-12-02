@@ -62,8 +62,10 @@ def sort(
 def dedup(
     input_file: Annotated[str, typer.Argument(help="Input file path (default: stdin)")] = "-",
     subset: Annotated[
-        list[str] | None,
-        typer.Option("--subset", "-s", help="Columns to consider for duplicates"),
+        str | None,
+        typer.Option(
+            "--subset", "-s", help="Comma-separated list of columns to consider for duplicates"
+        ),
     ] = None,
     output: Annotated[
         str | None,
@@ -72,7 +74,8 @@ def dedup(
 ) -> None:
     """Remove duplicate rows from the dataframe."""
     df = io_service.read_dataframe(input_file)
-    result = transform_service.drop_duplicates(df, subset)
+    subset_list = [col.strip() for col in subset.split(",")] if subset else None
+    result = transform_service.drop_duplicates(df, subset_list)
     io_service.write_dataframe(result, output)
 
 
@@ -95,8 +98,8 @@ def merge(
     left_file: Annotated[str, typer.Argument(help="Left dataframe file path")],
     right_file: Annotated[str, typer.Argument(help="Right dataframe file path")],
     on: Annotated[
-        list[str] | None,
-        typer.Option("--on", help="Columns to merge on"),
+        str | None,
+        typer.Option("--on", help="Comma-separated list of columns to merge on"),
     ] = None,
     how: Annotated[
         Literal["inner", "left", "right", "outer", "cross"],
@@ -118,7 +121,8 @@ def merge(
     """Merge two dataframes."""
     left_df = io_service.read_dataframe(left_file)
     right_df = io_service.read_dataframe(right_file)
-    result = transform_service.merge_dataframes(left_df, right_df, on, how, left_on, right_on)
+    on_list = [col.strip() for col in on.split(",")] if on else None
+    result = transform_service.merge_dataframes(left_df, right_df, on_list, how, left_on, right_on)
     io_service.write_dataframe(result, output)
 
 
