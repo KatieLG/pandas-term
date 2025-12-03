@@ -115,14 +115,21 @@ pd sort stars github.csv --descending | pd head --n 10 | pd select name,stars
 
 ### Output Formats
 
-Specify output format with the file extension:
+When writing to a file, the format is determined by the file extension:
 
 ```bash
 pd select name,age data.csv -o output.xlsx
-pd query "age > 30" data.json -o filtered.csv
+pd query "age > 30" data.json -o filtered.parquet
 ```
 
-Supported formats: CSV, XLSX, JSON, Parquet
+For stdout output (default is CSV), use `--json` to output as JSON:
+
+```bash
+pd head --n 10 data.csv --json
+pd query "age > 30" data.csv --json | jq '.[] | .name'
+```
+
+Supported formats: CSV, XLSX, JSON, Parquet (file output) / CSV, JSON (stdout)
 
 ## Development
 

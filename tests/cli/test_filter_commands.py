@@ -39,21 +39,21 @@ def test_data_with_nulls() -> pd.DataFrame:
 
 
 FILTER_COMMANDS = {
-    "query_simple": ["query", "-f", "json", "age > 30"],
-    "query_complex": ["query", "-f", "json", "age > 30 and city == 'NYC'"],
-    "head_default": ["head", "-f", "json"],
-    "head_n3": ["head", "-f", "json", "--n", "3"],
-    "tail_default": ["tail", "-f", "json"],
-    "tail_n2": ["tail", "-f", "json", "--n", "2"],
-    "sample_n3_seed42": ["sample", "-f", "json", "--n", "3", "--seed", "42"],
-    "sample_frac05_seed42": ["sample", "-f", "json", "--frac", "0.5", "--seed", "42"],
+    "query_simple": ["query", "--json", "age > 30"],
+    "query_complex": ["query", "--json", "age > 30 and city == 'NYC'"],
+    "head_default": ["head", "--json"],
+    "head_n3": ["head", "--json", "--n", "3"],
+    "tail_default": ["tail", "--json"],
+    "tail_n2": ["tail", "--json", "--n", "2"],
+    "sample_n3_seed42": ["sample", "--json", "--n", "3", "--seed", "42"],
+    "sample_frac05_seed42": ["sample", "--json", "--frac", "0.5", "--seed", "42"],
 }
 
 
 DROPNA_COMMANDS = {
-    "dropna_any": ["dropna", "-f", "json"],
-    "dropna_column_age": ["dropna", "-f", "json", "--column", "age"],
-    "dropna_column_city": ["dropna", "-f", "json", "--column", "city"],
+    "dropna_any": ["dropna", "--json"],
+    "dropna_column_age": ["dropna", "--json", "--column", "age"],
+    "dropna_column_city": ["dropna", "--json", "--column", "city"],
 }
 
 

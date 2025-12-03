@@ -33,28 +33,26 @@ def test_data() -> pd.DataFrame:
     )
 
 
-# Commands that output DataFrames 
+# Commands that output DataFrames
 STATS_DF_COMMANDS = {
-    "describe": ["describe", "-f", "json"],
-    "value_counts_city": ["value-counts", "-f", "json", "city"],
-    "value_counts_department": ["value-counts", "-f", "json", "department"],
-    "value_counts_normalized": ["value-counts", "-f", "json", "city", "--normalize"],
-    "groupby_single_col_sum": ["groupby", "-f", "json", "city", "--col", "salary", "--agg", "sum"],
+    "describe": ["describe", "--json"],
+    "value_counts_city": ["value-counts", "--json", "city"],
+    "value_counts_department": ["value-counts", "--json", "department"],
+    "value_counts_normalized": ["value-counts", "--json", "city", "--normalize"],
+    "groupby_single_col_sum": ["groupby", "--json", "city", "--col", "salary", "--agg", "sum"],
     "groupby_single_col_mean": [
         "groupby",
-        "-f",
-        "json",
+        "--json",
         "department",
         "--col",
         "age",
         "--agg",
         "mean",
     ],
-    "groupby_single_col_count": ["groupby", "-f", "json", "city", "--col", "age", "--agg", "count"],
+    "groupby_single_col_count": ["groupby", "--json", "city", "--col", "age", "--agg", "count"],
     "groupby_multi_col": [
         "groupby",
-        "-f",
-        "json",
+        "--json",
         "city,department",
         "--col",
         "salary",

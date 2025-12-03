@@ -63,21 +63,21 @@ def right_data() -> pd.DataFrame:
 
 
 TRANSFORM_COMMANDS = {
-    "select_single": ["select", "-f", "json", "name"],
-    "select_multiple": ["select", "-f", "json", "name,age,city"],
-    "drop_single": ["drop", "-f", "json", "salary"],
-    "drop_multiple": ["drop", "-f", "json", "city,salary"],
-    "sort_single_asc": ["sort", "-f", "json", "age", "--ascending"],
-    "sort_single_desc": ["sort", "-f", "json", "age", "--descending"],
-    "sort_multiple_asc": ["sort", "-f", "json", "city,age", "--ascending"],
-    "sort_multiple_desc": ["sort", "-f", "json", "city,age", "--descending"],
+    "select_single": ["select", "--json", "name"],
+    "select_multiple": ["select", "--json", "name,age,city"],
+    "drop_single": ["drop", "--json", "salary"],
+    "drop_multiple": ["drop", "--json", "city,salary"],
+    "sort_single_asc": ["sort", "--json", "age", "--ascending"],
+    "sort_single_desc": ["sort", "--json", "age", "--descending"],
+    "sort_multiple_asc": ["sort", "--json", "city,age", "--ascending"],
+    "sort_multiple_desc": ["sort", "--json", "city,age", "--descending"],
 }
 
 
 DEDUP_COMMANDS = {
-    "dedup_all": ["dedup", "-f", "json"],
-    "dedup_subset_single": ["dedup", "-f", "json", "--subset", "name"],
-    "dedup_subset_multiple": ["dedup", "-f", "json", "--subset", "name,age"],
+    "dedup_all": ["dedup", "--json"],
+    "dedup_subset_single": ["dedup", "--json", "--subset", "name"],
+    "dedup_subset_multiple": ["dedup", "--json", "--subset", "name,age"],
 }
 
 
@@ -137,9 +137,7 @@ def test_merge_commands(
 
     results = {}
     for test_name, command in MERGE_COMMANDS.items():
-        result = runner.invoke(
-            app, ["merge", "-f", "json", str(left_file), str(right_file)] + command
-        )
+        result = runner.invoke(app, ["merge", "--json", str(left_file), str(right_file)] + command)
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 

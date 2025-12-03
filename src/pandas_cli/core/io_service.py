@@ -2,7 +2,6 @@
 
 import sys
 from pathlib import Path
-from typing import Literal
 
 import pandas as pd
 
@@ -32,11 +31,11 @@ def read_dataframe(input_path: str) -> pd.DataFrame:
 def write_dataframe(
     df: pd.DataFrame,
     output_path: str | None = None,
-    fmt: Literal["csv", "json"] = "csv",
+    use_json: bool = False,
 ) -> None:
     """Write a dataframe to a file path or stdout."""
     if output_path is None or output_path == "-":
-        if fmt == "json":
+        if use_json:
             sys.stdout.write(df.to_json(orient="records", indent=2))
             sys.stdout.write("\n")
         else:

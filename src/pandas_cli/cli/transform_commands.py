@@ -4,7 +4,7 @@ from typing import Annotated, Literal
 
 import typer
 
-from pandas_cli.cli.options import FormatOption, InputFileArgument, OutputOption
+from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
 from pandas_cli.core import io_service, transform_service
 
 app = typer.Typer(add_completion=False)
@@ -14,28 +14,28 @@ app = typer.Typer(add_completion=False)
 def select(
     columns: Annotated[str, typer.Argument(help="Comma-separated list of columns to select")],
     input_file: InputFileArgument = "-",
-    fmt: FormatOption = "csv",
+    use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
     """Select specific columns from the dataframe."""
     df = io_service.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
     result = transform_service.select_columns(df, column_list)
-    io_service.write_dataframe(result, output, fmt)
+    io_service.write_dataframe(result, output, use_json)
 
 
 @app.command()
 def drop(
     columns: Annotated[str, typer.Argument(help="Comma-separated list of columns to drop")],
     input_file: InputFileArgument = "-",
-    fmt: FormatOption = "csv",
+    use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
     """Drop specific columns from the dataframe."""
     df = io_service.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
     result = transform_service.drop_columns(df, column_list)
-    io_service.write_dataframe(result, output, fmt)
+    io_service.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -43,14 +43,14 @@ def sort(
     columns: Annotated[str, typer.Argument(help="Comma-separated list of columns to sort by")],
     input_file: InputFileArgument = "-",
     ascending: Annotated[bool, typer.Option("--ascending/--descending", help="Sort order")] = True,
-    fmt: FormatOption = "csv",
+    use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
     """Sort dataframe by specified columns."""
     df = io_service.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
     result = transform_service.sort_by(df, column_list, ascending)
-    io_service.write_dataframe(result, output, fmt)
+    io_service.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -62,14 +62,14 @@ def dedup(
             "--subset", "-s", help="Comma-separated list of columns to consider for duplicates"
         ),
     ] = None,
-    fmt: FormatOption = "csv",
+    use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
     """Remove duplicate rows from the dataframe."""
     df = io_service.read_dataframe(input_file)
     subset_list = [col.strip() for col in subset.split(",")] if subset else None
     result = transform_service.drop_duplicates(df, subset_list)
-    io_service.write_dataframe(result, output, fmt)
+    io_service.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -92,7 +92,7 @@ def merge(
         str | None,
         typer.Option("--right-on", help="Right dataframe column to merge on"),
     ] = None,
-    fmt: FormatOption = "csv",
+    use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
     """Merge two dataframes."""
@@ -100,7 +100,7 @@ def merge(
     right_df = io_service.read_dataframe(right_file)
     on_list = [col.strip() for col in on.split(",")] if on else None
     result = transform_service.merge_dataframes(left_df, right_df, on_list, how, left_on, right_on)
-    io_service.write_dataframe(result, output, fmt)
+    io_service.write_dataframe(result, output, use_json)
 
 
 @app.command()

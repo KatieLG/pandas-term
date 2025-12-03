@@ -4,7 +4,7 @@ from typing import Annotated
 
 import typer
 
-from pandas_cli.cli.options import FormatOption, InputFileArgument, OutputOption
+from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
 from pandas_cli.core import io_service, stats_service
 
 app = typer.Typer(add_completion=False)
@@ -13,13 +13,13 @@ app = typer.Typer(add_completion=False)
 @app.command()
 def describe(
     input_file: InputFileArgument = "-",
-    fmt: FormatOption = "csv",
+    use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
     """Generate descriptive statistics for the dataframe."""
     df = io_service.read_dataframe(input_file)
     result = stats_service.describe(df)
-    io_service.write_dataframe(result, output, fmt)
+    io_service.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -40,13 +40,13 @@ def value_counts(
         bool,
         typer.Option("--normalize", "-n", help="Return proportions instead of counts"),
     ] = False,
-    fmt: FormatOption = "csv",
+    use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
     """Count unique values in a column."""
     df = io_service.read_dataframe(input_file)
     result = stats_service.value_counts(df, column, normalize)
-    io_service.write_dataframe(result, output, fmt)
+    io_service.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -58,7 +58,7 @@ def groupby(
         str,
         typer.Option("--agg", "-a", help="Aggregation function (sum, mean, count, etc.)"),
     ] = "sum",
-    fmt: FormatOption = "csv",
+    use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
     """Group by columns and apply aggregation function."""
@@ -67,7 +67,7 @@ def groupby(
     df = io_service.read_dataframe(input_file)
     group_col_list = [col.strip() for col in group_cols.split(",")]
     result = stats_service.group_by(df, group_col_list, col, agg)
-    io_service.write_dataframe(result, output, fmt)
+    io_service.write_dataframe(result, output, use_json)
 
 
 @app.command()

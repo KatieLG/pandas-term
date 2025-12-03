@@ -1,6 +1,6 @@
 """Shared CLI options for all commands."""
 
-from typing import Annotated, Literal
+from typing import Annotated
 
 import typer
 
@@ -9,9 +9,9 @@ InputFileArgument = Annotated[
     typer.Argument(help="Input file path (default: stdin)"),
 ]
 
-FormatOption = Annotated[
-    Literal["csv", "json"],
-    typer.Option("--format", "-f", help="Output format for stdout (default: csv)"),
+UseJsonOption = Annotated[
+    bool,
+    typer.Option("--json", "-j", help="Output as JSON instead of CSV"),
 ]
 
 OutputOption = Annotated[
