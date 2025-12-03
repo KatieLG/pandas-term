@@ -33,107 +33,12 @@
       "salary": 90000.0
     }
   ],
-  "value_counts_city": [
-    {
-      "city": "NYC",
-      "count": 2
-    },
-    {
-      "city": "LA",
-      "count": 2
-    },
-    {
-      "city": "Chicago",
-      "count": 1
-    }
-  ],
-  "value_counts_department": [
-    {
-      "department": "Engineering",
-      "count": 3
-    },
-    {
-      "department": "Sales",
-      "count": 2
-    }
-  ],
-  "value_counts_normalized": [
-    {
-      "city": "NYC",
-      "proportion": 0.4
-    },
-    {
-      "city": "LA",
-      "proportion": 0.4
-    },
-    {
-      "city": "Chicago",
-      "proportion": 0.2
-    }
-  ],
-  "groupby_single_col_sum": [
-    {
-      "city": "Chicago",
-      "salary": 70000
-    },
-    {
-      "city": "LA",
-      "salary": 150000
-    },
-    {
-      "city": "NYC",
-      "salary": 130000
-    }
-  ],
-  "groupby_single_col_mean": [
-    {
-      "department": "Engineering",
-      "age": 35.0
-    },
-    {
-      "department": "Sales",
-      "age": 35.0
-    }
-  ],
-  "groupby_single_col_count": [
-    {
-      "city": "Chicago",
-      "age": 1
-    },
-    {
-      "city": "LA",
-      "age": 2
-    },
-    {
-      "city": "NYC",
-      "age": 2
-    }
-  ],
-  "groupby_multi_col": [
-    {
-      "city": "Chicago",
-      "department": "Engineering",
-      "salary": 70000
-    },
-    {
-      "city": "LA",
-      "department": "Engineering",
-      "salary": 90000
-    },
-    {
-      "city": "LA",
-      "department": "Sales",
-      "salary": 60000
-    },
-    {
-      "city": "NYC",
-      "department": "Engineering",
-      "salary": 50000
-    },
-    {
-      "city": "NYC",
-      "department": "Sales",
-      "salary": 80000
-    }
-  ]
+  "info": "<class 'pandas.core.frame.DataFrame'>\nRangeIndex: 5 entries, 0 to 4\nData columns (total 5 columns):\n #   Column      Non-Null Count  Dtype \n---  ------      --------------  ----- \n 0   name        5 non-null      object\n 1   age         5 non-null      int64 \n 2   city        5 non-null      object\n 3   salary      5 non-null      int64 \n 4   department  5 non-null      object\ndtypes: int64(2), object(3)\nmemory usage: 332.0+ bytes\n\n",
+  "unique_city": "NYC\nLA\nChicago\n",
+  "unique_department": "Engineering\nSales\n",
+  "size": 25,
+  "shape": "5 rows x 5 columns\n",
+  "columns": "name\nage\ncity\nsalary\ndepartment\n",
+  "memory": "Index         132\nname           40\nage            40\ncity           40\nsalary         40\ndepartment     40\n",
+  "memory_deep": "Index         132\nname          268\nage            40\ncity          262\nsalary         40\ndepartment    288\n"
 }

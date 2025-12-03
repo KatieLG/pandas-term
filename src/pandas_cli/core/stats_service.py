@@ -17,17 +17,26 @@ def info(df: pd.DataFrame) -> str:
     return buffer.getvalue()
 
 
-def value_counts(df: pd.DataFrame, column: str, normalize: bool = False) -> pd.DataFrame:
-    """Count unique values in a column."""
-    counts = df[column].value_counts(normalize=normalize)
-    return counts.reset_index()
-
-
-def group_by(df: pd.DataFrame, columns: list[str], agg_column: str, agg_func: str) -> pd.DataFrame:
-    """Group by columns and apply aggregation function."""
-    return df.groupby(columns)[agg_column].agg(agg_func).reset_index()
-
-
 def unique_values(df: pd.DataFrame, column: str) -> list:
     """Get unique values in a column."""
     return df[column].unique().tolist()
+
+
+def size(df: pd.DataFrame) -> int:
+    """Get total number of elements."""
+    return df.size
+
+
+def shape(df: pd.DataFrame) -> tuple[int, int]:
+    """Get dimensions (rows, columns)."""
+    return df.shape
+
+
+def columns(df: pd.DataFrame) -> list[str]:
+    """Get column names."""
+    return df.columns.tolist()
+
+
+def memory_usage(df: pd.DataFrame, deep: bool = False) -> pd.Series:
+    """Get memory usage of each column."""
+    return df.memory_usage(deep=deep)

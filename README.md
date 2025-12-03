@@ -25,9 +25,13 @@ uv sync
 | `pd dropna`       | `df.dropna()`            | Drop rows with null values     |
 | `pd describe`     | `df.describe()`          | Descriptive statistics         |
 | `pd info`         | `df.info()`              | DataFrame information          |
+| `pd unique`       | `df[col].unique()`       | Unique values in column        |
+| `pd size`         | `df.size`                | Total number of elements       |
+| `pd shape`        | `df.shape`               | Dimensions (rows, columns)     |
+| `pd columns`      | `df.columns`             | Column names                   |
+| `pd memory`       | `df.memory_usage()`      | Memory usage of each column    |
 | `pd value-counts` | `df[col].value_counts()` | Count unique values            |
 | `pd groupby`      | `df.groupby().agg()`     | Group by and aggregate         |
-| `pd unique`       | `df[col].unique()`       | Unique values in column        |
 
 ## Usage
 
@@ -90,6 +94,26 @@ pd describe data.csv
 # DataFrame information
 pd info data.csv
 
+# Unique values in a column
+pd unique country data.csv
+
+# Total number of elements
+pd size data.csv
+
+# Dimensions (rows, columns)
+pd shape data.csv
+
+# Column names
+pd columns data.csv
+
+# Memory usage of each column
+pd memory data.csv
+pd memory --deep data.csv
+```
+
+### Aggregate commands
+
+```bash
 # Count unique values
 pd value-counts city data.csv
 pd value-counts department data.csv --normalize
@@ -97,9 +121,6 @@ pd value-counts department data.csv --normalize
 # Group by and aggregate (comma-separated for multiple group columns)
 pd groupby department data.csv --col salary --agg sum
 pd groupby "city,department" data.csv --col age --agg mean
-
-# Unique values in a column
-pd unique country data.csv
 ```
 
 ### Piping

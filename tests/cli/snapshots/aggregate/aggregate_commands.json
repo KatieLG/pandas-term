@@ -1,0 +1,105 @@
+{
+  "value_counts_city": [
+    {
+      "city": "NYC",
+      "count": 2
+    },
+    {
+      "city": "LA",
+      "count": 2
+    },
+    {
+      "city": "Chicago",
+      "count": 1
+    }
+  ],
+  "value_counts_department": [
+    {
+      "department": "Engineering",
+      "count": 3
+    },
+    {
+      "department": "Sales",
+      "count": 2
+    }
+  ],
+  "value_counts_normalized": [
+    {
+      "city": "NYC",
+      "proportion": 0.4
+    },
+    {
+      "city": "LA",
+      "proportion": 0.4
+    },
+    {
+      "city": "Chicago",
+      "proportion": 0.2
+    }
+  ],
+  "groupby_single_col_sum": [
+    {
+      "city": "Chicago",
+      "salary": 70000
+    },
+    {
+      "city": "LA",
+      "salary": 150000
+    },
+    {
+      "city": "NYC",
+      "salary": 130000
+    }
+  ],
+  "groupby_single_col_mean": [
+    {
+      "department": "Engineering",
+      "age": 35.0
+    },
+    {
+      "department": "Sales",
+      "age": 35.0
+    }
+  ],
+  "groupby_single_col_count": [
+    {
+      "city": "Chicago",
+      "age": 1
+    },
+    {
+      "city": "LA",
+      "age": 2
+    },
+    {
+      "city": "NYC",
+      "age": 2
+    }
+  ],
+  "groupby_multi_col": [
+    {
+      "city": "Chicago",
+      "department": "Engineering",
+      "salary": 70000
+    },
+    {
+      "city": "LA",
+      "department": "Engineering",
+      "salary": 90000
+    },
+    {
+      "city": "LA",
+      "department": "Sales",
+      "salary": 60000
+    },
+    {
+      "city": "NYC",
+      "department": "Engineering",
+      "salary": 50000
+    },
+    {
+      "city": "NYC",
+      "department": "Sales",
+      "salary": 80000
+    }
+  ]
+}

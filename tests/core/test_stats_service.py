@@ -21,46 +21,43 @@ def test_info(sample_df: pd.DataFrame) -> None:
     assert "entries" in result
 
 
-def test_value_counts(sample_df: pd.DataFrame) -> None:
-    """Test value counts for a column."""
-    result = stats_service.value_counts(sample_df, "city")
-    assert len(result) == 3
-    assert "NYC" in result["city"].to_numpy()
-
-
-def test_value_counts_normalize(sample_df: pd.DataFrame) -> None:
-    """Test normalized value counts."""
-    result = stats_service.value_counts(sample_df, "department", normalize=True)
-    assert len(result) == 2
-    total = result["proportion"].sum()
-    assert abs(total - 1.0) < 0.01
-
-
-def test_group_by_sum(sample_df: pd.DataFrame) -> None:
-    """Test groupby with sum aggregation."""
-    result = stats_service.group_by(sample_df, ["department"], "salary", "sum")
-    assert len(result) == 2
-    assert "department" in result.columns
-    assert "salary" in result.columns
-
-
-def test_group_by_mean(sample_df: pd.DataFrame) -> None:
-    """Test groupby with mean aggregation."""
-    result = stats_service.group_by(sample_df, ["city"], "age", "mean")
-    assert len(result) == 3
-    assert "city" in result.columns
-
-
-def test_group_by_count(sample_df: pd.DataFrame) -> None:
-    """Test groupby with count aggregation."""
-    result = stats_service.group_by(sample_df, ["city"], "name", "count")
-    assert len(result) == 3
-    nyc_count = result[result["city"] == "NYC"]["name"].iloc[0]
-    assert nyc_count == 2
-
-
 def test_unique_values(sample_df: pd.DataFrame) -> None:
     """Test getting unique values from a column."""
     result = stats_service.unique_values(sample_df, "city")
     assert len(result) == 3
     assert set(result) == {"NYC", "LA", "Chicago"}
+
+
+def test_size(sample_df: pd.DataFrame) -> None:
+    """Test getting total number of elements."""
+    result = stats_service.size(sample_df)
+    assert result == 25  # 5 rows x 5 columns
+
+
+def test_shape(sample_df: pd.DataFrame) -> None:
+    """Test getting dimensions."""
+    result = stats_service.shape(sample_df)
+    assert result == (5, 5)
+
+
+def test_columns(sample_df: pd.DataFrame) -> None:
+    """Test getting column names."""
+    result = stats_service.columns(sample_df)
+    assert "name" in result
+    assert "age" in result
+    assert "city" in result
+    assert len(result) == 5
+
+
+def test_memory_usage(sample_df: pd.DataFrame) -> None:
+    """Test getting memory usage."""
+    result = stats_service.memory_usage(sample_df)
+    assert len(result) > 0
+    assert result.sum() > 0
+
+
+def test_memory_usage_deep(sample_df: pd.DataFrame) -> None:
+    """Test getting deep memory usage."""
+    result = stats_service.memory_usage(sample_df, deep=True)
+    assert len(result) > 0
+    assert result.sum() > 0
