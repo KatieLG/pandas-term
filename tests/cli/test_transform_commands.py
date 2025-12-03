@@ -154,7 +154,7 @@ def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapsh
     test_data.to_csv(csv_file, index=False)
 
     output_pattern = str(tmp_path / "batch_{}.json")
-    result = runner.invoke(app, ["batch", "2", str(csv_file), "-o", output_pattern])
+    result = runner.invoke(app, ["batch", str(csv_file), "--sizes", "2", "-o", output_pattern])
 
     batch_files = []
     for i in range(3):

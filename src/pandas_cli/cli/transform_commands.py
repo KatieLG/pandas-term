@@ -6,7 +6,7 @@ import pandas as pd
 import typer
 
 from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
-from pandas_cli.core import io_operations, transforms
+from pandas_cli.core import io_operations, transforms, validation
 
 app = typer.Typer(add_completion=False)
 
@@ -21,7 +21,7 @@ def select(
     """Select specific columns from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
-    transforms.validate_columns(df, column_list)
+    validation.validate_columns(df, column_list)
     result = df[column_list]
     io_operations.write_dataframe(result, output, use_json)
 
@@ -36,7 +36,7 @@ def drop(
     """Drop specific columns from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
-    transforms.validate_columns(df, column_list)
+    validation.validate_columns(df, column_list)
     result = df.drop(columns=column_list)
     io_operations.write_dataframe(result, output, use_json)
 
@@ -137,8 +137,11 @@ def concat(
 
 @app.command()
 def batch(
-    batch_size: Annotated[int, typer.Argument(help="Number of rows per batch")],
     input_file: InputFileArgument = "-",
+    sizes: Annotated[
+        str,
+        typer.Option("--sizes", "-s", help="Comma-separated batch sizes (last size repeats)"),
+    ] = "100",
     output_pattern: Annotated[
         str,
         typer.Option("--output", "-o", help="Output file pattern (e.g., 'batch_{}.csv')"),
@@ -146,7 +149,8 @@ def batch(
 ) -> None:
     """Split dataframe into batches and write to separate files."""
     df = io_operations.read_dataframe(input_file)
-    batches = transforms.batch_dataframe(df, batch_size)
+    size_list = [int(s.strip()) for s in sizes.split(",")]
+    batches = transforms.batch_dataframe(df, size_list)
 
     for i, batch_df in enumerate(batches):
         output_file = output_pattern.format(i)

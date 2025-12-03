@@ -3,14 +3,20 @@
 import pandas as pd
 
 
-def validate_columns(df: pd.DataFrame, columns: list[str]) -> None:
-    """Validate that all columns exist in the dataframe."""
-    missing = [col for col in columns if col not in df.columns]
-    if missing:
-        raise ValueError(f"Columns not found: {', '.join(missing)}")
+def batch_dataframe(df: pd.DataFrame, sizes: list[int]) -> list[pd.DataFrame]:
+    """Split dataframe into batches of specified sizes.
 
+    The last size is repeated until all rows are consumed.
+    """
+    batches = []
+    start = 0
+    size_idx = 0
 
-def batch_dataframe(df: pd.DataFrame, batch_size: int) -> list[pd.DataFrame]:
-    """Split dataframe into batches of specified size."""
-    num_batches = len(df) // batch_size + (1 if len(df) % batch_size != 0 else 0)
-    return [df.iloc[i * batch_size : (i + 1) * batch_size] for i in range(num_batches)]
+    while start < len(df):
+        size = sizes[min(size_idx, len(sizes) - 1)]
+        end = start + size
+        batches.append(df.iloc[start:end])
+        start = end
+        size_idx += 1
+
+    return batches

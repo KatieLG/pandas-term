@@ -64,7 +64,8 @@ pd merge left.csv right.csv --left-on id --right-on user_id --how left
 pd concat file1.csv file2.csv file3.csv
 
 # Split dataframe into batches
-pd batch 100 data.csv -o "output_batch_{}.csv"
+pd batch data.csv --sizes 100 -o "batch_{}.csv"
+pd batch data.csv --sizes 1,2,10,50 -o "batch_{}.csv"  # variable sizes, last repeats
 ```
 
 ### Filter commands
