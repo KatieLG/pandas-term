@@ -5,7 +5,7 @@ from typing import Annotated, Literal
 import typer
 
 from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
-from pandas_cli.core import io_service, transform_service
+from pandas_cli.core import io_operations, transforms
 
 app = typer.Typer(add_completion=False)
 
@@ -18,10 +18,10 @@ def select(
     output: OutputOption = None,
 ) -> None:
     """Select specific columns from the dataframe."""
-    df = io_service.read_dataframe(input_file)
+    df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
-    result = transform_service.select_columns(df, column_list)
-    io_service.write_dataframe(result, output, use_json)
+    result = transforms.select_columns(df, column_list)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -32,10 +32,10 @@ def drop(
     output: OutputOption = None,
 ) -> None:
     """Drop specific columns from the dataframe."""
-    df = io_service.read_dataframe(input_file)
+    df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
-    result = transform_service.drop_columns(df, column_list)
-    io_service.write_dataframe(result, output, use_json)
+    result = transforms.drop_columns(df, column_list)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -47,10 +47,10 @@ def sort(
     output: OutputOption = None,
 ) -> None:
     """Sort dataframe by specified columns."""
-    df = io_service.read_dataframe(input_file)
+    df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
-    result = transform_service.sort_by(df, column_list, ascending)
-    io_service.write_dataframe(result, output, use_json)
+    result = transforms.sort_by(df, column_list, ascending)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -66,10 +66,10 @@ def dedup(
     output: OutputOption = None,
 ) -> None:
     """Remove duplicate rows from the dataframe."""
-    df = io_service.read_dataframe(input_file)
+    df = io_operations.read_dataframe(input_file)
     subset_list = [col.strip() for col in subset.split(",")] if subset else None
-    result = transform_service.drop_duplicates(df, subset_list)
-    io_service.write_dataframe(result, output, use_json)
+    result = transforms.drop_duplicates(df, subset_list)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -96,11 +96,11 @@ def merge(
     output: OutputOption = None,
 ) -> None:
     """Merge two dataframes."""
-    left_df = io_service.read_dataframe(left_file)
-    right_df = io_service.read_dataframe(right_file)
+    left_df = io_operations.read_dataframe(left_file)
+    right_df = io_operations.read_dataframe(right_file)
     on_list = [col.strip() for col in on.split(",")] if on else None
-    result = transform_service.merge_dataframes(left_df, right_df, on_list, how, left_on, right_on)
-    io_service.write_dataframe(result, output, use_json)
+    result = transforms.merge_dataframes(left_df, right_df, on_list, how, left_on, right_on)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -113,10 +113,10 @@ def batch(
     ] = "batch_{}.csv",
 ) -> None:
     """Split dataframe into batches and write to separate files."""
-    df = io_service.read_dataframe(input_file)
-    batches = transform_service.batch_dataframe(df, batch_size)
+    df = io_operations.read_dataframe(input_file)
+    batches = transforms.batch_dataframe(df, batch_size)
 
     for i, batch_df in enumerate(batches):
         output_file = output_pattern.format(i)
-        io_service.write_dataframe(batch_df, output_file)
+        io_operations.write_dataframe(batch_df, output_file)
         typer.echo(f"Written batch {i} to {output_file} ({len(batch_df)} rows)")

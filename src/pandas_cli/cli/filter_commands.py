@@ -5,7 +5,7 @@ from typing import Annotated
 import typer
 
 from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
-from pandas_cli.core import filter_service, io_service
+from pandas_cli.core import filtering, io_operations
 
 app = typer.Typer(add_completion=False)
 
@@ -18,9 +18,9 @@ def query(
     output: OutputOption = None,
 ) -> None:
     """Filter dataframe using a pandas query expression."""
-    df = io_service.read_dataframe(input_file)
-    result = filter_service.filter_by_query(df, expression)
-    io_service.write_dataframe(result, output, use_json)
+    df = io_operations.read_dataframe(input_file)
+    result = filtering.filter_by_query(df, expression)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -31,9 +31,9 @@ def head(
     output: OutputOption = None,
 ) -> None:
     """Return the first n rows of the dataframe."""
-    df = io_service.read_dataframe(input_file)
-    result = filter_service.head(df, n)
-    io_service.write_dataframe(result, output, use_json)
+    df = io_operations.read_dataframe(input_file)
+    result = filtering.head(df, n)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -44,9 +44,9 @@ def tail(
     output: OutputOption = None,
 ) -> None:
     """Return the last n rows of the dataframe."""
-    df = io_service.read_dataframe(input_file)
-    result = filter_service.tail(df, n)
-    io_service.write_dataframe(result, output, use_json)
+    df = io_operations.read_dataframe(input_file)
+    result = filtering.tail(df, n)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -59,9 +59,9 @@ def sample(
     output: OutputOption = None,
 ) -> None:
     """Return a random sample of rows from the dataframe."""
-    df = io_service.read_dataframe(input_file)
-    result = filter_service.sample(df, n, frac, seed)
-    io_service.write_dataframe(result, output, use_json)
+    df = io_operations.read_dataframe(input_file)
+    result = filtering.sample(df, n, frac, seed)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -77,6 +77,6 @@ def dropna(
     output: OutputOption = None,
 ) -> None:
     """Remove rows with null values in specified column or any column."""
-    df = io_service.read_dataframe(input_file)
-    result = filter_service.filter_null(df, column, keep_null=False)
-    io_service.write_dataframe(result, output, use_json)
+    df = io_operations.read_dataframe(input_file)
+    result = filtering.filter_null(df, column, keep_null=False)
+    io_operations.write_dataframe(result, output, use_json)

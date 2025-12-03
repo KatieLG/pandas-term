@@ -5,7 +5,7 @@ from typing import Annotated
 import typer
 
 from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
-from pandas_cli.core import aggregate_service, io_service
+from pandas_cli.core import aggregate, io_operations
 
 app = typer.Typer(add_completion=False)
 
@@ -22,9 +22,9 @@ def value_counts(
     output: OutputOption = None,
 ) -> None:
     """Count unique values in a column."""
-    df = io_service.read_dataframe(input_file)
-    result = aggregate_service.value_counts(df, column, normalize)
-    io_service.write_dataframe(result, output, use_json)
+    df = io_operations.read_dataframe(input_file)
+    result = aggregate.value_counts(df, column, normalize)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -42,7 +42,7 @@ def groupby(
     """Group by columns and apply aggregation function."""
     if col is None:
         raise typer.BadParameter("--col is required")
-    df = io_service.read_dataframe(input_file)
+    df = io_operations.read_dataframe(input_file)
     group_col_list = [c.strip() for c in group_cols.split(",")]
-    result = aggregate_service.group_by(df, group_col_list, col, agg)
-    io_service.write_dataframe(result, output, use_json)
+    result = aggregate.group_by(df, group_col_list, col, agg)
+    io_operations.write_dataframe(result, output, use_json)

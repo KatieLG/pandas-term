@@ -5,7 +5,7 @@ from typing import Annotated
 import typer
 
 from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
-from pandas_cli.core import io_service, stats_service
+from pandas_cli.core import io_operations, stats
 
 app = typer.Typer(add_completion=False)
 
@@ -17,9 +17,9 @@ def describe(
     output: OutputOption = None,
 ) -> None:
     """Generate descriptive statistics for the dataframe."""
-    df = io_service.read_dataframe(input_file)
-    result = stats_service.describe(df)
-    io_service.write_dataframe(result, output, use_json)
+    df = io_operations.read_dataframe(input_file)
+    result = stats.describe(df)
+    io_operations.write_dataframe(result, output, use_json)
 
 
 @app.command()
@@ -27,8 +27,8 @@ def info(
     input_file: InputFileArgument = "-",
 ) -> None:
     """Display a concise summary of the dataframe."""
-    df = io_service.read_dataframe(input_file)
-    info_text = stats_service.info(df)
+    df = io_operations.read_dataframe(input_file)
+    info_text = stats.info(df)
     typer.echo(info_text)
 
 
@@ -38,8 +38,8 @@ def unique(
     input_file: InputFileArgument = "-",
 ) -> None:
     """Display unique values in a column."""
-    df = io_service.read_dataframe(input_file)
-    values = stats_service.unique_values(df, column)
+    df = io_operations.read_dataframe(input_file)
+    values = stats.unique_values(df, column)
     for value in values:
         typer.echo(value)
 
@@ -49,8 +49,8 @@ def size(
     input_file: InputFileArgument = "-",
 ) -> None:
     """Display total number of elements in the dataframe."""
-    df = io_service.read_dataframe(input_file)
-    typer.echo(stats_service.size(df))
+    df = io_operations.read_dataframe(input_file)
+    typer.echo(stats.size(df))
 
 
 @app.command()
@@ -58,8 +58,8 @@ def shape(
     input_file: InputFileArgument = "-",
 ) -> None:
     """Display dimensions (rows, columns) of the dataframe."""
-    df = io_service.read_dataframe(input_file)
-    rows, cols = stats_service.shape(df)
+    df = io_operations.read_dataframe(input_file)
+    rows, cols = stats.shape(df)
     typer.echo(f"{rows} rows x {cols} columns")
 
 
@@ -68,8 +68,8 @@ def columns(
     input_file: InputFileArgument = "-",
 ) -> None:
     """Display column names of the dataframe."""
-    df = io_service.read_dataframe(input_file)
-    for col in stats_service.columns(df):
+    df = io_operations.read_dataframe(input_file)
+    for col in stats.columns(df):
         typer.echo(col)
 
 
@@ -81,6 +81,6 @@ def memory(
     ] = False,
 ) -> None:
     """Display memory usage of each column."""
-    df = io_service.read_dataframe(input_file)
-    usage = stats_service.memory_usage(df, deep=deep)
+    df = io_operations.read_dataframe(input_file)
+    usage = stats.memory_usage(df, deep=deep)
     typer.echo(usage.to_string())
