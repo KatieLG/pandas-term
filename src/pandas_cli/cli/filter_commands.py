@@ -5,7 +5,7 @@ from typing import Annotated
 import typer
 
 from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
-from pandas_cli.core import filtering, io_operations
+from pandas_cli.core import io_operations
 
 app = typer.Typer(add_completion=False)
 
@@ -19,7 +19,7 @@ def query(
 ) -> None:
     """Filter dataframe using a pandas query expression."""
     df = io_operations.read_dataframe(input_file)
-    result = filtering.filter_by_query(df, expression)
+    result = df.query(expression)
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -32,7 +32,7 @@ def head(
 ) -> None:
     """Return the first n rows of the dataframe."""
     df = io_operations.read_dataframe(input_file)
-    result = filtering.head(df, n)
+    result = df.head(n)
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -45,7 +45,7 @@ def tail(
 ) -> None:
     """Return the last n rows of the dataframe."""
     df = io_operations.read_dataframe(input_file)
-    result = filtering.tail(df, n)
+    result = df.tail(n)
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -63,5 +63,5 @@ def dropna(
 ) -> None:
     """Remove rows with null values in specified column or any column."""
     df = io_operations.read_dataframe(input_file)
-    result = filtering.filter_null(df, column, keep_null=False)
+    result = df[df[column].notna()] if column else df.dropna()
     io_operations.write_dataframe(result, output, use_json)

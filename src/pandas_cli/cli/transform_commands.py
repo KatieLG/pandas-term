@@ -2,6 +2,7 @@
 
 from typing import Annotated, Literal
 
+import pandas as pd
 import typer
 
 from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
@@ -20,7 +21,8 @@ def select(
     """Select specific columns from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
-    result = transforms.select_columns(df, column_list)
+    transforms.validate_columns(df, column_list)
+    result = df[column_list]
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -34,7 +36,8 @@ def drop(
     """Drop specific columns from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
-    result = transforms.drop_columns(df, column_list)
+    transforms.validate_columns(df, column_list)
+    result = df.drop(columns=column_list)
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -49,7 +52,7 @@ def sort(
     """Sort dataframe by specified columns."""
     df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
-    result = transforms.sort_by(df, column_list, ascending)
+    result = df.sort_values(by=column_list, ascending=ascending)
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -66,7 +69,7 @@ def rename(
     for pair in mapping.split(","):
         old, new = pair.strip().split(":")
         rename_map[old.strip()] = new.strip()
-    result = transforms.rename_columns(df, rename_map)
+    result = df.rename(columns=rename_map)
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -85,7 +88,7 @@ def dedup(
     """Remove duplicate rows from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     subset_list = [col.strip() for col in subset.split(",")] if subset else None
-    result = transforms.drop_duplicates(df, subset_list)
+    result = df.drop_duplicates(subset=subset_list)
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -116,7 +119,7 @@ def merge(
     left_df = io_operations.read_dataframe(left_file)
     right_df = io_operations.read_dataframe(right_file)
     on_list = [col.strip() for col in on.split(",")] if on else None
-    result = transforms.merge_dataframes(left_df, right_df, on_list, how, left_on, right_on)
+    result = left_df.merge(right_df, on=on_list, how=how, left_on=left_on, right_on=right_on)
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -128,7 +131,7 @@ def concat(
 ) -> None:
     """Concatenate multiple dataframes vertically."""
     dfs = [io_operations.read_dataframe(f) for f in files]
-    result = transforms.concat_dataframes(dfs)
+    result = pd.concat(dfs, ignore_index=True)
     io_operations.write_dataframe(result, output, use_json)
 
 

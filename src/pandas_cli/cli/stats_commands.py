@@ -5,7 +5,7 @@ from typing import Annotated
 import typer
 
 from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
-from pandas_cli.core import io_operations, stats
+from pandas_cli.core import io_operations
 
 app = typer.Typer(add_completion=False)
 
@@ -18,7 +18,7 @@ def describe(
 ) -> None:
     """Generate descriptive statistics for the dataframe."""
     df = io_operations.read_dataframe(input_file)
-    result = stats.describe(df)
+    result = df.describe()
     io_operations.write_dataframe(result, output, use_json)
 
 
@@ -29,8 +29,7 @@ def unique(
 ) -> None:
     """Display unique values in a column."""
     df = io_operations.read_dataframe(input_file)
-    values = stats.unique_values(df, column)
-    for value in values:
+    for value in df[column].unique():
         typer.echo(value)
 
 
@@ -40,7 +39,7 @@ def shape(
 ) -> None:
     """Display dimensions (rows, columns) of the dataframe."""
     df = io_operations.read_dataframe(input_file)
-    rows, cols = stats.shape(df)
+    rows, cols = df.shape
     typer.echo(f"{rows} rows x {cols} columns")
 
 
@@ -50,5 +49,5 @@ def columns(
 ) -> None:
     """Display column names of the dataframe."""
     df = io_operations.read_dataframe(input_file)
-    for col in stats.columns(df):
+    for col in df.columns:
         typer.echo(col)
