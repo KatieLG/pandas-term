@@ -8,7 +8,7 @@ import pytest
 from pytest_snapshot.plugin import Snapshot
 from typer.testing import CliRunner
 
-from pandas_cli.main import app
+from pandas_term.main import app
 
 runner = CliRunner()
 

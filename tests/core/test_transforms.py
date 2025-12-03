@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from pandas_cli.core import transforms
+from pandas_term.core import transforms
 
 
 def test_batch_dataframe_single_size(sample_df: pd.DataFrame) -> None:

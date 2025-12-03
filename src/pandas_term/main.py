@@ -1,8 +1,8 @@
-"""Main entry point for pandas-cli."""
+"""Main entry point for pandas-term."""
 
 import typer
 
-from pandas_cli.cli import aggregate_commands, filter_commands, stats_commands, transform_commands
+from pandas_term.cli import aggregate_commands, filter_commands, stats_commands, transform_commands
 
 app = typer.Typer(add_completion=False, context_settings={"help_option_names": ["-h", "--help"]})
 

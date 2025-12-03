@@ -3,7 +3,7 @@
 import pandas as pd
 import pytest
 
-from pandas_cli.core import validation
+from pandas_term.core import validation
 
 
 def test_validate_columns_valid(sample_df: pd.DataFrame) -> None:

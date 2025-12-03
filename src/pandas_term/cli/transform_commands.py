@@ -5,8 +5,8 @@ from typing import Annotated, Literal
 import pandas as pd
 import typer
 
-from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
-from pandas_cli.core import io_operations, transforms, validation
+from pandas_term.cli.options import InputFileArgument, OutputOption, UseJsonOption
+from pandas_term.core import io_operations, transforms, validation
 
 app = typer.Typer(add_completion=False)
 

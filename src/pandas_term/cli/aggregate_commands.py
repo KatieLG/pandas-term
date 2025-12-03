@@ -4,8 +4,8 @@ from typing import Annotated
 
 import typer
 
-from pandas_cli.cli.options import InputFileArgument, OutputOption, UseJsonOption
-from pandas_cli.core import io_operations
+from pandas_term.cli.options import InputFileArgument, OutputOption, UseJsonOption
+from pandas_term.core import io_operations
 
 app = typer.Typer(add_completion=False)
 

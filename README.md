@@ -1,6 +1,8 @@
-# pandas-cli
+# pandas-term
 
-A CLI for applying common pandas functions to data files in the terminal.
+pandas-term brings pandas functionality to the terminal.
+
+> **Note:** This CLI is in early experimental development and may change
 
 ## Installation
 
