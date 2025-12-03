@@ -2,6 +2,8 @@
 
 pandas-term is a CLI bringing [pandas](https://pandas.pydata.org/) operations to the command line.
 
+![Demo](https://github.com/KatieLG/pandas-term/raw/main/demo.gif)
+
 > **Note:** Still in early experimental development and may change
 
 ## Installation
