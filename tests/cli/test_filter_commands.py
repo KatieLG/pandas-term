@@ -39,21 +39,21 @@ def test_data_with_nulls() -> pd.DataFrame:
 
 
 FILTER_COMMANDS = {
-    "query_simple": ["query", "age > 30"],
-    "query_complex": ["query", "age > 30 and city == 'NYC'"],
-    "head_default": ["head"],
-    "head_n3": ["head", "--n", "3"],
-    "tail_default": ["tail"],
-    "tail_n2": ["tail", "--n", "2"],
-    "sample_n3_seed42": ["sample", "--n", "3", "--seed", "42"],
-    "sample_frac05_seed42": ["sample", "--frac", "0.5", "--seed", "42"],
+    "query_simple": ["query", "-f", "json", "age > 30"],
+    "query_complex": ["query", "-f", "json", "age > 30 and city == 'NYC'"],
+    "head_default": ["head", "-f", "json"],
+    "head_n3": ["head", "-f", "json", "--n", "3"],
+    "tail_default": ["tail", "-f", "json"],
+    "tail_n2": ["tail", "-f", "json", "--n", "2"],
+    "sample_n3_seed42": ["sample", "-f", "json", "--n", "3", "--seed", "42"],
+    "sample_frac05_seed42": ["sample", "-f", "json", "--frac", "0.5", "--seed", "42"],
 }
 
 
 DROPNA_COMMANDS = {
-    "dropna_any": ["dropna"],
-    "dropna_column_age": ["dropna", "--column", "age"],
-    "dropna_column_city": ["dropna", "--column", "city"],
+    "dropna_any": ["dropna", "-f", "json"],
+    "dropna_column_age": ["dropna", "-f", "json", "--column", "age"],
+    "dropna_column_city": ["dropna", "-f", "json", "--column", "city"],
 }
 
 
@@ -67,13 +67,10 @@ def test_filter_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snap
     results = {}
     for test_name, command in FILTER_COMMANDS.items():
         result = runner.invoke(app, command + [str(csv_file)])
-        results[test_name] = {
-            "exit_code": result.exit_code,
-            "stdout": result.stdout,
-            "stderr": result.stderr if result.stderr else None,
-        }
+        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+        results[test_name] = json.loads(result.stdout)
 
-    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "filter_commands.json")
+    snapshot.assert_match(json.dumps(results, indent=2), "filter_commands.json")
 
 
 def test_dropna_commands(
@@ -88,10 +85,7 @@ def test_dropna_commands(
     results = {}
     for test_name, command in DROPNA_COMMANDS.items():
         result = runner.invoke(app, command + [str(csv_file)])
-        results[test_name] = {
-            "exit_code": result.exit_code,
-            "stdout": result.stdout,
-            "stderr": result.stderr if result.stderr else None,
-        }
+        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+        results[test_name] = json.loads(result.stdout)
 
-    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "dropna_commands.json")
+    snapshot.assert_match(json.dumps(results, indent=2), "dropna_commands.json")

@@ -1,19 +1,51 @@
 {
-    "exit_code": 0,
-    "stdout": "Written batch 0 to <TMP>/batch_0.csv (2 rows)\nWritten batch 1 to <TMP>/batch_1.csv (2 rows)\nWritten batch 2 to <TMP>/batch_2.csv (1 rows)\n",
-    "stderr": null,
-    "batch_files": [
+  "exit_code": 0,
+  "stdout": "Written batch 0 to <TMP>/batch_0.json (2 rows)\nWritten batch 1 to <TMP>/batch_1.json (2 rows)\nWritten batch 2 to <TMP>/batch_2.json (1 rows)\n",
+  "batch_files": [
+    {
+      "filename": "batch_0.json",
+      "content": [
         {
-            "filename": "batch_0.csv",
-            "content": "name,age,city,salary\nAlice,25,NYC,50000\nBob,30,LA,60000\n"
+          "name": "Alice",
+          "age": 25,
+          "city": "NYC",
+          "salary": 50000
         },
         {
-            "filename": "batch_1.csv",
-            "content": "name,age,city,salary\nCharlie,35,Chicago,70000\nDavid,40,NYC,80000\n"
-        },
-        {
-            "filename": "batch_2.csv",
-            "content": "name,age,city,salary\nEve,45,LA,90000\n"
+          "name": "Bob",
+          "age": 30,
+          "city": "LA",
+          "salary": 60000
         }
-    ]
+      ]
+    },
+    {
+      "filename": "batch_1.json",
+      "content": [
+        {
+          "name": "Charlie",
+          "age": 35,
+          "city": "Chicago",
+          "salary": 70000
+        },
+        {
+          "name": "David",
+          "age": 40,
+          "city": "NYC",
+          "salary": 80000
+        }
+      ]
+    },
+    {
+      "filename": "batch_2.json",
+      "content": [
+        {
+          "name": "Eve",
+          "age": 45,
+          "city": "LA",
+          "salary": 90000
+        }
+      ]
+    }
+  ]
 }

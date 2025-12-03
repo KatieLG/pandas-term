@@ -2,6 +2,7 @@
 
 import sys
 from pathlib import Path
+from typing import Literal
 
 import pandas as pd
 
@@ -28,10 +29,18 @@ def read_dataframe(input_path: str) -> pd.DataFrame:
     raise ValueError(f"Unsupported file format: {suffix}")
 
 
-def write_dataframe(df: pd.DataFrame, output_path: str | None = None) -> None:
+def write_dataframe(
+    df: pd.DataFrame,
+    output_path: str | None = None,
+    fmt: Literal["csv", "json"] = "csv",
+) -> None:
     """Write a dataframe to a file path or stdout."""
     if output_path is None or output_path == "-":
-        df.to_csv(sys.stdout, index=False)
+        if fmt == "json":
+            sys.stdout.write(df.to_json(orient="records", indent=2))
+            sys.stdout.write("\n")
+        else:
+            df.to_csv(sys.stdout, index=False)
         return
 
     path = Path(output_path)

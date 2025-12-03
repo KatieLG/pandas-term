@@ -33,35 +33,71 @@ def test_data() -> pd.DataFrame:
     )
 
 
-STATS_COMMANDS = {
-    "describe": ["describe"],
+# Commands that output DataFrames 
+STATS_DF_COMMANDS = {
+    "describe": ["describe", "-f", "json"],
+    "value_counts_city": ["value-counts", "-f", "json", "city"],
+    "value_counts_department": ["value-counts", "-f", "json", "department"],
+    "value_counts_normalized": ["value-counts", "-f", "json", "city", "--normalize"],
+    "groupby_single_col_sum": ["groupby", "-f", "json", "city", "--col", "salary", "--agg", "sum"],
+    "groupby_single_col_mean": [
+        "groupby",
+        "-f",
+        "json",
+        "department",
+        "--col",
+        "age",
+        "--agg",
+        "mean",
+    ],
+    "groupby_single_col_count": ["groupby", "-f", "json", "city", "--col", "age", "--agg", "count"],
+    "groupby_multi_col": [
+        "groupby",
+        "-f",
+        "json",
+        "city,department",
+        "--col",
+        "salary",
+        "--agg",
+        "sum",
+    ],
+}
+
+# Commands that output text (info, unique)
+STATS_TEXT_COMMANDS = {
     "info": ["info"],
-    "value_counts_city": ["value-counts", "city"],
-    "value_counts_department": ["value-counts", "department"],
-    "value_counts_normalized": ["value-counts", "city", "--normalize"],
-    "groupby_single_col_sum": ["groupby", "city", "--col", "salary", "--agg", "sum"],
-    "groupby_single_col_mean": ["groupby", "department", "--col", "age", "--agg", "mean"],
-    "groupby_single_col_count": ["groupby", "city", "--col", "age", "--agg", "count"],
-    "groupby_multi_col": ["groupby", "city,department", "--col", "salary", "--agg", "sum"],
     "unique_city": ["unique", "city"],
     "unique_department": ["unique", "department"],
 }
 
 
 def test_stats_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
-    """Test all stats commands against snapshots."""
+    """Test stats commands that output DataFrames against snapshots."""
     snapshot.snapshot_dir = "tests/cli/snapshots/stats"
 
     csv_file = tmp_path / "test.csv"
     test_data.to_csv(csv_file, index=False)
 
     results = {}
-    for test_name, command in STATS_COMMANDS.items():
+    for test_name, command in STATS_DF_COMMANDS.items():
         result = runner.invoke(app, command + [str(csv_file)])
-        results[test_name] = {
-            "exit_code": result.exit_code,
-            "stdout": result.stdout,
-            "stderr": result.stderr if result.stderr else None,
-        }
+        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+        results[test_name] = json.loads(result.stdout)
 
-    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "stats_commands.json")
+    snapshot.assert_match(json.dumps(results, indent=2), "stats_commands.json")
+
+
+def test_stats_text_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
+    """Test stats commands that output text against snapshots."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/stats"
+
+    csv_file = tmp_path / "test.csv"
+    test_data.to_csv(csv_file, index=False)
+
+    results = {}
+    for test_name, command in STATS_TEXT_COMMANDS.items():
+        result = runner.invoke(app, command + [str(csv_file)])
+        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+        results[test_name] = result.stdout
+
+    snapshot.assert_match(json.dumps(results, indent=2), "stats_text_commands.json")

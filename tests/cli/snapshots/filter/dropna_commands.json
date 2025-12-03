@@ -1,17 +1,58 @@
 {
-    "dropna_any": {
-        "exit_code": 0,
-        "stdout": "name,age,city\nAlice,25.0,NYC\nEve,45.0,LA\n",
-        "stderr": null
+  "dropna_any": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC"
     },
-    "dropna_column_age": {
-        "exit_code": 0,
-        "stdout": "name,age,city\nAlice,25.0,NYC\nBob,30.0,\n,35.0,Chicago\nEve,45.0,LA\n",
-        "stderr": null
-    },
-    "dropna_column_city": {
-        "exit_code": 0,
-        "stdout": "name,age,city\nAlice,25.0,NYC\n,35.0,Chicago\nDavid,,NYC\nEve,45.0,LA\n",
-        "stderr": null
+    {
+      "name": "Eve",
+      "age": 45.0,
+      "city": "LA"
     }
+  ],
+  "dropna_column_age": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC"
+    },
+    {
+      "name": "Bob",
+      "age": 30.0,
+      "city": null
+    },
+    {
+      "name": null,
+      "age": 35.0,
+      "city": "Chicago"
+    },
+    {
+      "name": "Eve",
+      "age": 45.0,
+      "city": "LA"
+    }
+  ],
+  "dropna_column_city": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC"
+    },
+    {
+      "name": null,
+      "age": 35.0,
+      "city": "Chicago"
+    },
+    {
+      "name": "David",
+      "age": null,
+      "city": "NYC"
+    },
+    {
+      "name": "Eve",
+      "age": 45.0,
+      "city": "LA"
+    }
+  ]
 }

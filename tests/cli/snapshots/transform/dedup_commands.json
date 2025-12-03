@@ -1,17 +1,63 @@
 {
-    "dedup_all": {
-        "exit_code": 0,
-        "stdout": "name,age,city\nAlice,30,NYC\nBob,25,LA\nCharlie,35,NYC\nAlice,31,NYC\n",
-        "stderr": null
+  "dedup_all": [
+    {
+      "name": "Alice",
+      "age": 30,
+      "city": "NYC"
     },
-    "dedup_subset_single": {
-        "exit_code": 0,
-        "stdout": "name,age,city\nAlice,30,NYC\nBob,25,LA\nCharlie,35,NYC\n",
-        "stderr": null
+    {
+      "name": "Bob",
+      "age": 25,
+      "city": "LA"
     },
-    "dedup_subset_multiple": {
-        "exit_code": 0,
-        "stdout": "name,age,city\nAlice,30,NYC\nBob,25,LA\nCharlie,35,NYC\nAlice,31,NYC\n",
-        "stderr": null
+    {
+      "name": "Charlie",
+      "age": 35,
+      "city": "NYC"
+    },
+    {
+      "name": "Alice",
+      "age": 31,
+      "city": "NYC"
     }
+  ],
+  "dedup_subset_single": [
+    {
+      "name": "Alice",
+      "age": 30,
+      "city": "NYC"
+    },
+    {
+      "name": "Bob",
+      "age": 25,
+      "city": "LA"
+    },
+    {
+      "name": "Charlie",
+      "age": 35,
+      "city": "NYC"
+    }
+  ],
+  "dedup_subset_multiple": [
+    {
+      "name": "Alice",
+      "age": 30,
+      "city": "NYC"
+    },
+    {
+      "name": "Bob",
+      "age": 25,
+      "city": "LA"
+    },
+    {
+      "name": "Charlie",
+      "age": 35,
+      "city": "NYC"
+    },
+    {
+      "name": "Alice",
+      "age": 31,
+      "city": "NYC"
+    }
+  ]
 }

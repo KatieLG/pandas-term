@@ -63,21 +63,21 @@ def right_data() -> pd.DataFrame:
 
 
 TRANSFORM_COMMANDS = {
-    "select_single": ["select", "name"],
-    "select_multiple": ["select", "name,age,city"],
-    "drop_single": ["drop", "salary"],
-    "drop_multiple": ["drop", "city,salary"],
-    "sort_single_asc": ["sort", "age", "--ascending"],
-    "sort_single_desc": ["sort", "age", "--descending"],
-    "sort_multiple_asc": ["sort", "city,age", "--ascending"],
-    "sort_multiple_desc": ["sort", "city,age", "--descending"],
+    "select_single": ["select", "-f", "json", "name"],
+    "select_multiple": ["select", "-f", "json", "name,age,city"],
+    "drop_single": ["drop", "-f", "json", "salary"],
+    "drop_multiple": ["drop", "-f", "json", "city,salary"],
+    "sort_single_asc": ["sort", "-f", "json", "age", "--ascending"],
+    "sort_single_desc": ["sort", "-f", "json", "age", "--descending"],
+    "sort_multiple_asc": ["sort", "-f", "json", "city,age", "--ascending"],
+    "sort_multiple_desc": ["sort", "-f", "json", "city,age", "--descending"],
 }
 
 
 DEDUP_COMMANDS = {
-    "dedup_all": ["dedup"],
-    "dedup_subset_single": ["dedup", "--subset", "name"],
-    "dedup_subset_multiple": ["dedup", "--subset", "name,age"],
+    "dedup_all": ["dedup", "-f", "json"],
+    "dedup_subset_single": ["dedup", "-f", "json", "--subset", "name"],
+    "dedup_subset_multiple": ["dedup", "-f", "json", "--subset", "name,age"],
 }
 
 
@@ -100,15 +100,10 @@ def test_transform_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: S
     results = {}
     for test_name, command in TRANSFORM_COMMANDS.items():
         result = runner.invoke(app, command + [str(csv_file)])
-        results[test_name] = {
-            "exit_code": result.exit_code,
-            "stdout": result.stdout,
-            "stderr": result.stderr if result.stderr else None,
-        }
+        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+        results[test_name] = json.loads(result.stdout)
 
-    snapshot.assert_match(
-        json.dumps(results, indent=4, ensure_ascii=False), "transform_commands.json"
-    )
+    snapshot.assert_match(json.dumps(results, indent=2), "transform_commands.json")
 
 
 def test_dedup_commands(
@@ -123,13 +118,10 @@ def test_dedup_commands(
     results = {}
     for test_name, command in DEDUP_COMMANDS.items():
         result = runner.invoke(app, command + [str(csv_file)])
-        results[test_name] = {
-            "exit_code": result.exit_code,
-            "stdout": result.stdout,
-            "stderr": result.stderr if result.stderr else None,
-        }
+        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+        results[test_name] = json.loads(result.stdout)
 
-    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "dedup_commands.json")
+    snapshot.assert_match(json.dumps(results, indent=2), "dedup_commands.json")
 
 
 def test_merge_commands(
@@ -145,14 +137,13 @@ def test_merge_commands(
 
     results = {}
     for test_name, command in MERGE_COMMANDS.items():
-        result = runner.invoke(app, ["merge", str(left_file), str(right_file)] + command)
-        results[test_name] = {
-            "exit_code": result.exit_code,
-            "stdout": result.stdout,
-            "stderr": result.stderr if result.stderr else None,
-        }
+        result = runner.invoke(
+            app, ["merge", "-f", "json", str(left_file), str(right_file)] + command
+        )
+        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+        results[test_name] = json.loads(result.stdout)
 
-    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "merge_commands.json")
+    snapshot.assert_match(json.dumps(results, indent=2), "merge_commands.json")
 
 
 def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
@@ -162,28 +153,27 @@ def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapsh
     csv_file = tmp_path / "test.csv"
     test_data.to_csv(csv_file, index=False)
 
-    output_pattern = str(tmp_path / "batch_{}.csv")
+    output_pattern = str(tmp_path / "batch_{}.json")
     result = runner.invoke(app, ["batch", "2", str(csv_file), "-o", output_pattern])
 
     batch_files = []
     for i in range(3):
-        batch_file = tmp_path / f"batch_{i}.csv"
+        batch_file = tmp_path / f"batch_{i}.json"
         if batch_file.exists():
             batch_files.append(
                 {
-                    "filename": f"batch_{i}.csv",
-                    "content": batch_file.read_text(),
+                    "filename": f"batch_{i}.json",
+                    "content": json.loads(batch_file.read_text()),
                 }
             )
 
-    # Normalize paths in stdout by replacing tmp_path with <TMP>
-    normalized_stdout = result.stdout.replace(str(tmp_path), "<TMP>")
+    # Normalize paths in stdout by replacing tmp_path with <TMP> and backslashes with forward slashes
+    normalized_stdout = result.stdout.replace(str(tmp_path), "<TMP>").replace("\\", "/")
 
     results = {
         "exit_code": result.exit_code,
         "stdout": normalized_stdout,
-        "stderr": result.stderr if result.stderr else None,
         "batch_files": batch_files,
     }
 
-    snapshot.assert_match(json.dumps(results, indent=4, ensure_ascii=False), "batch_commands.json")
+    snapshot.assert_match(json.dumps(results, indent=2), "batch_commands.json")
