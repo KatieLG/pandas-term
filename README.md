@@ -1,20 +1,26 @@
 # pandas-term
 
-pandas-term is a CLI that bringing pandas functionality to the terminal.
+pandas-term is a CLI bringing [pandas](https://pandas.pydata.org/) operations to the command line.
 
 > **Note:** Still in early experimental development and may change
 
 ## Installation
 
 ```bash
-uv sync
+pipx install pandas-term
+```
+
+Or with pip:
+
+```bash
+pip install pandas-term
 ```
 
 ## Command Reference
 
 | CLI Command       | Pandas Function          | Description                    |
 | ----------------- | ------------------------ | ------------------------------ |
-| `pd select`       | `df[columns]`            | Select specific columns        |
+| `pd select`       | `df[columns]`            | Select columns                 |
 | `pd drop`         | `df.drop()`              | Drop columns                   |
 | `pd rename`       | `df.rename()`            | Rename columns                 |
 | `pd sort`         | `df.sort_values()`       | Sort by columns                |
@@ -40,7 +46,7 @@ All commands accept an input file path (or `-` for stdin) and an optional `-o/--
 ### Transform commands
 
 ```bash
-# Select specific columns (comma-separated)
+# Select columns (comma-separated)
 pd select name,age data.csv
 
 # Drop columns (comma-separated)
@@ -125,7 +131,7 @@ All commands support piping through stdin/stdout. When piping, you can omit the 
 cat data.csv | pd head --n 100 | pd select name,age | pd query "age > 30"
 
 # Or chain commands directly
-pd sort stars github.csv --descending | pd head --n 10 | pd select name,stars
+pd sort age data.csv --descending | pd head --n 10 | pd select name,age
 ```
 
 ### Output Formats
@@ -148,6 +154,16 @@ Supported formats: CSV, XLSX, JSON, Parquet (file output) / CSV, JSON (stdout)
 
 ## Development
 
+Requires [uv](https://docs.astral.sh/uv/)
+
+Create virtual environment and install dependencies:
+
+```bash
+uv sync
+```
+
+### Dev commands
+
 | Command         | Description                               |
 | --------------- | ----------------------------------------- |
 | `make format`   | Format code with ruff                     |
@@ -155,4 +171,3 @@ Supported formats: CSV, XLSX, JSON, Parquet (file output) / CSV, JSON (stdout)
 | `make test`     | Run pytest tests                          |
 | `make check`    | Format, lint, and run tests               |
 | `make coverage` | Run tests with coverage report            |
-| `make compile`  | Compile standalone binary with Nuitka     |

@@ -18,7 +18,7 @@ def select(
     use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
-    """Select specific columns from the dataframe."""
+    """Select provided columns from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
     validation.validate_columns(df, column_list)
@@ -33,7 +33,7 @@ def drop(
     use_json: UseJsonOption = False,
     output: OutputOption = None,
 ) -> None:
-    """Drop specific columns from the dataframe."""
+    """Drop provided columns from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     column_list = [col.strip() for col in columns.split(",")]
     validation.validate_columns(df, column_list)
