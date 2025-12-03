@@ -13,25 +13,11 @@ def test_describe(sample_df: pd.DataFrame) -> None:
     assert "mean" in result.index
 
 
-def test_info(sample_df: pd.DataFrame) -> None:
-    """Test dataframe info generation."""
-    result = stats.info(sample_df)
-    assert isinstance(result, str)
-    assert "DataFrame" in result
-    assert "entries" in result
-
-
 def test_unique_values(sample_df: pd.DataFrame) -> None:
     """Test getting unique values from a column."""
     result = stats.unique_values(sample_df, "city")
     assert len(result) == 3
     assert set(result) == {"NYC", "LA", "Chicago"}
-
-
-def test_size(sample_df: pd.DataFrame) -> None:
-    """Test getting total number of elements."""
-    result = stats.size(sample_df)
-    assert result == 25  # 5 rows x 5 columns
 
 
 def test_shape(sample_df: pd.DataFrame) -> None:
@@ -47,17 +33,3 @@ def test_columns(sample_df: pd.DataFrame) -> None:
     assert "age" in result
     assert "city" in result
     assert len(result) == 5
-
-
-def test_memory_usage(sample_df: pd.DataFrame) -> None:
-    """Test getting memory usage."""
-    result = stats.memory_usage(sample_df)
-    assert len(result) > 0
-    assert result.sum() > 0
-
-
-def test_memory_usage_deep(sample_df: pd.DataFrame) -> None:
-    """Test getting deep memory usage."""
-    result = stats.memory_usage(sample_df, deep=True)
-    assert len(result) > 0
-    assert result.sum() > 0

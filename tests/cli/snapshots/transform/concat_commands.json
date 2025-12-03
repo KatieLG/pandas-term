@@ -1,0 +1,28 @@
+{
+  "concat": [
+    {
+      "name": "Alice",
+      "age": 25,
+      "city": "NYC",
+      "salary": 50000
+    },
+    {
+      "name": "Bob",
+      "age": 30,
+      "city": "LA",
+      "salary": 60000
+    },
+    {
+      "name": "David",
+      "age": 40,
+      "city": "NYC",
+      "salary": 80000
+    },
+    {
+      "name": "Eve",
+      "age": 45,
+      "city": "LA",
+      "salary": 90000
+    }
+  ]
+}

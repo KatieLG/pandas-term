@@ -71,6 +71,8 @@ TRANSFORM_COMMANDS = {
     "sort_single_desc": ["sort", "--json", "age", "--descending"],
     "sort_multiple_asc": ["sort", "--json", "city,age", "--ascending"],
     "sort_multiple_desc": ["sort", "--json", "city,age", "--descending"],
+    "rename_single": ["rename", "--json", "name:full_name"],
+    "rename_multiple": ["rename", "--json", "name:full_name,age:years"],
 }
 
 
@@ -175,3 +177,19 @@ def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapsh
     }
 
     snapshot.assert_match(json.dumps(results, indent=2), "batch_commands.json")
+
+
+def test_concat_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
+    """Test concat command against snapshots."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/transform"
+
+    file1 = tmp_path / "part1.csv"
+    file2 = tmp_path / "part2.csv"
+    test_data.head(2).to_csv(file1, index=False)
+    test_data.tail(2).to_csv(file2, index=False)
+
+    result = runner.invoke(app, ["concat", "--json", str(file1), str(file2)])
+    assert result.exit_code == 0, f"concat failed: {result.stderr}"
+
+    results = {"concat": json.loads(result.stdout)}
+    snapshot.assert_match(json.dumps(results, indent=2), "concat_commands.json")

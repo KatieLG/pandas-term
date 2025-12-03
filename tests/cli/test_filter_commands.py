@@ -45,8 +45,6 @@ FILTER_COMMANDS = {
     "head_n3": ["head", "--json", "--n", "3"],
     "tail_default": ["tail", "--json"],
     "tail_n2": ["tail", "--json", "--n", "2"],
-    "sample_n3_seed42": ["sample", "--json", "--n", "3", "--seed", "42"],
-    "sample_frac05_seed42": ["sample", "--json", "--frac", "0.5", "--seed", "42"],
 }
 
 

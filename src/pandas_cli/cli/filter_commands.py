@@ -50,21 +50,6 @@ def tail(
 
 
 @app.command()
-def sample(
-    n: Annotated[int | None, typer.Option("--n", "-n", help="Number of rows to sample")] = None,
-    frac: Annotated[float | None, typer.Option("--frac", help="Fraction of rows to sample")] = None,
-    seed: Annotated[int | None, typer.Option("--seed", "-s", help="Random seed")] = None,
-    input_file: InputFileArgument = "-",
-    use_json: UseJsonOption = False,
-    output: OutputOption = None,
-) -> None:
-    """Return a random sample of rows from the dataframe."""
-    df = io_operations.read_dataframe(input_file)
-    result = filtering.sample(df, n, frac, seed)
-    io_operations.write_dataframe(result, output, use_json)
-
-
-@app.command()
 def dropna(
     column: Annotated[
         str | None,

@@ -54,6 +54,23 @@ def sort(
 
 
 @app.command()
+def rename(
+    mapping: Annotated[str, typer.Argument(help="Rename mapping as 'old:new,old2:new2'")],
+    input_file: InputFileArgument = "-",
+    use_json: UseJsonOption = False,
+    output: OutputOption = None,
+) -> None:
+    """Rename columns in the dataframe."""
+    df = io_operations.read_dataframe(input_file)
+    rename_map = {}
+    for pair in mapping.split(","):
+        old, new = pair.strip().split(":")
+        rename_map[old.strip()] = new.strip()
+    result = transforms.rename_columns(df, rename_map)
+    io_operations.write_dataframe(result, output, use_json)
+
+
+@app.command()
 def dedup(
     input_file: InputFileArgument = "-",
     subset: Annotated[
@@ -100,6 +117,18 @@ def merge(
     right_df = io_operations.read_dataframe(right_file)
     on_list = [col.strip() for col in on.split(",")] if on else None
     result = transforms.merge_dataframes(left_df, right_df, on_list, how, left_on, right_on)
+    io_operations.write_dataframe(result, output, use_json)
+
+
+@app.command()
+def concat(
+    files: Annotated[list[str], typer.Argument(help="Files to concatenate")],
+    use_json: UseJsonOption = False,
+    output: OutputOption = None,
+) -> None:
+    """Concatenate multiple dataframes vertically."""
+    dfs = [io_operations.read_dataframe(f) for f in files]
+    result = transforms.concat_dataframes(dfs)
     io_operations.write_dataframe(result, output, use_json)
 
 

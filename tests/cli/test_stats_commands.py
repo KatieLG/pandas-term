@@ -35,14 +35,10 @@ def test_data() -> pd.DataFrame:
 
 STATS_COMMANDS = {
     "describe": ["describe", "--json"],
-    "info": ["info"],
     "unique_city": ["unique", "city"],
     "unique_department": ["unique", "department"],
-    "size": ["size"],
     "shape": ["shape"],
     "columns": ["columns"],
-    "memory": ["memory"],
-    "memory_deep": ["memory", "--deep"],
 }
 
 

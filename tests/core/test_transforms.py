@@ -114,3 +114,12 @@ def test_batch_dataframe_exact_division(sample_df: pd.DataFrame) -> None:
     assert len(batches) == 2
     assert len(batches[0]) == 2
     assert len(batches[1]) == 2
+
+
+def test_concat_dataframes(sample_df: pd.DataFrame) -> None:
+    """Test concatenating dataframes."""
+    df1 = sample_df.head(2)
+    df2 = sample_df.tail(2)
+    result = transforms.concat_dataframes([df1, df2])
+    assert len(result) == 4
+    assert list(result.columns) == list(sample_df.columns)

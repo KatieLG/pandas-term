@@ -29,13 +29,6 @@ def sort_by(df: pd.DataFrame, columns: list[str], ascending: bool = True) -> pd.
     return df.sort_values(by=columns, ascending=ascending)
 
 
-def add_column(df: pd.DataFrame, name: str, expression: str) -> pd.DataFrame:
-    """Add a new column based on an expression."""
-    df = df.copy()
-    df[name] = df.eval(expression)
-    return df
-
-
 def drop_duplicates(df: pd.DataFrame, subset: list[str] | None = None) -> pd.DataFrame:
     """Remove duplicate rows."""
     return df.drop_duplicates(subset=subset)
@@ -59,3 +52,8 @@ def batch_dataframe(df: pd.DataFrame, batch_size: int) -> list[pd.DataFrame]:
     """Split dataframe into batches of specified size."""
     num_batches = len(df) // batch_size + (1 if len(df) % batch_size != 0 else 0)
     return [df.iloc[i * batch_size : (i + 1) * batch_size] for i in range(num_batches)]
+
+
+def concat_dataframes(dfs: list[pd.DataFrame], ignore_index: bool = True) -> pd.DataFrame:
+    """Concatenate multiple dataframes vertically."""
+    return pd.concat(dfs, ignore_index=ignore_index)

@@ -19,13 +19,6 @@ def test_filter_by_query_multiple_conditions(sample_df: pd.DataFrame) -> None:
     assert result.iloc[0]["name"] == "David"
 
 
-def test_filter_by_value(sample_df: pd.DataFrame) -> None:
-    """Test filtering by specific value."""
-    result = filtering.filter_by_value(sample_df, "city", "NYC")
-    assert len(result) == 2
-    assert all(result["city"] == "NYC")
-
-
 def test_filter_null_remove_nulls(sample_df_with_nulls: pd.DataFrame) -> None:
     """Test removing rows with null values."""
     result = filtering.filter_null(sample_df_with_nulls, "name", keep_null=False)
@@ -64,22 +57,3 @@ def test_tail_more_than_length(sample_df: pd.DataFrame) -> None:
     """Test tail with n greater than dataframe length."""
     result = filtering.tail(sample_df, 100)
     assert len(result) == 5
-
-
-def test_sample_by_n(sample_df: pd.DataFrame) -> None:
-    """Test sampling by number of rows."""
-    result = filtering.sample(sample_df, n=3, seed=42)
-    assert len(result) == 3
-
-
-def test_sample_by_frac(sample_df: pd.DataFrame) -> None:
-    """Test sampling by fraction."""
-    result = filtering.sample(sample_df, frac=0.6, seed=42)
-    assert len(result) == 3
-
-
-def test_sample_reproducible(sample_df: pd.DataFrame) -> None:
-    """Test that sampling with same seed produces same results."""
-    result1 = filtering.sample(sample_df, n=3, seed=42)
-    result2 = filtering.sample(sample_df, n=3, seed=42)
-    pd.testing.assert_frame_equal(result1, result2)

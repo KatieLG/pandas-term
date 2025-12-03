@@ -124,39 +124,5 @@
       "city": "LA",
       "salary": 90000
     }
-  ],
-  "sample_n3_seed42": [
-    {
-      "name": "Bob",
-      "age": 30,
-      "city": "LA",
-      "salary": 60000
-    },
-    {
-      "name": "Eve",
-      "age": 45,
-      "city": "LA",
-      "salary": 90000
-    },
-    {
-      "name": "Charlie",
-      "age": 35,
-      "city": "Chicago",
-      "salary": 70000
-    }
-  ],
-  "sample_frac05_seed42": [
-    {
-      "name": "Bob",
-      "age": 30,
-      "city": "LA",
-      "salary": 60000
-    },
-    {
-      "name": "Eve",
-      "age": 45,
-      "city": "LA",
-      "salary": 90000
-    }
   ]
 }
