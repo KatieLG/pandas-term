@@ -50,8 +50,8 @@ def test_stats_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snaps
     test_data.to_csv(csv_file, index=False)
 
     results = {}
-    for test_name, command in STATS_COMMANDS.items():
-        result = runner.invoke(app, command + [str(csv_file)])
+    for test_name, commands in STATS_COMMANDS.items():
+        result = runner.invoke(app, [*commands, str(csv_file)])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         try:
             results[test_name] = json.loads(result.stdout)

@@ -1,8 +1,8 @@
 # pandas-term
 
-pandas-term brings pandas functionality to the terminal.
+pandas-term is a CLI that bringing pandas functionality to the terminal.
 
-> **Note:** This CLI is in early experimental development and may change
+> **Note:** Still in early experimental development and may change
 
 ## Installation
 

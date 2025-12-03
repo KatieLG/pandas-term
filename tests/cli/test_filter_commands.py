@@ -63,8 +63,8 @@ def test_filter_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snap
     test_data.to_csv(csv_file, index=False)
 
     results = {}
-    for test_name, command in FILTER_COMMANDS.items():
-        result = runner.invoke(app, command + [str(csv_file)])
+    for test_name, commands in FILTER_COMMANDS.items():
+        result = runner.invoke(app, [*commands, str(csv_file)])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -81,8 +81,8 @@ def test_dropna_commands(
     test_data_with_nulls.to_csv(csv_file, index=False)
 
     results = {}
-    for test_name, command in DROPNA_COMMANDS.items():
-        result = runner.invoke(app, command + [str(csv_file)])
+    for test_name, commands in DROPNA_COMMANDS.items():
+        result = runner.invoke(app, [*commands, str(csv_file)])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 

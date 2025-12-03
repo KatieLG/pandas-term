@@ -101,7 +101,7 @@ def test_transform_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: S
 
     results = {}
     for test_name, command in TRANSFORM_COMMANDS.items():
-        result = runner.invoke(app, command + [str(csv_file)])
+        result = runner.invoke(app, [*command, str(csv_file)])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -119,7 +119,7 @@ def test_dedup_commands(
 
     results = {}
     for test_name, command in DEDUP_COMMANDS.items():
-        result = runner.invoke(app, command + [str(csv_file)])
+        result = runner.invoke(app, [*command, str(csv_file)])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -139,7 +139,9 @@ def test_merge_commands(
 
     results = {}
     for test_name, command in MERGE_COMMANDS.items():
-        result = runner.invoke(app, ["merge", "--json", str(left_file), str(right_file)] + command)
+        result = runner.invoke(
+            app, ["merge", "--json", str(left_file), str(right_file), *command]
+        )
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -167,7 +169,7 @@ def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapsh
                 }
             )
 
-    # Normalize paths in stdout by replacing tmp_path with <TMP> and backslashes with forward slashes
+    # Normalize paths in stdout by replacing tmp_path with <TMP> and backslashes
     normalized_stdout = result.stdout.replace(str(tmp_path), "<TMP>").replace("\\", "/")
 
     results = {

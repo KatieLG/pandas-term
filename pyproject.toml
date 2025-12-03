@@ -1,9 +1,26 @@
 [project]
 name = "pandas-term"
 version = "0.0.1"
-description = "pandas-term brings pandas functionality to the terminal"
+description = "CLI bringing pandas functionality to the terminal"
+license = { file = "LICENSE" }
+authors = [{ name = "Katie Gardner" }]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+keywords = ["pandas", "cli", "terminal", "dataframe", "csv", "data", "etl"]
 dependencies = [
     "openpyxl>=3.1.5",
     "pandas>=2.3.3",
@@ -25,22 +42,28 @@ package = true
 [tool.ruff]
 line-length = 100
 lint.select = [
-    "ANN",     # Catch missing type annotations
-    "B",       # Highlight common bugs in python
-    "C4",      # Catch incorrect use of comprehensions, dict, list, etc
-    "ICN",     # Follow flake8 import conventions
-    "LOG",     # Catch invalid logging
-    "RSE",     # Unnecessary parens on exception raise
-    "RET",     # Good practice for return statements
-    "SIM",     # Common simplification rules
-    "TID",     # Flake8 tidy imports
-    "ARG",     # Flag unused arguments
-    "PTH",     # Use pathlib instead of os.path
-    "I",       # Use isort for imports
-    "PD",      # Follow pandas conventions,
-    "N",       # Use pep8 naming,
-    "F",       # Use pyflakes,
-    "PLC",     # Pylint conventions
+    "ANN",
+    "ARG",
+    "B",
+    "C4",
+    "E",
+    "F",
+    "I",
+    "ICN",
+    "LOG",
+    "N",
+    "PD",
+    "PERF",
+    "PLC",
+    "PLE",
+    "PTH",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "TID",
+    "UP",
+    "W",
 ]
 
 [tool.coverage.run]
