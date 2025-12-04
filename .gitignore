@@ -6,9 +6,11 @@ dist/
 wheels/
 *.egg-info
 
+# Packaging
+.pypirc
+
 # Virtual environments
 .venv
-
 .idea/*
 .claude/*
 .vscode/*
