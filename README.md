@@ -20,30 +20,31 @@ pip install pandas-term
 
 ## Command Reference
 
-| CLI Command       | Pandas Function          | Description                    |
-| ----------------- | ------------------------ | ------------------------------ |
-| `pd select`       | `df[columns]`            | Select columns                 |
-| `pd drop`         | `df.drop()`              | Drop columns                   |
-| `pd rename`       | `df.rename()`            | Rename columns                 |
-| `pd sort`         | `df.sort_values()`       | Sort by columns                |
-| `pd dedup`        | `df.drop_duplicates()`   | Remove duplicate rows          |
-| `pd merge`        | `pd.merge()`             | Merge two dataframes           |
-| `pd concat`       | `pd.concat()`            | Concatenate dataframes         |
-| `pd batch`        | `df.iloc[]`              | Split dataframe into batches   |
-| `pd query`        | `df.query()`             | Filter using query expressions |
-| `pd head`         | `df.head()`              | Get first n rows               |
-| `pd tail`         | `df.tail()`              | Get last n rows                |
-| `pd dropna`       | `df.dropna()`            | Drop rows with null values     |
-| `pd describe`     | `df.describe()`          | Descriptive statistics         |
-| `pd unique`       | `df[col].unique()`       | Unique values in column        |
-| `pd shape`        | `df.shape`               | Dimensions (rows, columns)     |
-| `pd columns`      | `df.columns`             | Column names                   |
-| `pd value-counts` | `df[col].value_counts()` | Count unique values            |
-| `pd groupby`      | `df.groupby().agg()`     | Group by and aggregate         |
+| CLI Command       | Pandas Function        | Description                    |
+| ----------------- | ---------------------- | ------------------------------ |
+| `pd select`       | `df[columns]`          | Select columns                 |
+| `pd drop`         | `df.drop()`            | Drop columns                   |
+| `pd rename`       | `df.rename()`          | Rename columns                 |
+| `pd sort`         | `df.sort_values()`     | Sort by columns                |
+| `pd dedup`        | `df.drop_duplicates()` | Remove duplicate rows          |
+| `pd merge`        | `pd.merge()`           | Merge two dataframes           |
+| `pd concat`       | `pd.concat()`          | Concatenate dataframes         |
+| `pd batch`        | `df.iloc[]`            | Split dataframe into batches   |
+| `pd query`        | `df.query()`           | Filter using query expressions |
+| `pd head`         | `df.head()`            | Get first n rows               |
+| `pd tail`         | `df.tail()`            | Get last n rows                |
+| `pd dropna`       | `df.dropna()`          | Drop rows with null values     |
+| `pd describe`     | `df.describe()`        | Descriptive statistics         |
+| `pd unique`       | `df[col].unique()`     | Unique values in column        |
+| `pd shape`        | `df.shape`             | Dimensions (rows, columns)     |
+| `pd columns`      | `df.columns`           | Column names                   |
+| `pd dtypes`       | `df.dtypes`            | Column data types              |
+| `pd value-counts` | `df.value_counts()`    | Count unique values            |
+| `pd groupby`      | `df.groupby().agg()`   | Group by and aggregate         |
 
 ## Usage
 
-All commands accept an input file path (or `-` for stdin) and an optional `-o/--output` flag for the output file (or `-` for stdout).
+All commands accept an input file path (or `-` for stdin) and an optional `-o/--output` flag for the output file (default: stdout).
 
 ### Transform commands
 
@@ -93,8 +94,9 @@ pd tail --n 50 data.csv
 # Drop rows with null values in any column
 pd dropna data.csv
 
-# Drop rows with null values in specific column
-pd dropna --column column_name data.csv
+# Drop rows with null values in specific columns
+pd dropna --subset column_name data.csv
+pd dropna --subset "name,age" data.csv
 ```
 
 ### Stats commands
@@ -111,6 +113,9 @@ pd shape data.csv
 
 # Column names
 pd columns data.csv
+
+# Column data types
+pd dtypes data.csv
 ```
 
 ### Aggregate commands

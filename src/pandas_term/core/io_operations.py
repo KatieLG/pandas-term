@@ -5,15 +5,17 @@ from pathlib import Path
 
 import pandas as pd
 
+from pandas_term.cli.options import OutputOptions
 
-def read_dataframe(input_path: str) -> pd.DataFrame:
-    """Read a dataframe from a file path or stdin."""
-    if input_path == "-":
+
+def read_dataframe(file: str) -> pd.DataFrame:
+    """Read a dataframe from a file path or stdin ('-')."""
+    if file == "-":
         return pd.read_csv(sys.stdin)
 
-    path = Path(input_path)
+    path = Path(file)
     if not path.exists():
-        raise FileNotFoundError(f"File not found: {input_path}")
+        raise FileNotFoundError(f"File not found: {file}")
 
     suffix = path.suffix.lower()
 
@@ -28,21 +30,17 @@ def read_dataframe(input_path: str) -> pd.DataFrame:
     raise ValueError(f"Unsupported file format: {suffix}")
 
 
-def write_dataframe(
-    df: pd.DataFrame,
-    output_path: str | None = None,
-    use_json: bool = False,
-) -> None:
-    """Write a dataframe to a file path or stdout."""
-    if output_path is None or output_path == "-":
-        if use_json:
+def write_dataframe(df: pd.DataFrame, output_opts: OutputOptions) -> None:
+    """Write a dataframe to file if specified else stdout."""
+    if output_opts.file is None:
+        if output_opts.use_json:
             sys.stdout.write(df.to_json(orient="records", indent=2))
             sys.stdout.write("\n")
         else:
             df.to_csv(sys.stdout, index=False)
         return
 
-    path = Path(output_path)
+    path = Path(output_opts.file)
     suffix = path.suffix.lower()
 
     if suffix == ".csv":

@@ -1,8 +1,25 @@
 """Shared CLI options for all commands."""
 
+from dataclasses import dataclass
 from typing import Annotated
 
 import typer
+
+
+@dataclass
+class OutputOptions:
+    """Options for outputting dataframes."""
+
+    file: str | None = None
+    use_json: bool = False
+
+
+@dataclass
+class AppContext:
+    """App context passed to all subcommands via ctx.obj."""
+
+    output: OutputOptions
+
 
 InputFileArgument = Annotated[
     str,
@@ -16,5 +33,5 @@ UseJsonOption = Annotated[
 
 OutputOption = Annotated[
     str | None,
-    typer.Option("--output", "-o", help="Output file path or '-' for stdout"),
+    typer.Option("--output", "-o", help="Output file path (default: stdout)"),
 ]

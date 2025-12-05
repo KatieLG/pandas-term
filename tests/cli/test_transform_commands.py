@@ -63,23 +63,23 @@ def right_data() -> pd.DataFrame:
 
 
 TRANSFORM_COMMANDS = {
-    "select_single": ["select", "--json", "name"],
-    "select_multiple": ["select", "--json", "name,age,city"],
-    "drop_single": ["drop", "--json", "salary"],
-    "drop_multiple": ["drop", "--json", "city,salary"],
-    "sort_single_asc": ["sort", "--json", "age", "--ascending"],
-    "sort_single_desc": ["sort", "--json", "age", "--descending"],
-    "sort_multiple_asc": ["sort", "--json", "city,age", "--ascending"],
-    "sort_multiple_desc": ["sort", "--json", "city,age", "--descending"],
-    "rename_single": ["rename", "--json", "name:full_name"],
-    "rename_multiple": ["rename", "--json", "name:full_name,age:years"],
+    "select_single": ["select", "name"],
+    "select_multiple": ["select", "name,age,city"],
+    "drop_single": ["drop", "salary"],
+    "drop_multiple": ["drop", "city,salary"],
+    "sort_single_asc": ["sort", "age", "--ascending"],
+    "sort_single_desc": ["sort", "age", "--descending"],
+    "sort_multiple_asc": ["sort", "city,age", "--ascending"],
+    "sort_multiple_desc": ["sort", "city,age", "--descending"],
+    "rename_single": ["rename", "name:full_name"],
+    "rename_multiple": ["rename", "name:full_name,age:years"],
 }
 
 
 DEDUP_COMMANDS = {
-    "dedup_all": ["dedup", "--json"],
-    "dedup_subset_single": ["dedup", "--json", "--subset", "name"],
-    "dedup_subset_multiple": ["dedup", "--json", "--subset", "name,age"],
+    "dedup_all": ["dedup"],
+    "dedup_subset_single": ["dedup", "--subset", "name"],
+    "dedup_subset_multiple": ["dedup", "--subset", "name,age"],
 }
 
 
@@ -93,7 +93,6 @@ MERGE_COMMANDS = {
 
 
 def test_transform_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
-    """Test all basic transform commands against snapshots."""
     snapshot.snapshot_dir = "tests/cli/snapshots/transform"
 
     csv_file = tmp_path / "test.csv"
@@ -101,7 +100,7 @@ def test_transform_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: S
 
     results = {}
     for test_name, command in TRANSFORM_COMMANDS.items():
-        result = runner.invoke(app, [*command, str(csv_file)])
+        result = runner.invoke(app, ["--json", *command, str(csv_file)])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -111,7 +110,6 @@ def test_transform_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: S
 def test_dedup_commands(
     tmp_path: Path, test_data_with_duplicates: pd.DataFrame, snapshot: Snapshot
 ) -> None:
-    """Test dedup commands against snapshots."""
     snapshot.snapshot_dir = "tests/cli/snapshots/transform"
 
     csv_file = tmp_path / "test_dups.csv"
@@ -119,7 +117,7 @@ def test_dedup_commands(
 
     results = {}
     for test_name, command in DEDUP_COMMANDS.items():
-        result = runner.invoke(app, [*command, str(csv_file)])
+        result = runner.invoke(app, ["--json", *command, str(csv_file)])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -129,7 +127,6 @@ def test_dedup_commands(
 def test_merge_commands(
     tmp_path: Path, left_data: pd.DataFrame, right_data: pd.DataFrame, snapshot: Snapshot
 ) -> None:
-    """Test merge commands against snapshots."""
     snapshot.snapshot_dir = "tests/cli/snapshots/transform"
 
     left_file = tmp_path / "left.csv"
@@ -139,9 +136,7 @@ def test_merge_commands(
 
     results = {}
     for test_name, command in MERGE_COMMANDS.items():
-        result = runner.invoke(
-            app, ["merge", "--json", str(left_file), str(right_file), *command]
-        )
+        result = runner.invoke(app, ["--json", "merge", str(left_file), str(right_file), *command])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -149,7 +144,6 @@ def test_merge_commands(
 
 
 def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
-    """Test batch command against snapshots."""
     snapshot.snapshot_dir = "tests/cli/snapshots/transform"
 
     csv_file = tmp_path / "test.csv"
@@ -182,16 +176,45 @@ def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapsh
 
 
 def test_concat_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
-    """Test concat command against snapshots."""
+    """Test concat command with varying numbers of files."""
     snapshot.snapshot_dir = "tests/cli/snapshots/transform"
 
+    # Create multiple files with different row counts
     file1 = tmp_path / "part1.csv"
     file2 = tmp_path / "part2.csv"
+    file3 = tmp_path / "part3.csv"
     test_data.head(2).to_csv(file1, index=False)
-    test_data.tail(2).to_csv(file2, index=False)
+    test_data.iloc[2:4].to_csv(file2, index=False)
+    test_data.tail(1).to_csv(file3, index=False)
 
-    result = runner.invoke(app, ["concat", "--json", str(file1), str(file2)])
-    assert result.exit_code == 0, f"concat failed: {result.stderr}"
+    results = {}
 
-    results = {"concat": json.loads(result.stdout)}
+    # Test with 2 files
+    result = runner.invoke(app, ["--json", "concat", str(file1), str(file2)])
+    assert result.exit_code == 0, f"concat_two failed: {result.stderr}"
+    results["concat_two"] = json.loads(result.stdout)
+
+    # Test with 3 files
+    result = runner.invoke(app, ["--json", "concat", str(file1), str(file2), str(file3)])
+    assert result.exit_code == 0, f"concat_three failed: {result.stderr}"
+    results["concat_three"] = json.loads(result.stdout)
+
     snapshot.assert_match(json.dumps(results, indent=2), "concat_commands.json")
+
+
+def test_concat_glob(tmp_path: Path, snapshot: Snapshot) -> None:
+    """Test concat command with glob pattern."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/transform"
+
+    # Create files matching a glob pattern
+    (tmp_path / "data_001.csv").write_text("name,age\nAlice,25\n")
+    (tmp_path / "data_002.csv").write_text("name,age\nBob,30\n")
+    (tmp_path / "data_003.csv").write_text("name,age\nCharlie,35\n")
+
+    # Use glob pattern
+    glob_pattern = str(tmp_path / "data_*.csv")
+    result = runner.invoke(app, ["--json", "concat", glob_pattern])
+    assert result.exit_code == 0, f"concat_glob failed: {result.stderr}"
+
+    results = {"concat_glob": json.loads(result.stdout)}
+    snapshot.assert_match(json.dumps(results, indent=2), "concat_glob_commands.json")

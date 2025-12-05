@@ -39,24 +39,24 @@ def test_data_with_nulls() -> pd.DataFrame:
 
 
 FILTER_COMMANDS = {
-    "query_simple": ["query", "--json", "age > 30"],
-    "query_complex": ["query", "--json", "age > 30 and city == 'NYC'"],
-    "head_default": ["head", "--json"],
-    "head_n3": ["head", "--json", "--n", "3"],
-    "tail_default": ["tail", "--json"],
-    "tail_n2": ["tail", "--json", "--n", "2"],
+    "query_simple": ["query", "age > 30"],
+    "query_complex": ["query", "age > 30 and city == 'NYC'"],
+    "head_default": ["head"],
+    "head_n3": ["head", "--n", "3"],
+    "tail_default": ["tail"],
+    "tail_n2": ["tail", "--n", "2"],
 }
 
 
 DROPNA_COMMANDS = {
-    "dropna_any": ["dropna", "--json"],
-    "dropna_column_age": ["dropna", "--json", "--column", "age"],
-    "dropna_column_city": ["dropna", "--json", "--column", "city"],
+    "dropna_any": ["dropna"],
+    "dropna_subset_age": ["dropna", "--subset", "age"],
+    "dropna_subset_city": ["dropna", "--subset", "city"],
+    "dropna_subset_multiple": ["dropna", "--subset", "age,city"],
 }
 
 
 def test_filter_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
-    """Test all filter commands against snapshots."""
     snapshot.snapshot_dir = "tests/cli/snapshots/filter"
 
     csv_file = tmp_path / "test.csv"
@@ -64,7 +64,7 @@ def test_filter_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snap
 
     results = {}
     for test_name, commands in FILTER_COMMANDS.items():
-        result = runner.invoke(app, [*commands, str(csv_file)])
+        result = runner.invoke(app, ["--json", *commands, str(csv_file)])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -74,7 +74,6 @@ def test_filter_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snap
 def test_dropna_commands(
     tmp_path: Path, test_data_with_nulls: pd.DataFrame, snapshot: Snapshot
 ) -> None:
-    """Test dropna commands against snapshots."""
     snapshot.snapshot_dir = "tests/cli/snapshots/filter"
 
     csv_file = tmp_path / "test_nulls.csv"
@@ -82,7 +81,7 @@ def test_dropna_commands(
 
     results = {}
     for test_name, commands in DROPNA_COMMANDS.items():
-        result = runner.invoke(app, [*commands, str(csv_file)])
+        result = runner.invoke(app, ["--json", *commands, str(csv_file)])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 

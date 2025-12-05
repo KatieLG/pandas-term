@@ -1,5 +1,5 @@
 {
-  "concat": [
+  "concat_two": [
     {
       "name": "Alice",
       "age": 25,
@@ -11,6 +11,38 @@
       "age": 30,
       "city": "LA",
       "salary": 60000
+    },
+    {
+      "name": "Charlie",
+      "age": 35,
+      "city": "Chicago",
+      "salary": 70000
+    },
+    {
+      "name": "David",
+      "age": 40,
+      "city": "NYC",
+      "salary": 80000
+    }
+  ],
+  "concat_three": [
+    {
+      "name": "Alice",
+      "age": 25,
+      "city": "NYC",
+      "salary": 50000
+    },
+    {
+      "name": "Bob",
+      "age": 30,
+      "city": "LA",
+      "salary": 60000
+    },
+    {
+      "name": "Charlie",
+      "age": 35,
+      "city": "Chicago",
+      "salary": 70000
     },
     {
       "name": "David",

@@ -34,7 +34,7 @@ def test_data() -> pd.DataFrame:
 
 
 STATS_COMMANDS = {
-    "describe": ["describe", "--json"],
+    "describe": ["--json", "describe"],
     "unique_city": ["unique", "city"],
     "unique_department": ["unique", "department"],
     "shape": ["shape"],

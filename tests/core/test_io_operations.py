@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from pandas_term.cli.options import OutputOptions
 from pandas_term.core import io_operations
 
 
@@ -47,7 +48,7 @@ def test_read_unsupported_format(tmp_path: Path) -> None:
 def test_write_csv(tmp_path: Path, sample_df: pd.DataFrame) -> None:
     """Test writing a CSV file."""
     output_path = tmp_path / "output.csv"
-    io_operations.write_dataframe(sample_df, str(output_path))
+    io_operations.write_dataframe(sample_df, OutputOptions(file=str(output_path)))
 
     df = pd.read_csv(output_path)
     assert len(df) == 5
@@ -57,7 +58,7 @@ def test_write_csv(tmp_path: Path, sample_df: pd.DataFrame) -> None:
 def test_write_excel(tmp_path: Path, sample_df: pd.DataFrame) -> None:
     """Test writing an Excel file."""
     output_path = tmp_path / "output.xlsx"
-    io_operations.write_dataframe(sample_df, str(output_path))
+    io_operations.write_dataframe(sample_df, OutputOptions(file=str(output_path)))
 
     df = pd.read_excel(output_path)
     assert len(df) == 5
@@ -66,7 +67,7 @@ def test_write_excel(tmp_path: Path, sample_df: pd.DataFrame) -> None:
 def test_write_json(tmp_path: Path, sample_df: pd.DataFrame) -> None:
     """Test writing a JSON file."""
     output_path = tmp_path / "output.json"
-    io_operations.write_dataframe(sample_df, str(output_path))
+    io_operations.write_dataframe(sample_df, OutputOptions(file=str(output_path)))
 
     df = pd.read_json(output_path)
     assert len(df) == 5
@@ -77,4 +78,4 @@ def test_write_unsupported_format(tmp_path: Path, sample_df: pd.DataFrame) -> No
     output_path = tmp_path / "output.txt"
 
     with pytest.raises(ValueError, match="Unsupported file format"):
-        io_operations.write_dataframe(sample_df, str(output_path))
+        io_operations.write_dataframe(sample_df, OutputOptions(file=str(output_path)))

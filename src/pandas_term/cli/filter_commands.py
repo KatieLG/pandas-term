@@ -4,8 +4,9 @@ from typing import Annotated
 
 import typer
 
-from pandas_term.cli.options import InputFileArgument, OutputOption, UseJsonOption
+from pandas_term.cli.options import InputFileArgument
 from pandas_term.core import io_operations
+from pandas_term.core.validation import get_columns
 
 app = typer.Typer(add_completion=False)
 
@@ -14,54 +15,52 @@ app = typer.Typer(add_completion=False)
 def query(
     expression: Annotated[str, typer.Argument(help="Pandas query expression")],
     input_file: InputFileArgument = "-",
-    use_json: UseJsonOption = False,
-    output: OutputOption = None,
+    *,
+    ctx: typer.Context,
 ) -> None:
     """Filter dataframe using a pandas query expression."""
     df = io_operations.read_dataframe(input_file)
     result = df.query(expression)
-    io_operations.write_dataframe(result, output, use_json)
+    io_operations.write_dataframe(result, ctx.obj.output)
 
 
 @app.command()
 def head(
-    n: Annotated[int, typer.Option("--n", "-n", help="Number of rows")] = 10,
     input_file: InputFileArgument = "-",
-    use_json: UseJsonOption = False,
-    output: OutputOption = None,
+    n: Annotated[int, typer.Option("--n", "-n", help="Number of rows")] = 10,
+    *,
+    ctx: typer.Context,
 ) -> None:
     """Return the first n rows of the dataframe."""
     df = io_operations.read_dataframe(input_file)
     result = df.head(n)
-    io_operations.write_dataframe(result, output, use_json)
+    io_operations.write_dataframe(result, ctx.obj.output)
 
 
 @app.command()
 def tail(
-    n: Annotated[int, typer.Option("--n", "-n", help="Number of rows")] = 10,
     input_file: InputFileArgument = "-",
-    use_json: UseJsonOption = False,
-    output: OutputOption = None,
+    n: Annotated[int, typer.Option("--n", "-n", help="Number of rows")] = 10,
+    *,
+    ctx: typer.Context,
 ) -> None:
     """Return the last n rows of the dataframe."""
     df = io_operations.read_dataframe(input_file)
     result = df.tail(n)
-    io_operations.write_dataframe(result, output, use_json)
+    io_operations.write_dataframe(result, ctx.obj.output)
 
 
 @app.command()
 def dropna(
-    column: Annotated[
-        str | None,
-        typer.Option(
-            "--column", "-c", help="Column to check for null values (default: any column)"
-        ),
-    ] = None,
     input_file: InputFileArgument = "-",
-    use_json: UseJsonOption = False,
-    output: OutputOption = None,
+    subset: Annotated[
+        str | None,
+        typer.Option("--subset", "-s", help="Comma-separated columns to check for null values"),
+    ] = None,
+    *,
+    ctx: typer.Context,
 ) -> None:
-    """Remove rows with null values in specified column or any column."""
+    """Remove rows with null values in specified columns or any column."""
     df = io_operations.read_dataframe(input_file)
-    result = df[df[column].notna()] if column else df.dropna()
-    io_operations.write_dataframe(result, output, use_json)
+    result = df.dropna(subset=get_columns(df, subset))
+    io_operations.write_dataframe(result, ctx.obj.output)

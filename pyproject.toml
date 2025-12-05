@@ -70,4 +70,4 @@ lint.select = [
 source = ["src/pandas_term"]
 
 [project.scripts]
-pd = "pandas_term.main:app"
+pd = "pandas_term.main:cli"

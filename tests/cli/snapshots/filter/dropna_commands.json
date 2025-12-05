@@ -11,7 +11,7 @@
       "city": "LA"
     }
   ],
-  "dropna_column_age": [
+  "dropna_subset_age": [
     {
       "name": "Alice",
       "age": 25.0,
@@ -33,7 +33,7 @@
       "city": "LA"
     }
   ],
-  "dropna_column_city": [
+  "dropna_subset_city": [
     {
       "name": "Alice",
       "age": 25.0,
@@ -48,6 +48,23 @@
       "name": "David",
       "age": null,
       "city": "NYC"
+    },
+    {
+      "name": "Eve",
+      "age": 45.0,
+      "city": "LA"
+    }
+  ],
+  "dropna_subset_multiple": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC"
+    },
+    {
+      "name": null,
+      "age": 35.0,
+      "city": "Chicago"
     },
     {
       "name": "Eve",
