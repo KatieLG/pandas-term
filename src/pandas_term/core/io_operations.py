@@ -38,12 +38,12 @@ def _write_to_stdout(df: pd.DataFrame, fmt: str) -> None:
         sys.stdout.write(df.to_json(orient="records", indent=2))
         sys.stdout.write("\n")
     elif fmt == "tsv":
-        df.to_csv(sys.stdout, index=False, sep="\t")
+        df.to_csv(sys.stdout, index=False, sep="\t", lineterminator="\n")
     elif fmt == "md":
         sys.stdout.write(df.to_markdown(index=False))
         sys.stdout.write("\n")
     elif fmt == "csv":
-        df.to_csv(sys.stdout, index=False)
+        df.to_csv(sys.stdout, index=False, lineterminator="\n")
     else:
         raise ValueError(f"Unsupported format: {fmt}")
 
