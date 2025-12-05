@@ -12,189 +12,168 @@ pandas-term is a CLI bringing [pandas](https://pandas.pydata.org/) operations to
 pipx install pandas-term
 ```
 
-Or with pip:
+or
 
 ```bash
-pip install pandas-term
+uv tool install pandas-term
 ```
-
-## Command Reference
-
-| CLI Command       | Pandas Function        | Description                    |
-| ----------------- | ---------------------- | ------------------------------ |
-| `pd select`       | `df[columns]`          | Select columns                 |
-| `pd drop`         | `df.drop()`            | Drop columns                   |
-| `pd rename`       | `df.rename()`          | Rename columns                 |
-| `pd sort`         | `df.sort_values()`     | Sort by columns                |
-| `pd dedup`        | `df.drop_duplicates()` | Remove duplicate rows          |
-| `pd merge`        | `pd.merge()`           | Merge two dataframes           |
-| `pd concat`       | `pd.concat()`          | Concatenate dataframes         |
-| `pd batch`        | `df.iloc[]`            | Split dataframe into batches   |
-| `pd query`        | `df.query()`           | Filter using query expressions |
-| `pd head`         | `df.head()`            | Get first n rows               |
-| `pd tail`         | `df.tail()`            | Get last n rows                |
-| `pd dropna`       | `df.dropna()`          | Drop rows with null values     |
-| `pd describe`     | `df.describe()`        | Descriptive statistics         |
-| `pd unique`       | `df[col].unique()`     | Unique values in column        |
-| `pd shape`        | `df.shape`             | Dimensions (rows, columns)     |
-| `pd columns`      | `df.columns`           | Column names                   |
-| `pd dtypes`       | `df.dtypes`            | Column data types              |
-| `pd value-counts` | `df.value_counts()`    | Count unique values            |
-| `pd groupby`      | `df.groupby().agg()`   | Group by and aggregate         |
 
 ## Usage
 
-All commands accept an input file path (or `-` for stdin) and an optional `-o/--output` flag for the output file (default: stdout).
+All commands accept an input file path (or `-` for stdin) and support `-o/--output` for file output (default: stdout).
 
-### Transform commands
+<details open>
+<summary><strong>Command Reference</strong></summary>
+
+| Command           | Pandas Equivalent      | Description                |
+| ----------------- | ---------------------- | -------------------------- |
+| `pd select`       | `df[columns]`          | Select columns             |
+| `pd drop`         | `df.drop()`            | Drop columns               |
+| `pd rename`       | `df.rename()`          | Rename columns             |
+| `pd sort`         | `df.sort_values()`     | Sort by columns            |
+| `pd dedup`        | `df.drop_duplicates()` | Remove duplicate rows      |
+| `pd merge`        | `pd.merge()`           | Merge two dataframes       |
+| `pd concat`       | `pd.concat()`          | Concatenate dataframes     |
+| `pd batch`        | `df.iloc[]`            | Split into batches         |
+| `pd query`        | `df.query()`           | Filter with query expr     |
+| `pd head`         | `df.head()`            | First n rows               |
+| `pd tail`         | `df.tail()`            | Last n rows                |
+| `pd dropna`       | `df.dropna()`          | Drop rows with nulls       |
+| `pd describe`     | `df.describe()`        | Descriptive statistics     |
+| `pd unique`       | `df[col].unique()`     | Unique values in column    |
+| `pd shape`        | `df.shape`             | Dimensions (rows, columns) |
+| `pd columns`      | `df.columns`           | Column names               |
+| `pd dtypes`       | `df.dtypes`            | Column data types          |
+| `pd value-counts` | `df.value_counts()`    | Count unique values        |
+| `pd groupby`      | `df.groupby().agg()`   | Group by and aggregate     |
+
+</details>
+
+<details open>
+<summary><strong>Transform</strong></summary>
 
 ```bash
-# Select columns (comma-separated)
+# Select columns
 pd select name,age data.csv
 
-# Drop columns (comma-separated)
+# Drop columns
 pd drop unwanted_column data.csv
 
-# Sort by columns (comma-separated for multiple)
-pd sort age data.csv --ascending
-pd sort "age,name" data.csv --descending
+# Sort by columns
+pd sort age data.csv --descending
 
-# Remove duplicate rows
+# Remove duplicates
 pd dedup data.csv
 pd dedup --subset name,email data.csv
 
 # Rename columns
-pd rename "name:full_name" data.csv
 pd rename "name:full_name,age:years" data.csv
 
 # Merge two dataframes
 pd merge left.csv right.csv --on user_id --how inner
-pd merge left.csv right.csv --left-on id --right-on user_id --how left
 
-# Concatenate multiple dataframes
-pd concat file1.csv file2.csv file3.csv
+# Concatenate files (supports glob patterns)
+pd concat file1.csv file2.csv
+pd concat "data_*.csv"
 
-# Split dataframe into batches
+# Split into batches
 pd batch data.csv --sizes 100 -o "batch_{}.csv"
-pd batch data.csv --sizes 1,2,10,50 -o "batch_{}.csv"  # variable sizes, last repeats
 ```
 
-### Filter commands
+</details>
+
+<details open>
+<summary><strong>Filter</strong></summary>
 
 ```bash
-# Filter using pandas query expressions
+# Query expression
 pd query "age > 30 and city == 'NYC'" data.csv
 
-# First N rows
+# First/last N rows
 pd head --n 100 data.csv
-
-# Last N rows
 pd tail --n 50 data.csv
 
-# Drop rows with null values in any column
+# Drop rows with nulls
 pd dropna data.csv
-
-# Drop rows with null values in specific columns
-pd dropna --subset column_name data.csv
 pd dropna --subset "name,age" data.csv
 ```
 
-### Stats commands
+</details>
+
+<details open>
+<summary><strong>Stats</strong></summary>
 
 ```bash
-# Descriptive statistics
 pd describe data.csv
-
-# Unique values in a column
 pd unique country data.csv
-
-# Dimensions (rows, columns)
 pd shape data.csv
-
-# Column names
 pd columns data.csv
-
-# Column data types
 pd dtypes data.csv
 ```
 
-### Aggregate commands
+</details>
+
+<details open>
+<summary><strong>Aggregate</strong></summary>
 
 ```bash
 # Count unique values
 pd value-counts city data.csv
-pd value-counts department data.csv --normalize
+pd value-counts city,department data.csv --normalize
 
-# Group by and aggregate (comma-separated for multiple group columns)
+# Group by and aggregate
 pd groupby department data.csv --col salary --agg sum
-pd groupby "city,department" data.csv --col age --agg mean
+pd groupby "city,department" data.csv --col salary,age --agg mean
 ```
+
+</details>
 
 ### Piping
 
 All commands support piping through stdin/stdout. When piping, you can omit the input file argument (it defaults to stdin):
 
 ```bash
-cat data.csv | pd head --n 100 | pd select name,age | pd query "age > 30"
+cat data.csv | pd query "age > 30" | pd select name,age
 
-# Or chain commands directly
 pd sort age data.csv --descending | pd head --n 10 | pd select name,age
 ```
 
 ### Output Formats
 
-#### Stdout
-
-For stdout, use `-f`/`--format` to specify the output format (default: csv):
+Use `-f`/`--format` for stdout format (default: csv):
 
 ```bash
-pd head --n 9 data.csv -f json
-pd head --n 9 data.csv -f tsv
-pd head --n 9 data.csv -f md
-pd query "age > 29" data.csv --format json | jq '.[] | .name'
+pd head --n 10 data.csv -f json
+pd head --n 10 data.csv -f tsv
+pd head --n 10 data.csv -f md
 ```
 
-Supported stdout formats: csv, tsv, json, markdown (md)
+`--json`/`-j` is shorthand for `-f json`.
 
-The `--json`/`-j` flag is shorthand for `--format json`:
-
-```bash
-pd head --n 9 data.csv --json
-```
-
-#### File
-
-When writing to a file with `-o`, the format is determined by the file extension:
+File output format is determined by extension:
 
 ```bash
 pd select name,age data.csv -o output.xlsx
 pd query "age > 30" data.json -o filtered.parquet
 ```
 
-Supported file formats are: csv, tsv, xlsx, json, parquet, markdown (md)
+Supported: csv, tsv, json, xlsx, parquet, md
 
-For any other extension, use shell redirection:
+For other extensions, use redirection: `pd select name data.csv -f csv > output.txt`
 
-```bash
-pd select name,age data.csv -f csv > output.txt
-```
-
-## Development
+## Developer setup
 
 Requires [uv](https://docs.astral.sh/uv/)
 
-Create virtual environment and install dependencies:
-
 ```bash
+# Create venv & install dependencies
 uv sync
 ```
 
-### Dev commands
-
-| Command         | Description                               |
-| --------------- | ----------------------------------------- |
-| `make format`   | Format code with ruff                     |
-| `make lint`     | Run linting checks (ruff + type checking) |
-| `make test`     | Run pytest tests                          |
-| `make check`    | Format, lint, and run tests               |
-| `make coverage` | Run tests with coverage report            |
+| Command         | Description            |
+| --------------- | ---------------------- |
+| `make check`    | Format, lint, and test |
+| `make test`     | Run tests              |
+| `make format`   | Format code            |
+| `make lint`     | Linting only           |
+| `make coverage` | Tests with coverage    |
