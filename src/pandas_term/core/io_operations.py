@@ -42,8 +42,10 @@ def _write_to_stdout(df: pd.DataFrame, fmt: str) -> None:
     elif fmt == "md":
         sys.stdout.write(df.to_markdown(index=False))
         sys.stdout.write("\n")
-    else:  # csv
+    elif fmt == "csv":
         df.to_csv(sys.stdout, index=False)
+    else:
+        raise ValueError(f"Unsupported format: {fmt}")
 
 
 def write_dataframe(df: pd.DataFrame, output_opts: OutputOptions) -> None:
@@ -66,6 +68,6 @@ def write_dataframe(df: pd.DataFrame, output_opts: OutputOptions) -> None:
     elif suffix == ".parquet":
         df.to_parquet(path, index=False)
     elif suffix == ".md":
-        path.write_text(df.to_markdown(index=False) + "\n")
+        path.write_text(df.to_markdown(index=False) + "\n", encoding="utf-8")
     else:
-        raise ValueError(f"Unsupported file format: {suffix}")
+        raise ValueError(f"Unsupported file extension: {suffix}. Use: pd -f csv ... > file{suffix}")

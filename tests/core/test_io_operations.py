@@ -89,5 +89,5 @@ def test_write_unsupported_format(tmp_path: Path, sample_df: pd.DataFrame) -> No
     """Test writing to an unsupported file format."""
     output_path = tmp_path / "output.txt"
 
-    with pytest.raises(ValueError, match="Unsupported file format"):
+    with pytest.raises(ValueError, match="Unsupported file extension"):
         io_operations.write_dataframe(sample_df, OutputOptions(file=str(output_path)))
