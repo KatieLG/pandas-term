@@ -15,6 +15,8 @@ def main(
     output: OutputOption = None,
 ) -> None:
     ctx.obj = AppContext(output=OutputOptions(file=output, use_json=use_json))
+    if ctx.invoked_subcommand is None:
+        typer.echo(ctx.get_help())
 
 
 app.add_typer(transform_commands.app)
