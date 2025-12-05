@@ -4,7 +4,13 @@ from typing import Annotated
 
 import typer
 
-from pandas_term.cli.options import InputFileArgument
+from pandas_term.cli.options import (
+    FormatOption,
+    InputFileArgument,
+    OutputFileOption,
+    UseJsonOption,
+    get_output_options,
+)
 from pandas_term.core import io_operations
 from pandas_term.core.validation import validate_columns
 
@@ -14,13 +20,14 @@ app = typer.Typer(add_completion=False)
 @app.command()
 def describe(
     input_file: InputFileArgument = "-",
-    *,
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Generate descriptive statistics for the dataframe."""
     df = io_operations.read_dataframe(input_file)
     result = df.describe()
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
 
 
 @app.command()

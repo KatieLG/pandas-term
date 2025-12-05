@@ -100,7 +100,7 @@ def test_transform_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: S
 
     results = {}
     for test_name, command in TRANSFORM_COMMANDS.items():
-        result = runner.invoke(app, ["--json", *command, str(csv_file)])
+        result = runner.invoke(app, [*command, str(csv_file), "--json"])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -117,7 +117,7 @@ def test_dedup_commands(
 
     results = {}
     for test_name, command in DEDUP_COMMANDS.items():
-        result = runner.invoke(app, ["--json", *command, str(csv_file)])
+        result = runner.invoke(app, [*command, str(csv_file), "--json"])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -136,7 +136,7 @@ def test_merge_commands(
 
     results = {}
     for test_name, command in MERGE_COMMANDS.items():
-        result = runner.invoke(app, ["--json", "merge", str(left_file), str(right_file), *command])
+        result = runner.invoke(app, ["merge", str(left_file), str(right_file), *command, "--json"])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -190,12 +190,12 @@ def test_concat_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snaps
     results = {}
 
     # Test with 2 files
-    result = runner.invoke(app, ["--json", "concat", str(file1), str(file2)])
+    result = runner.invoke(app, ["concat", str(file1), str(file2), "--json"])
     assert result.exit_code == 0, f"concat_two failed: {result.stderr}"
     results["concat_two"] = json.loads(result.stdout)
 
     # Test with 3 files
-    result = runner.invoke(app, ["--json", "concat", str(file1), str(file2), str(file3)])
+    result = runner.invoke(app, ["concat", str(file1), str(file2), str(file3), "--json"])
     assert result.exit_code == 0, f"concat_three failed: {result.stderr}"
     results["concat_three"] = json.loads(result.stdout)
 
@@ -213,7 +213,7 @@ def test_concat_glob(tmp_path: Path, snapshot: Snapshot) -> None:
 
     # Use glob pattern
     glob_pattern = str(tmp_path / "data_*.csv")
-    result = runner.invoke(app, ["--json", "concat", glob_pattern])
+    result = runner.invoke(app, ["concat", glob_pattern, "--json"])
     assert result.exit_code == 0, f"concat_glob failed: {result.stderr}"
 
     results = {"concat_glob": json.loads(result.stdout)}

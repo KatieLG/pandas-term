@@ -16,13 +16,6 @@ class OutputOptions:
     format: OutputFormat = "csv"
 
 
-@dataclass
-class AppContext:
-    """App context passed to all subcommands via ctx.obj."""
-
-    output: OutputOptions
-
-
 InputFileArgument = Annotated[
     str,
     typer.Argument(help="Input file path (default: stdin)"),
@@ -38,7 +31,26 @@ FormatOption = Annotated[
     typer.Option("--format", "-f", help="Output format: csv, json, tsv, md"),
 ]
 
-OutputOption = Annotated[
+OutputFileOption = Annotated[
     str | None,
     typer.Option("--output", "-o", help="Output file path (default: stdout)"),
 ]
+
+
+def get_output_options(
+    use_json: bool = False,
+    fmt: OutputFormat | None = None,
+    output: str | None = None,
+) -> OutputOptions:
+    """Build OutputOptions from command arguments."""
+    if use_json and fmt is not None:
+        raise typer.BadParameter("Cannot specify both --json and --format")
+
+    if use_json:
+        resolved_format: OutputFormat = "json"
+    elif fmt is not None:
+        resolved_format = fmt
+    else:
+        resolved_format = "csv"
+
+    return OutputOptions(file=output, format=resolved_format)

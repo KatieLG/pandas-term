@@ -3,28 +3,12 @@ import sys
 import typer
 
 from pandas_term.cli import aggregate_commands, filter_commands, stats_commands, transform_commands
-from pandas_term.cli.options import (
-    AppContext,
-    FormatOption,
-    OutputOption,
-    OutputOptions,
-    UseJsonOption,
-)
 
 app = typer.Typer(add_completion=False, context_settings={"help_option_names": ["-h", "--help"]})
 
 
 @app.callback(invoke_without_command=True)
-def main(
-    ctx: typer.Context,
-    use_json: UseJsonOption = False,
-    output: OutputOption = None,
-    fmt: FormatOption = None,
-) -> None:
-    if use_json and fmt is not None:
-        raise typer.BadParameter("Cannot specify both --json and --format")
-    output_format = fmt or ("json" if use_json else "csv")
-    ctx.obj = AppContext(output=OutputOptions(file=output, format=output_format))
+def main(ctx: typer.Context) -> None:
     if ctx.invoked_subcommand is None:
         typer.echo(ctx.get_help())
 

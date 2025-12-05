@@ -55,7 +55,7 @@ def test_aggregate_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: S
 
     results = {}
     for test_name, commands in AGGREGATE_COMMANDS.items():
-        result = runner.invoke(app, ["--json", *commands, str(csv_file)])
+        result = runner.invoke(app, [*commands, str(csv_file), "--json"])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 

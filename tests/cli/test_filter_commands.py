@@ -64,7 +64,7 @@ def test_filter_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snap
 
     results = {}
     for test_name, commands in FILTER_COMMANDS.items():
-        result = runner.invoke(app, ["--json", *commands, str(csv_file)])
+        result = runner.invoke(app, [*commands, str(csv_file), "--json"])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 
@@ -81,7 +81,7 @@ def test_dropna_commands(
 
     results = {}
     for test_name, commands in DROPNA_COMMANDS.items():
-        result = runner.invoke(app, ["--json", *commands, str(csv_file)])
+        result = runner.invoke(app, [*commands, str(csv_file), "--json"])
         assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
         results[test_name] = json.loads(result.stdout)
 

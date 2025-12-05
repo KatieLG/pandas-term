@@ -4,7 +4,13 @@ from typing import Annotated
 
 import typer
 
-from pandas_term.cli.options import InputFileArgument
+from pandas_term.cli.options import (
+    FormatOption,
+    InputFileArgument,
+    OutputFileOption,
+    UseJsonOption,
+    get_output_options,
+)
 from pandas_term.core import io_operations
 from pandas_term.core.validation import get_columns
 
@@ -19,14 +25,15 @@ def value_counts(
         bool,
         typer.Option("--normalize", "-n", help="Return proportions instead of counts"),
     ] = False,
-    *,
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Count unique value combinations in columns."""
     df = io_operations.read_dataframe(input_file)
     col_list = get_columns(df, columns)
     result = df.value_counts(subset=col_list, normalize=normalize).reset_index()
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
 
 
 @app.command()
@@ -39,11 +46,13 @@ def groupby(
         str,
         typer.Option("--agg", "-a", help="Aggregation function (sum, mean, count, etc.)"),
     ] = "sum",
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Group by columns and apply aggregation function."""
     df = io_operations.read_dataframe(input_file)
     group_col_list = get_columns(df, group_cols)
     agg_col_list = get_columns(df, col)
     result = df.groupby(group_col_list)[agg_col_list].agg(agg).reset_index()
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))

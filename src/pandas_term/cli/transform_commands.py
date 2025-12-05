@@ -6,7 +6,14 @@ from typing import Annotated, Literal
 import pandas as pd
 import typer
 
-from pandas_term.cli.options import InputFileArgument, OutputOptions
+from pandas_term.cli.options import (
+    FormatOption,
+    InputFileArgument,
+    OutputFileOption,
+    OutputOptions,
+    UseJsonOption,
+    get_output_options,
+)
 from pandas_term.core import io_operations, transforms
 from pandas_term.core.validation import get_columns
 
@@ -17,27 +24,29 @@ app = typer.Typer(add_completion=False)
 def select(
     columns: Annotated[str, typer.Argument(help="Comma-separated list of columns to select")],
     input_file: InputFileArgument = "-",
-    *,
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Select provided columns from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     column_list = get_columns(df, columns)
     result = df[column_list]
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
 
 
 @app.command()
 def drop(
     columns: Annotated[str, typer.Argument(help="Comma-separated list of columns to drop")],
     input_file: InputFileArgument = "-",
-    *,
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Drop provided columns from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     result = df.drop(columns=get_columns(df, columns))
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
 
 
 @app.command()
@@ -45,21 +54,23 @@ def sort(
     columns: Annotated[str, typer.Argument(help="Comma-separated list of columns to sort by")],
     input_file: InputFileArgument = "-",
     ascending: Annotated[bool, typer.Option("--ascending/--descending", help="Sort order")] = True,
-    *,
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Sort dataframe by specified columns."""
     df = io_operations.read_dataframe(input_file)
     result = df.sort_values(by=get_columns(df, columns), ascending=ascending)
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
 
 
 @app.command()
 def rename(
     mapping: Annotated[str, typer.Argument(help="Rename mapping as 'old:new,old2:new2'")],
     input_file: InputFileArgument = "-",
-    *,
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Rename columns in the dataframe."""
     df = io_operations.read_dataframe(input_file)
@@ -68,7 +79,7 @@ def rename(
         old, new = pair.strip().split(":")
         rename_map[old.strip()] = new.strip()
     result = df.rename(columns=rename_map)
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
 
 
 @app.command()
@@ -80,13 +91,14 @@ def dedup(
             "--subset", "-s", help="Comma-separated list of columns to consider for duplicates"
         ),
     ] = None,
-    *,
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Remove duplicate rows from the dataframe."""
     df = io_operations.read_dataframe(input_file)
     result = df.drop_duplicates(subset=get_columns(df, subset))
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
 
 
 @app.command()
@@ -109,8 +121,9 @@ def merge(
         str | None,
         typer.Option("--right-on", help="Comma-separated right dataframe columns to merge on"),
     ] = None,
-    *,
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Merge two dataframes."""
     left_df = io_operations.read_dataframe(left_file)
@@ -122,14 +135,15 @@ def merge(
         left_on=get_columns(left_df, left_on),
         right_on=get_columns(right_df, right_on),
     )
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
 
 
 @app.command()
 def concat(
     files: Annotated[list[str], typer.Argument(help="Files or glob patterns to concatenate")],
-    *,
-    ctx: typer.Context,
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
 ) -> None:
     """Concatenate multiple dataframes vertically. Supports glob patterns like 'data_*.csv'."""
     matching_files = [
@@ -140,7 +154,7 @@ def concat(
 
     dfs = [io_operations.read_dataframe(f) for f in matching_files]
     result = pd.concat(dfs, ignore_index=True)
-    io_operations.write_dataframe(result, ctx.obj.output)
+    io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
 
 
 @app.command()
