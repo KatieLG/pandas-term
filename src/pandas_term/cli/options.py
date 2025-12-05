@@ -1,9 +1,11 @@
 """Shared CLI options for all commands."""
 
 from dataclasses import dataclass
-from typing import Annotated
+from typing import Annotated, Literal
 
 import typer
+
+OutputFormat = Literal["csv", "json", "tsv", "md"]
 
 
 @dataclass
@@ -11,7 +13,7 @@ class OutputOptions:
     """Options for outputting dataframes."""
 
     file: str | None = None
-    use_json: bool = False
+    format: OutputFormat = "csv"
 
 
 @dataclass
@@ -28,7 +30,12 @@ InputFileArgument = Annotated[
 
 UseJsonOption = Annotated[
     bool,
-    typer.Option("--json", "-j", help="Output as JSON instead of CSV"),
+    typer.Option("--json", "-j", help="Output as JSON (shorthand for --format json)"),
+]
+
+FormatOption = Annotated[
+    OutputFormat | None,
+    typer.Option("--format", "-f", help="Output format: csv, json, tsv, md"),
 ]
 
 OutputOption = Annotated[

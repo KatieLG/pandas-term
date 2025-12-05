@@ -61,3 +61,19 @@ def sample_json_file(tmp_path: Path, sample_df: pd.DataFrame) -> Path:
     json_path = tmp_path / "test.json"
     sample_df.to_json(json_path, orient="records", indent=2)
     return json_path
+
+
+@pytest.fixture
+def sample_tsv_file(tmp_path: Path, sample_df: pd.DataFrame) -> Path:
+    """Create a temporary TSV file for testing."""
+    tsv_path = tmp_path / "test.tsv"
+    sample_df.to_csv(tsv_path, index=False, sep="\t")
+    return tsv_path
+
+
+@pytest.fixture
+def sample_parquet_file(tmp_path: Path, sample_df: pd.DataFrame) -> Path:
+    """Create a temporary Parquet file for testing."""
+    parquet_path = tmp_path / "test.parquet"
+    sample_df.to_parquet(parquet_path, index=False)
+    return parquet_path
