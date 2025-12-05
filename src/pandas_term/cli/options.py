@@ -5,7 +5,7 @@ from typing import Annotated, Literal
 
 import typer
 
-OutputFormat = Literal["csv", "json", "tsv", "md"]
+OutputFormat = Literal["csv", "json", "tsv", "md", "markdown"]
 
 
 @dataclass
@@ -52,5 +52,8 @@ def get_output_options(
         resolved_format = fmt
     else:
         resolved_format = "csv"
+
+    if fmt == "markdown":
+        fmt = "md"
 
     return OutputOptions(file=output, format=resolved_format)

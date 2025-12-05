@@ -143,21 +143,41 @@ pd sort age data.csv --descending | pd head --n 10 | pd select name,age
 
 ### Output Formats
 
-When writing to a file, the format is determined by the file extension:
+#### Stdout
+
+For stdout, use `-f`/`--format` to specify the output format (default: csv):
+
+```bash
+pd head --n 9 data.csv -f json
+pd head --n 9 data.csv -f tsv
+pd head --n 9 data.csv -f md
+pd query "age > 29" data.csv --format json | jq '.[] | .name'
+```
+
+Supported stdout formats: csv, tsv, json, markdown (md)
+
+The `--json`/`-j` flag is shorthand for `--format json`:
+
+```bash
+pd head --n 9 data.csv --json
+```
+
+#### File
+
+When writing to a file with `-o`, the format is determined by the file extension:
 
 ```bash
 pd select name,age data.csv -o output.xlsx
 pd query "age > 30" data.json -o filtered.parquet
 ```
 
-For stdout output (default is CSV), use `--json` to output as JSON:
+Supported file formats are: csv, tsv, xlsx, json, parquet, markdown (md)
+
+For any other extension, use shell redirection:
 
 ```bash
-pd head --n 10 data.csv --json
-pd query "age > 30" data.csv --json | jq '.[] | .name'
+pd select name,age data.csv -f csv > output.txt
 ```
-
-Supported formats: CSV, XLSX, JSON, Parquet (file output) / CSV, JSON (stdout)
 
 ## Development
 
