@@ -1,10 +1,10 @@
-"""Tests for validation module."""
+"""Tests for validators module."""
 
 import pandas as pd
 import pytest
 import typer
 
-from pandas_term.core.validation import get_columns, validate_columns
+from pandas_term.cli.validators import get_columns, validate_columns
 
 
 def test_validate_columns_valid(sample_df: pd.DataFrame) -> None:

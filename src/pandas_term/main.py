@@ -24,7 +24,7 @@ def cli() -> None:
     try:
         app()
     except Exception as e:
-        typer.echo(typer.style(f"Error: {e}", fg=typer.colors.RED), err=True)
+        typer.echo(typer.style(f"Internal Error: {e}", fg=typer.colors.RED), err=True)
         sys.exit(1)
 
 

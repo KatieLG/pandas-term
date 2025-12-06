@@ -1,8 +1,9 @@
 """CLI argument and option validators."""
 
 from pathlib import Path
-from typing import Literal, get_args
+from typing import Literal, get_args, overload
 
+import pandas as pd
 import typer
 
 OutputFormat = Literal["csv", "json", "tsv", "md", "markdown", "xlsx", "xls"]
@@ -48,3 +49,28 @@ def valid_output_file(value: str | None) -> str | None:
     if ext not in VALID_EXTENSIONS:
         raise typer.BadParameter(f"Unsupported extension '{ext}'. {VALID_MSG}")
     return value
+
+
+def _parse_columns(columns: str) -> list[str]:
+    """Parse a comma-separated string of column names into a list."""
+    return [col.strip() for col in columns.split(",")]
+
+
+def validate_columns(df: pd.DataFrame, columns: list[str]) -> None:
+    """Validate that all columns exist in the dataframe."""
+    missing = [col for col in columns if col not in df.columns]
+    if missing:
+        raise typer.BadParameter(f"Columns not found: {', '.join(missing)}")
+
+
+@overload
+def get_columns(df: pd.DataFrame, columns: str) -> list[str]: ...
+@overload
+def get_columns(df: pd.DataFrame, columns: None) -> None: ...
+def get_columns(df: pd.DataFrame, columns: str | None) -> list[str] | None:
+    """Parse comma-separated columns and validate they exist in the dataframe."""
+    if columns is None:
+        return None
+    cols = _parse_columns(columns)
+    validate_columns(df, cols)
+    return cols

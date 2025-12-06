@@ -11,9 +11,8 @@ from pandas_term.cli.options import (
     UseJsonOption,
     get_output_options,
 )
-from pandas_term.cli.validators import positive_int
+from pandas_term.cli.validators import get_columns, positive_int
 from pandas_term.core import io_operations
-from pandas_term.core.validation import get_columns
 
 app = typer.Typer(add_completion=False)
 
