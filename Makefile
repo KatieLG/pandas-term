@@ -1,3 +1,5 @@
+bump := "patch"
+
 lint:
 	uv run ruff check
 	uv run ty check
@@ -14,3 +16,11 @@ coverage:
 	coverage report
 
 check: format lint test
+
+release:
+	uv version --bump $(bump)
+	git add pyproject.toml
+	git add uv.lock
+	git commit -m "bump: v$$(uv version --short)"
+	git tag "v$$(uv version --short)"
+	@echo "Run 'git push --follow-tags' to publish"
