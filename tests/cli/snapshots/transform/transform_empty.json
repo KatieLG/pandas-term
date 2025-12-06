@@ -1,0 +1,15 @@
+{
+  "select_single": [],
+  "select_multiple": [],
+  "drop_single": [],
+  "drop_multiple": [],
+  "sort_single_asc": [],
+  "sort_single_desc": [],
+  "sort_multiple_asc": [],
+  "sort_multiple_desc": [],
+  "rename_single": [],
+  "rename_multiple": [],
+  "dedup_all": [],
+  "dedup_subset_single": [],
+  "dedup_subset_multiple": []
+}

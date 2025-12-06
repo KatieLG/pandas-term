@@ -1,0 +1,273 @@
+{
+  "query_simple": [
+    {
+      "name": "Charlie",
+      "age": 35.0,
+      "city": "Chicago",
+      "salary": 70000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": null,
+      "age": 40.0,
+      "city": "LA",
+      "salary": null,
+      "department": "Sales"
+    }
+  ],
+  "query_complex": [],
+  "head_default": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Bob",
+      "age": 30.0,
+      "city": null,
+      "salary": 60000.0,
+      "department": "Sales"
+    },
+    {
+      "name": "Charlie",
+      "age": 35.0,
+      "city": "Chicago",
+      "salary": 70000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "David",
+      "age": null,
+      "city": "NYC",
+      "salary": 80000.0,
+      "department": "Sales"
+    },
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": null,
+      "age": 40.0,
+      "city": "LA",
+      "salary": null,
+      "department": "Sales"
+    }
+  ],
+  "head_n3": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Bob",
+      "age": 30.0,
+      "city": null,
+      "salary": 60000.0,
+      "department": "Sales"
+    },
+    {
+      "name": "Charlie",
+      "age": 35.0,
+      "city": "Chicago",
+      "salary": 70000.0,
+      "department": "Engineering"
+    }
+  ],
+  "tail_default": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Bob",
+      "age": 30.0,
+      "city": null,
+      "salary": 60000.0,
+      "department": "Sales"
+    },
+    {
+      "name": "Charlie",
+      "age": 35.0,
+      "city": "Chicago",
+      "salary": 70000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "David",
+      "age": null,
+      "city": "NYC",
+      "salary": 80000.0,
+      "department": "Sales"
+    },
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": null,
+      "age": 40.0,
+      "city": "LA",
+      "salary": null,
+      "department": "Sales"
+    }
+  ],
+  "tail_n2": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": null,
+      "age": 40.0,
+      "city": "LA",
+      "salary": null,
+      "department": "Sales"
+    }
+  ],
+  "dropna_any": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Charlie",
+      "age": 35.0,
+      "city": "Chicago",
+      "salary": 70000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    }
+  ],
+  "dropna_subset_age": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Bob",
+      "age": 30.0,
+      "city": null,
+      "salary": 60000.0,
+      "department": "Sales"
+    },
+    {
+      "name": "Charlie",
+      "age": 35.0,
+      "city": "Chicago",
+      "salary": 70000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": null,
+      "age": 40.0,
+      "city": "LA",
+      "salary": null,
+      "department": "Sales"
+    }
+  ],
+  "dropna_subset_city": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Charlie",
+      "age": 35.0,
+      "city": "Chicago",
+      "salary": 70000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "David",
+      "age": null,
+      "city": "NYC",
+      "salary": 80000.0,
+      "department": "Sales"
+    },
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": null,
+      "age": 40.0,
+      "city": "LA",
+      "salary": null,
+      "department": "Sales"
+    }
+  ],
+  "dropna_subset_multiple": [
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Charlie",
+      "age": 35.0,
+      "city": "Chicago",
+      "salary": 70000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": "Alice",
+      "age": 25.0,
+      "city": "NYC",
+      "salary": 50000.0,
+      "department": "Engineering"
+    },
+    {
+      "name": null,
+      "age": 40.0,
+      "city": "LA",
+      "salary": null,
+      "department": "Sales"
+    }
+  ]
+}

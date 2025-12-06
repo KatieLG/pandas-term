@@ -5,12 +5,16 @@
       "salary": 5.0
     },
     {
-      "age": 35.0,
-      "salary": 70000.0
+      "age": 31.0,
+      "salary": 62000.0
     },
     {
-      "age": 7.9056941504,
-      "salary": 15811.3883008419
+      "age": 6.5192024052,
+      "salary": 13038.4048104053
+    },
+    {
+      "age": 25.0,
+      "salary": 50000.0
     },
     {
       "age": 25.0,
@@ -27,15 +31,11 @@
     {
       "age": 40.0,
       "salary": 80000.0
-    },
-    {
-      "age": 45.0,
-      "salary": 90000.0
     }
   ],
-  "unique_city": "NYC\nLA\nChicago\n",
+  "unique_city": "NYC\nnan\nChicago\nLA\n",
   "unique_department": "Engineering\nSales\n",
-  "shape": "5 rows x 5 columns\n",
+  "shape": "6 rows x 5 columns\n",
   "columns": "name\nage\ncity\nsalary\ndepartment\n",
-  "dtypes": "name: object\nage: int64\ncity: object\nsalary: int64\ndepartment: object\n"
+  "dtypes": "name: object\nage: float64\ncity: object\nsalary: float64\ndepartment: object\n"
 }

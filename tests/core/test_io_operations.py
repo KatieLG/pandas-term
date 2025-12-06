@@ -31,18 +31,16 @@ def test_read_formats(
     writer(sample_df, file_path)
 
     df = io_operations.read_dataframe(str(file_path))
-    assert len(df) == 5
+    assert len(df) == len(sample_df)
     assert "name" in df.columns
 
 
 def test_read_nonexistent_file() -> None:
-    """Test reading a file that doesn't exist."""
     with pytest.raises(FileNotFoundError):
         io_operations.read_dataframe("/nonexistent/file.csv")
 
 
 def test_read_unsupported_format(tmp_path: Path) -> None:
-    """Test reading an unsupported file format."""
     txt_file = tmp_path / "test.txt"
     txt_file.write_text("some text")
 
@@ -71,12 +69,12 @@ def test_write_formats(
     io_operations.write_dataframe(sample_df, OutputOptions(file=str(output_path)))
 
     df = reader(output_path)
-    assert len(df) == 5
+    assert len(df) == len(sample_df)
     assert "name" in df.columns
 
 
 def test_write_markdown(tmp_path: Path, sample_df: pd.DataFrame) -> None:
-    """Test writing a Markdown file."""
+    """Test writing markdown which is a write only format"""
     output_path = tmp_path / "output.md"
     io_operations.write_dataframe(sample_df, OutputOptions(file=str(output_path)))
 
@@ -86,7 +84,6 @@ def test_write_markdown(tmp_path: Path, sample_df: pd.DataFrame) -> None:
 
 
 def test_write_unsupported_format(tmp_path: Path, sample_df: pd.DataFrame) -> None:
-    """Test writing to an unsupported file format."""
     output_path = tmp_path / "output.txt"
 
     with pytest.raises(ValueError, match="Unsupported file extension"):

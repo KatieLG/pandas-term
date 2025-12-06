@@ -1,16 +1,14 @@
-"""Snapshot tests for aggregate CLI commands."""
-
 import json
 from pathlib import Path
 
-import pandas as pd
+import pytest
 from pytest_snapshot.plugin import Snapshot
 from typer.testing import CliRunner
 
 from pandas_term.main import app
+from tests.conftest import InputMode, get_input_args
 
 runner = CliRunner()
-
 
 AGGREGATE_COMMANDS = {
     "value_counts_city": ["value-counts", "city"],
@@ -26,16 +24,20 @@ AGGREGATE_COMMANDS = {
 }
 
 
-def test_aggregate_commands(tmp_path: Path, sample_df: pd.DataFrame, snapshot: Snapshot) -> None:
+@pytest.mark.parametrize("csv_file", ["sample_csv_file", "empty_csv_file"], indirect=True)
+@pytest.mark.parametrize("input_mode", ["file_arg", "stdin_explicit", "stdin_implicit"])
+def test_aggregate_commands(
+    csv_file: Path,
+    input_mode: InputMode,
+    snapshot: Snapshot,
+) -> None:
     snapshot.snapshot_dir = "tests/cli/snapshots/aggregate"
-
-    csv_file = tmp_path / "test.csv"
-    sample_df.to_csv(csv_file, index=False)
+    input_args, stdin = get_input_args(csv_file, input_mode)
 
     results = {}
-    for test_name, commands in AGGREGATE_COMMANDS.items():
-        result = runner.invoke(app, [*commands, str(csv_file), "--json"])
-        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+    for test_name, args in AGGREGATE_COMMANDS.items():
+        result = runner.invoke(app, [*args, *input_args, "--json"], input=stdin)
+        assert result.exit_code == 0, f"{test_name} failed: {result.stdout}"
         results[test_name] = json.loads(result.stdout)
 
-    snapshot.assert_match(json.dumps(results, indent=2), "aggregate_commands.json")
+    snapshot.assert_match(json.dumps(results, indent=2), f"aggregate_{csv_file.stem}.json")

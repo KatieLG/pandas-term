@@ -1,40 +1,24 @@
 """Test configuration and fixtures."""
 
 from pathlib import Path
+from typing import Literal, TypeAlias
 
 import pandas as pd
 import pytest
 
+InputMode: TypeAlias = Literal["file_arg", "stdin_explicit", "stdin_implicit"]
+
 
 @pytest.fixture
 def sample_df() -> pd.DataFrame:
-    """Sample dataframe for testing."""
+    """Sample dataframe with nulls and duplicates for comprehensive testing."""
     return pd.DataFrame(
         {
-            "name": ["Alice", "Bob", "Charlie", "David", "Eve"],
-            "age": [25, 30, 35, 40, 45],
-            "city": ["NYC", "LA", "Chicago", "NYC", "LA"],
-            "salary": [50000, 60000, 70000, 80000, 90000],
-            "department": [
-                "Engineering",
-                "Sales",
-                "Engineering",
-                "Sales",
-                "Engineering",
-            ],
-        }
-    )
-
-
-@pytest.fixture
-def sample_df_with_nulls() -> pd.DataFrame:
-    """Sample dataframe with null values for testing."""
-    return pd.DataFrame(
-        {
-            "name": ["Alice", "Bob", None, "David", "Eve"],
-            "age": [25, 30, 35, None, 45],
-            "city": ["NYC", None, "Chicago", "NYC", "LA"],
-            "salary": [50000, 60000, 70000, 80000, None],
+            "name": ["Alice", "Bob", "Charlie", "David", "Alice", None],
+            "age": [25, 30, 35, None, 25, 40],
+            "city": ["NYC", None, "Chicago", "NYC", "NYC", "LA"],
+            "salary": [50000, 60000, 70000, 80000, 50000, None],
+            "department": ["Engineering", "Sales", "Engineering", "Sales", "Engineering", "Sales"],
         }
     )
 
@@ -91,3 +75,20 @@ def empty_csv_file(tmp_path: Path, empty_df: pd.DataFrame) -> Path:
     csv_path = tmp_path / "empty.csv"
     empty_df.to_csv(csv_path, index=False)
     return csv_path
+
+
+@pytest.fixture
+def csv_file(request: pytest.FixtureRequest) -> Path:
+    """Indirect fixture that resolves to the requested CSV file fixture."""
+    return request.getfixturevalue(request.param)
+
+
+def get_input_args(csv_file: Path, input_mode: InputMode) -> tuple[list[str], str | None]:
+    """Return (cli_args, stdin_data) for the given input mode."""
+    if input_mode == "file_arg":
+        return [str(csv_file)], None
+    if input_mode == "stdin_explicit":
+        return ["-"], csv_file.read_text()
+    if input_mode == "stdin_implicit":
+        return [], csv_file.read_text()
+    raise ValueError(f"Unknown input mode: {input_mode}")

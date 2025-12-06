@@ -1,4 +1,4 @@
-"""Service for reading and writing dataframes from various sources."""
+"""Functions for reading and writing dataframes with various file types."""
 
 import sys
 from pathlib import Path

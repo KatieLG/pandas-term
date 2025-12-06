@@ -2,68 +2,68 @@
   "concat_two": [
     {
       "name": "Alice",
-      "age": 25,
+      "age": 25.0,
       "city": "NYC",
-      "salary": 50000,
+      "salary": 50000.0,
       "department": "Engineering"
     },
     {
       "name": "Bob",
-      "age": 30,
-      "city": "LA",
-      "salary": 60000,
+      "age": 30.0,
+      "city": null,
+      "salary": 60000.0,
       "department": "Sales"
     },
     {
       "name": "Charlie",
-      "age": 35,
+      "age": 35.0,
       "city": "Chicago",
-      "salary": 70000,
+      "salary": 70000.0,
       "department": "Engineering"
     },
     {
       "name": "David",
-      "age": 40,
+      "age": null,
       "city": "NYC",
-      "salary": 80000,
+      "salary": 80000.0,
       "department": "Sales"
     }
   ],
   "concat_three": [
     {
       "name": "Alice",
-      "age": 25,
+      "age": 25.0,
       "city": "NYC",
-      "salary": 50000,
+      "salary": 50000.0,
       "department": "Engineering"
     },
     {
       "name": "Bob",
-      "age": 30,
-      "city": "LA",
-      "salary": 60000,
+      "age": 30.0,
+      "city": null,
+      "salary": 60000.0,
       "department": "Sales"
     },
     {
       "name": "Charlie",
-      "age": 35,
+      "age": 35.0,
       "city": "Chicago",
-      "salary": 70000,
+      "salary": 70000.0,
       "department": "Engineering"
     },
     {
       "name": "David",
-      "age": 40,
+      "age": null,
       "city": "NYC",
-      "salary": 80000,
+      "salary": 80000.0,
       "department": "Sales"
     },
     {
-      "name": "Eve",
-      "age": 45,
+      "name": null,
+      "age": 40.0,
       "city": "LA",
-      "salary": 90000,
-      "department": "Engineering"
+      "salary": null,
+      "department": "Sales"
     }
   ]
 }

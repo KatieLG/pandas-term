@@ -1,0 +1,37 @@
+{
+  "describe": [
+    {
+      "name": 0,
+      "age": 0,
+      "city": 0,
+      "salary": 0,
+      "department": 0
+    },
+    {
+      "name": 0,
+      "age": 0,
+      "city": 0,
+      "salary": 0,
+      "department": 0
+    },
+    {
+      "name": null,
+      "age": null,
+      "city": null,
+      "salary": null,
+      "department": null
+    },
+    {
+      "name": null,
+      "age": null,
+      "city": null,
+      "salary": null,
+      "department": null
+    }
+  ],
+  "unique_city": "",
+  "unique_department": "",
+  "shape": "0 rows x 5 columns\n",
+  "columns": "name\nage\ncity\nsalary\ndepartment\n",
+  "dtypes": "name: object\nage: object\ncity: object\nsalary: object\ndepartment: object\n"
+}

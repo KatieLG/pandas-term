@@ -1,0 +1,12 @@
+{
+  "value_counts_city": [],
+  "value_counts_department": [],
+  "value_counts_normalized": [],
+  "value_counts_multi_col": [],
+  "value_counts_multi_col_normalized": [],
+  "groupby_single_col_sum": [],
+  "groupby_single_col_mean": [],
+  "groupby_single_col_count": [],
+  "groupby_multi_col": [],
+  "groupby_multi_agg_col": []
+}
