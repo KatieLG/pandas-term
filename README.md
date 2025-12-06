@@ -22,8 +22,7 @@ uv tool install pandas-term
 
 All commands accept an input file path (or `-` for stdin) and support `-o/--output` for file output (default: stdout).
 
-<details open>
-<summary><strong>Command Reference</strong></summary>
+### Command Reference
 
 | Command           | Pandas Equivalent      | Description                |
 | ----------------- | ---------------------- | -------------------------- |
@@ -47,27 +46,20 @@ All commands accept an input file path (or `-` for stdin) and support `-o/--outp
 | `pd value-counts` | `df.value_counts()`    | Count unique values        |
 | `pd groupby`      | `df.groupby().agg()`   | Group by and aggregate     |
 
-</details>
-
-<details open>
-<summary><strong>Transform</strong></summary>
+### Transform
 
 ```bash
 # Select columns
 pd select name,age data.csv
 
-# Drop columns
+# Drop, sort & rename
 pd drop unwanted_column data.csv
-
-# Sort by columns
 pd sort age data.csv --descending
+pd rename "name:full_name,age:years" data.csv
 
 # Remove duplicates
 pd dedup data.csv
 pd dedup --subset name,email data.csv
-
-# Rename columns
-pd rename "name:full_name,age:years" data.csv
 
 # Merge two dataframes
 pd merge left.csv right.csv --on user_id --how inner
@@ -80,10 +72,7 @@ pd concat "data_*.csv"
 pd batch data.csv --sizes 100 -o "batch_{}.csv"
 ```
 
-</details>
-
-<details open>
-<summary><strong>Filter</strong></summary>
+### Filter
 
 ```bash
 # Query expression
@@ -98,10 +87,7 @@ pd dropna data.csv
 pd dropna --subset "name,age" data.csv
 ```
 
-</details>
-
-<details open>
-<summary><strong>Stats</strong></summary>
+### Stats
 
 ```bash
 pd describe data.csv
@@ -111,10 +97,7 @@ pd columns data.csv
 pd dtypes data.csv
 ```
 
-</details>
-
-<details open>
-<summary><strong>Aggregate</strong></summary>
+### Aggregate
 
 ```bash
 # Count unique values
@@ -125,8 +108,6 @@ pd value-counts city,department data.csv --normalize
 pd groupby department data.csv --col salary --agg sum
 pd groupby "city,department" data.csv --col salary,age --agg mean
 ```
-
-</details>
 
 ### Piping
 
