@@ -48,12 +48,11 @@ def get_output_options(
 
     if use_json:
         resolved_format: OutputFormat = "json"
+    elif fmt == "markdown":
+        resolved_format = "md"
     elif fmt is not None:
         resolved_format = fmt
     else:
         resolved_format = "csv"
-
-    if fmt == "markdown":
-        fmt = "md"
 
     return OutputOptions(file=output, format=resolved_format)
