@@ -3,73 +3,80 @@
     {
       "name": "Alice",
       "age": 25.0,
-      "city": "NYC"
-    },
-    {
-      "name": "Eve",
-      "age": 45.0,
-      "city": "LA"
+      "city": "NYC",
+      "salary": 50000.0
     }
   ],
   "dropna_subset_age": [
     {
       "name": "Alice",
       "age": 25.0,
-      "city": "NYC"
+      "city": "NYC",
+      "salary": 50000.0
     },
     {
       "name": "Bob",
       "age": 30.0,
-      "city": null
+      "city": null,
+      "salary": 60000.0
     },
     {
       "name": null,
       "age": 35.0,
-      "city": "Chicago"
+      "city": "Chicago",
+      "salary": 70000.0
     },
     {
       "name": "Eve",
       "age": 45.0,
-      "city": "LA"
+      "city": "LA",
+      "salary": null
     }
   ],
   "dropna_subset_city": [
     {
       "name": "Alice",
       "age": 25.0,
-      "city": "NYC"
+      "city": "NYC",
+      "salary": 50000.0
     },
     {
       "name": null,
       "age": 35.0,
-      "city": "Chicago"
+      "city": "Chicago",
+      "salary": 70000.0
     },
     {
       "name": "David",
       "age": null,
-      "city": "NYC"
+      "city": "NYC",
+      "salary": 80000.0
     },
     {
       "name": "Eve",
       "age": 45.0,
-      "city": "LA"
+      "city": "LA",
+      "salary": null
     }
   ],
   "dropna_subset_multiple": [
     {
       "name": "Alice",
       "age": 25.0,
-      "city": "NYC"
+      "city": "NYC",
+      "salary": 50000.0
     },
     {
       "name": null,
       "age": 35.0,
-      "city": "Chicago"
+      "city": "Chicago",
+      "salary": 70000.0
     },
     {
       "name": "Eve",
       "age": 45.0,
-      "city": "LA"
+      "city": "LA",
+      "salary": null
     }
   ]
 }

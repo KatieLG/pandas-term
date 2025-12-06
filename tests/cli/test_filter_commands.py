@@ -4,38 +4,12 @@ import json
 from pathlib import Path
 
 import pandas as pd
-import pytest
 from pytest_snapshot.plugin import Snapshot
 from typer.testing import CliRunner
 
 from pandas_term.main import app
 
 runner = CliRunner()
-
-
-@pytest.fixture
-def test_data() -> pd.DataFrame:
-    """Standard test dataset for filter command tests."""
-    return pd.DataFrame(
-        {
-            "name": ["Alice", "Bob", "Charlie", "David", "Eve"],
-            "age": [25, 30, 35, 40, 45],
-            "city": ["NYC", "LA", "Chicago", "NYC", "LA"],
-            "salary": [50000, 60000, 70000, 80000, 90000],
-        }
-    )
-
-
-@pytest.fixture
-def test_data_with_nulls() -> pd.DataFrame:
-    """Test dataset with null values for dropna tests."""
-    return pd.DataFrame(
-        {
-            "name": ["Alice", "Bob", None, "David", "Eve"],
-            "age": [25, 30, 35, None, 45],
-            "city": ["NYC", None, "Chicago", "NYC", "LA"],
-        }
-    )
 
 
 FILTER_COMMANDS = {
@@ -47,6 +21,12 @@ FILTER_COMMANDS = {
     "tail_n2": ["tail", "--n", "2"],
 }
 
+EMPTY_FILTER_COMMANDS = {
+    "empty_query": ["query", "age > 30"],
+    "empty_head": ["head"],
+    "empty_tail": ["tail"],
+}
+
 
 DROPNA_COMMANDS = {
     "dropna_any": ["dropna"],
@@ -56,11 +36,11 @@ DROPNA_COMMANDS = {
 }
 
 
-def test_filter_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
+def test_filter_commands(tmp_path: Path, sample_df: pd.DataFrame, snapshot: Snapshot) -> None:
     snapshot.snapshot_dir = "tests/cli/snapshots/filter"
 
     csv_file = tmp_path / "test.csv"
-    test_data.to_csv(csv_file, index=False)
+    sample_df.to_csv(csv_file, index=False)
 
     results = {}
     for test_name, commands in FILTER_COMMANDS.items():
@@ -72,12 +52,12 @@ def test_filter_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snap
 
 
 def test_dropna_commands(
-    tmp_path: Path, test_data_with_nulls: pd.DataFrame, snapshot: Snapshot
+    tmp_path: Path, sample_df_with_nulls: pd.DataFrame, snapshot: Snapshot
 ) -> None:
     snapshot.snapshot_dir = "tests/cli/snapshots/filter"
 
     csv_file = tmp_path / "test_nulls.csv"
-    test_data_with_nulls.to_csv(csv_file, index=False)
+    sample_df_with_nulls.to_csv(csv_file, index=False)
 
     results = {}
     for test_name, commands in DROPNA_COMMANDS.items():
@@ -86,3 +66,15 @@ def test_dropna_commands(
         results[test_name] = json.loads(result.stdout)
 
     snapshot.assert_match(json.dumps(results, indent=2), "dropna_commands.json")
+
+
+def test_empty_filter_commands(empty_csv_file: Path, snapshot: Snapshot) -> None:
+    snapshot.snapshot_dir = "tests/cli/snapshots/filter"
+
+    results = {}
+    for test_name, commands in EMPTY_FILTER_COMMANDS.items():
+        result = runner.invoke(app, [*commands, str(empty_csv_file), "--json"])
+        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+        results[test_name] = json.loads(result.stdout)
+
+    snapshot.assert_match(json.dumps(results, indent=2), "empty_filter_commands.json")

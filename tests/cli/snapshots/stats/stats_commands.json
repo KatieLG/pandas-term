@@ -36,5 +36,6 @@
   "unique_city": "NYC\nLA\nChicago\n",
   "unique_department": "Engineering\nSales\n",
   "shape": "5 rows x 5 columns\n",
-  "columns": "name\nage\ncity\nsalary\ndepartment\n"
+  "columns": "name\nage\ncity\nsalary\ndepartment\n",
+  "dtypes": "name: object\nage: int64\ncity: object\nsalary: int64\ndepartment: object\n"
 }

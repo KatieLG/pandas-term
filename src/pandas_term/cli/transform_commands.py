@@ -14,7 +14,12 @@ from pandas_term.cli.options import (
     UseJsonOption,
     get_output_options,
 )
-from pandas_term.cli.validators import get_columns, positive_int_list
+from pandas_term.cli.validators import (
+    get_columns,
+    positive_int_list,
+    valid_batch_pattern,
+    valid_rename_mapping,
+)
 from pandas_term.core import io_operations, transforms
 
 app = typer.Typer(add_completion=False)
@@ -66,7 +71,10 @@ def sort(
 
 @app.command()
 def rename(
-    mapping: Annotated[str, typer.Argument(help="Rename mapping as 'old:new,old2:new2'")],
+    mapping: Annotated[
+        str,
+        typer.Argument(help="Rename mapping as 'old:new,old2:new2'", callback=valid_rename_mapping),
+    ],
     input_file: InputFileArgument = "-",
     use_json: UseJsonOption = False,
     fmt: FormatOption = None,
@@ -171,7 +179,12 @@ def batch(
     ] = "100",
     output_pattern: Annotated[
         str,
-        typer.Option("--output", "-o", help="Output file pattern (e.g., 'batch_{}.csv')"),
+        typer.Option(
+            "--output",
+            "-o",
+            help="Output file pattern (e.g., 'batch_{}.csv')",
+            callback=valid_batch_pattern,
+        ),
     ] = "batch_{}.csv",
 ) -> None:
     """Split dataframe into batches and write to separate files."""

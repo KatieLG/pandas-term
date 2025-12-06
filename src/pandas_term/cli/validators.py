@@ -42,12 +42,40 @@ def valid_output_file(value: str | None) -> str | None:
     """Validate output file has supported extension."""
     if value is None:
         return None
-    parts = value.split(".")
-    ext = f".{parts[-1].lower()}"
-    if len(parts) < 2:
+    path = Path(value)
+    ext = path.suffix.lower()
+    if not ext:
         raise typer.BadParameter(f"Output file must have an extension. {VALID_MSG}")
     if ext not in VALID_EXTENSIONS:
         raise typer.BadParameter(f"Unsupported extension '{ext}'. {VALID_MSG}")
+    return value
+
+
+def valid_batch_pattern(value: str) -> str:
+    """Validate batch output pattern has exactly one {} placeholder and a valid extension."""
+    try:
+        example_file = value.format(0)
+        # Validate file extension
+        valid_output_file(example_file)
+    except (IndexError, KeyError) as e:
+        raise typer.BadParameter(
+            f"Invalid output pattern '{value}'. Must contain exactly one {{}} placeholder"
+        ) from e
+    return value
+
+
+def valid_rename_mapping(value: str) -> str:
+    """Validate rename mapping format is 'old:new,old2:new2'."""
+    for pair in value.split(","):
+        parts = pair.strip().split(":")
+        if len(parts) != 2:
+            raise typer.BadParameter(
+                f"Invalid mapping '{pair.strip()}'. Expected format: 'old:new,old2:new2'"
+            )
+        if not parts[0].strip() or not parts[1].strip():
+            raise typer.BadParameter(
+                f"Invalid mapping '{pair.strip()}'. Column names cannot be empty"
+            )
     return value
 
 

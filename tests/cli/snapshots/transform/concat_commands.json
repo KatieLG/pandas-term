@@ -4,25 +4,29 @@
       "name": "Alice",
       "age": 25,
       "city": "NYC",
-      "salary": 50000
+      "salary": 50000,
+      "department": "Engineering"
     },
     {
       "name": "Bob",
       "age": 30,
       "city": "LA",
-      "salary": 60000
+      "salary": 60000,
+      "department": "Sales"
     },
     {
       "name": "Charlie",
       "age": 35,
       "city": "Chicago",
-      "salary": 70000
+      "salary": 70000,
+      "department": "Engineering"
     },
     {
       "name": "David",
       "age": 40,
       "city": "NYC",
-      "salary": 80000
+      "salary": 80000,
+      "department": "Sales"
     }
   ],
   "concat_three": [
@@ -30,31 +34,36 @@
       "name": "Alice",
       "age": 25,
       "city": "NYC",
-      "salary": 50000
+      "salary": 50000,
+      "department": "Engineering"
     },
     {
       "name": "Bob",
       "age": 30,
       "city": "LA",
-      "salary": 60000
+      "salary": 60000,
+      "department": "Sales"
     },
     {
       "name": "Charlie",
       "age": 35,
       "city": "Chicago",
-      "salary": 70000
+      "salary": 70000,
+      "department": "Engineering"
     },
     {
       "name": "David",
       "age": 40,
       "city": "NYC",
-      "salary": 80000
+      "salary": 80000,
+      "department": "Sales"
     },
     {
       "name": "Eve",
       "age": 45,
       "city": "LA",
-      "salary": 90000
+      "salary": 90000,
+      "department": "Engineering"
     }
   ]
 }

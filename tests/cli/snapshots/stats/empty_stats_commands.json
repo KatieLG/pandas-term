@@ -1,0 +1,5 @@
+{
+  "empty_shape": "0 rows x 5 columns\n",
+  "empty_columns": "name\nage\ncity\nsalary\ndepartment\n",
+  "empty_dtypes": "name: object\nage: object\ncity: object\nsalary: object\ndepartment: object\n"
+}

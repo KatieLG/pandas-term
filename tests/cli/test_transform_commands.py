@@ -14,19 +14,6 @@ runner = CliRunner()
 
 
 @pytest.fixture
-def test_data() -> pd.DataFrame:
-    """Standard test dataset for transform command tests."""
-    return pd.DataFrame(
-        {
-            "name": ["Alice", "Bob", "Charlie", "David", "Eve"],
-            "age": [25, 30, 35, 40, 45],
-            "city": ["NYC", "LA", "Chicago", "NYC", "LA"],
-            "salary": [50000, 60000, 70000, 80000, 90000],
-        }
-    )
-
-
-@pytest.fixture
 def test_data_with_duplicates() -> pd.DataFrame:
     """Test dataset with duplicate rows."""
     return pd.DataFrame(
@@ -91,12 +78,19 @@ MERGE_COMMANDS = {
     "merge_left_on_right_on": ["--left-on", "id", "--right-on", "id", "--how", "inner"],
 }
 
+EMPTY_TRANSFORM_COMMANDS = {
+    "empty_select": ["select", "name"],
+    "empty_drop": ["drop", "age"],
+    "empty_sort": ["sort", "name"],
+    "empty_dedup": ["dedup"],
+}
 
-def test_transform_commands(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
+
+def test_transform_commands(tmp_path: Path, sample_df: pd.DataFrame, snapshot: Snapshot) -> None:
     snapshot.snapshot_dir = "tests/cli/snapshots/transform"
 
     csv_file = tmp_path / "test.csv"
-    test_data.to_csv(csv_file, index=False)
+    sample_df.to_csv(csv_file, index=False)
 
     results = {}
     for test_name, command in TRANSFORM_COMMANDS.items():
@@ -143,11 +137,11 @@ def test_merge_commands(
     snapshot.assert_match(json.dumps(results, indent=2), "merge_commands.json")
 
 
-def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
+def test_batch_command(tmp_path: Path, sample_df: pd.DataFrame, snapshot: Snapshot) -> None:
     snapshot.snapshot_dir = "tests/cli/snapshots/transform"
 
     csv_file = tmp_path / "test.csv"
-    test_data.to_csv(csv_file, index=False)
+    sample_df.to_csv(csv_file, index=False)
 
     output_pattern = str(tmp_path / "batch_{}.json")
     result = runner.invoke(app, ["batch", str(csv_file), "--sizes", "2", "-o", output_pattern])
@@ -175,7 +169,7 @@ def test_batch_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapsh
     snapshot.assert_match(json.dumps(results, indent=2), "batch_commands.json")
 
 
-def test_concat_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snapshot) -> None:
+def test_concat_command(tmp_path: Path, sample_df: pd.DataFrame, snapshot: Snapshot) -> None:
     """Test concat command with varying numbers of files."""
     snapshot.snapshot_dir = "tests/cli/snapshots/transform"
 
@@ -183,9 +177,9 @@ def test_concat_command(tmp_path: Path, test_data: pd.DataFrame, snapshot: Snaps
     file1 = tmp_path / "part1.csv"
     file2 = tmp_path / "part2.csv"
     file3 = tmp_path / "part3.csv"
-    test_data.head(2).to_csv(file1, index=False)
-    test_data.iloc[2:4].to_csv(file2, index=False)
-    test_data.tail(1).to_csv(file3, index=False)
+    sample_df.head(2).to_csv(file1, index=False)
+    sample_df.iloc[2:4].to_csv(file2, index=False)
+    sample_df.tail(1).to_csv(file3, index=False)
 
     results = {}
 
@@ -218,3 +212,16 @@ def test_concat_glob(tmp_path: Path, snapshot: Snapshot) -> None:
 
     results = {"concat_glob": json.loads(result.stdout)}
     snapshot.assert_match(json.dumps(results, indent=2), "concat_glob_commands.json")
+
+
+def test_empty_transform_commands(empty_csv_file: Path, snapshot: Snapshot) -> None:
+    """Test transform commands on empty dataframe."""
+    snapshot.snapshot_dir = "tests/cli/snapshots/transform"
+
+    results = {}
+    for test_name, command in EMPTY_TRANSFORM_COMMANDS.items():
+        result = runner.invoke(app, [*command, str(empty_csv_file), "--json"])
+        assert result.exit_code == 0, f"{test_name} failed: {result.stderr}"
+        results[test_name] = json.loads(result.stdout)
+
+    snapshot.assert_match(json.dumps(results, indent=2), "empty_transform_commands.json")

@@ -77,3 +77,17 @@ def sample_parquet_file(tmp_path: Path, sample_df: pd.DataFrame) -> Path:
     parquet_path = tmp_path / "test.parquet"
     sample_df.to_parquet(parquet_path, index=False)
     return parquet_path
+
+
+@pytest.fixture
+def empty_df() -> pd.DataFrame:
+    """Empty dataframe with columns but no rows."""
+    return pd.DataFrame({"name": [], "age": [], "city": [], "salary": [], "department": []})
+
+
+@pytest.fixture
+def empty_csv_file(tmp_path: Path, empty_df: pd.DataFrame) -> Path:
+    """Create a temporary empty CSV file for testing."""
+    csv_path = tmp_path / "empty.csv"
+    empty_df.to_csv(csv_path, index=False)
+    return csv_path
