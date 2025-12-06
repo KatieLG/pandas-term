@@ -1,11 +1,11 @@
 """Shared CLI options for all commands."""
 
 from dataclasses import dataclass
-from typing import Annotated, Literal
+from typing import Annotated
 
 import typer
 
-OutputFormat = Literal["csv", "json", "tsv", "md", "markdown"]
+from pandas_term.cli.validators import OutputFormat, valid_input_file, valid_output_file
 
 
 @dataclass
@@ -18,7 +18,7 @@ class OutputOptions:
 
 InputFileArgument = Annotated[
     str,
-    typer.Argument(help="Input file path (default: stdin)"),
+    typer.Argument(help="Input file path (default: stdin)", callback=valid_input_file),
 ]
 
 UseJsonOption = Annotated[
@@ -33,7 +33,9 @@ FormatOption = Annotated[
 
 OutputFileOption = Annotated[
     str | None,
-    typer.Option("--output", "-o", help="Output file path (default: stdout)"),
+    typer.Option(
+        "--output", "-o", help="Output file path (default: stdout)", callback=valid_output_file
+    ),
 ]
 
 

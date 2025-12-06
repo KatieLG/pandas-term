@@ -14,6 +14,7 @@ from pandas_term.cli.options import (
     UseJsonOption,
     get_output_options,
 )
+from pandas_term.cli.validators import positive_int_list
 from pandas_term.core import io_operations, transforms
 from pandas_term.core.validation import get_columns
 
@@ -162,7 +163,12 @@ def batch(
     input_file: InputFileArgument = "-",
     sizes: Annotated[
         str,
-        typer.Option("--sizes", "-s", help="Comma-separated batch sizes (last size repeats)"),
+        typer.Option(
+            "--sizes",
+            "-s",
+            help="Comma-separated batch sizes (last size repeats)",
+            callback=positive_int_list,
+        ),
     ] = "100",
     output_pattern: Annotated[
         str,

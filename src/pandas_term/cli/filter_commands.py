@@ -11,6 +11,7 @@ from pandas_term.cli.options import (
     UseJsonOption,
     get_output_options,
 )
+from pandas_term.cli.validators import positive_int
 from pandas_term.core import io_operations
 from pandas_term.core.validation import get_columns
 
@@ -34,7 +35,7 @@ def query(
 @app.command()
 def head(
     input_file: InputFileArgument = "-",
-    n: Annotated[int, typer.Option("--n", "-n", help="Number of rows")] = 10,
+    n: Annotated[int, typer.Option("--n", "-n", help="Number of rows", callback=positive_int)] = 10,
     use_json: UseJsonOption = False,
     fmt: FormatOption = None,
     output: OutputFileOption = None,
@@ -48,7 +49,7 @@ def head(
 @app.command()
 def tail(
     input_file: InputFileArgument = "-",
-    n: Annotated[int, typer.Option("--n", "-n", help="Number of rows")] = 10,
+    n: Annotated[int, typer.Option("--n", "-n", help="Number of rows", callback=positive_int)] = 10,
     use_json: UseJsonOption = False,
     fmt: FormatOption = None,
     output: OutputFileOption = None,

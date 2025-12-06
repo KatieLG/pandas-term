@@ -14,9 +14,6 @@ def read_dataframe(file: str) -> pd.DataFrame:
         return pd.read_csv(sys.stdin)
 
     path = Path(file)
-    if not path.exists():
-        raise FileNotFoundError(f"File not found: {file}")
-
     suffix = path.suffix.lower()
 
     if suffix == ".csv":
@@ -70,4 +67,4 @@ def write_dataframe(df: pd.DataFrame, output_opts: OutputOptions) -> None:
     elif suffix == ".md":
         path.write_text(df.to_markdown(index=False) + "\n", encoding="utf-8")
     else:
-        raise ValueError(f"Unsupported file extension: {suffix}. Use: pd -f csv ... > file{suffix}")
+        raise ValueError(f"Unsupported file extension: {suffix}")
