@@ -1,5 +1,3 @@
-"""Tests for io_operations module."""
-
 from collections.abc import Callable
 from pathlib import Path
 
@@ -74,7 +72,7 @@ def test_write_formats(
 
 
 def test_write_markdown(tmp_path: Path, sample_df: pd.DataFrame) -> None:
-    """Test writing markdown which is a write only format"""
+    """Test writing markdown (write only format)"""
     output_path = tmp_path / "output.md"
     io_operations.write_dataframe(sample_df, OutputOptions(file=str(output_path)))
 

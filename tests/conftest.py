@@ -11,7 +11,6 @@ InputMode: TypeAlias = Literal["file_arg", "stdin_explicit", "stdin_implicit"]
 
 @pytest.fixture
 def sample_df() -> pd.DataFrame:
-    """Sample dataframe with nulls and duplicates for comprehensive testing."""
     return pd.DataFrame(
         {
             "name": ["Alice", "Bob", "Charlie", "David", "Alice", None],
