@@ -1,6 +1,6 @@
 {
-  "value_counts_city": [],
-  "value_counts_department": [],
+  "value_counts_category": [],
+  "value_counts_aisle": [],
   "value_counts_normalized": [],
   "value_counts_multi_col": [],
   "value_counts_multi_col_normalized": [],

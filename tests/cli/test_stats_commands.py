@@ -12,8 +12,8 @@ runner = CliRunner()
 
 STATS_COMMANDS = {
     "describe": ["describe", "--json"],
-    "unique_city": ["unique", "city"],
-    "unique_department": ["unique", "department"],
+    "unique_category": ["unique", "category"],
+    "unique_aisle": ["unique", "aisle"],
     "shape": ["shape"],
     "columns": ["columns"],
     "dtypes": ["dtypes"],

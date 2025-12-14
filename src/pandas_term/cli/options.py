@@ -1,4 +1,4 @@
-"""Shared CLI options for all commands."""
+"""Shared CLI options and helpers."""
 
 from dataclasses import dataclass
 from typing import Annotated

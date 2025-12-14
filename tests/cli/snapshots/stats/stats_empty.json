@@ -2,36 +2,36 @@
   "describe": [
     {
       "name": 0,
-      "age": 0,
-      "city": 0,
-      "salary": 0,
-      "department": 0
+      "category": 0,
+      "price": 0,
+      "stock": 0,
+      "aisle": 0
     },
     {
       "name": 0,
-      "age": 0,
-      "city": 0,
-      "salary": 0,
-      "department": 0
+      "category": 0,
+      "price": 0,
+      "stock": 0,
+      "aisle": 0
     },
     {
       "name": null,
-      "age": null,
-      "city": null,
-      "salary": null,
-      "department": null
+      "category": null,
+      "price": null,
+      "stock": null,
+      "aisle": null
     },
     {
       "name": null,
-      "age": null,
-      "city": null,
-      "salary": null,
-      "department": null
+      "category": null,
+      "price": null,
+      "stock": null,
+      "aisle": null
     }
   ],
-  "unique_city": "",
-  "unique_department": "",
+  "unique_category": "",
+  "unique_aisle": "",
   "shape": "0 rows x 5 columns\n",
-  "columns": "name\nage\ncity\nsalary\ndepartment\n",
-  "dtypes": "name: object\nage: object\ncity: object\nsalary: object\ndepartment: object\n"
+  "columns": "name\ncategory\nprice\nstock\naisle\n",
+  "dtypes": "name: object\ncategory: object\nprice: object\nstock: object\naisle: object\n"
 }

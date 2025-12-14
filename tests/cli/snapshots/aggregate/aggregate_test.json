@@ -1,161 +1,154 @@
 {
-  "value_counts_city": [
+  "value_counts_category": [
     {
-      "city": "NYC",
+      "category": "Fruit",
       "count": 3
     },
     {
-      "city": "Chicago",
+      "category": "Bakery",
       "count": 1
     },
     {
-      "city": "LA",
+      "category": "Dairy",
       "count": 1
     }
   ],
-  "value_counts_department": [
+  "value_counts_aisle": [
     {
-      "department": "Engineering",
+      "aisle": "Produce",
       "count": 3
     },
     {
-      "department": "Sales",
-      "count": 3
+      "aisle": "Bakery",
+      "count": 2
+    },
+    {
+      "aisle": "Refrigerated",
+      "count": 1
     }
   ],
   "value_counts_normalized": [
     {
-      "city": "NYC",
+      "category": "Fruit",
       "proportion": 0.6
     },
     {
-      "city": "Chicago",
+      "category": "Bakery",
       "proportion": 0.2
     },
     {
-      "city": "LA",
+      "category": "Dairy",
       "proportion": 0.2
     }
   ],
   "value_counts_multi_col": [
     {
-      "city": "NYC",
-      "department": "Engineering",
-      "count": 2
+      "category": "Fruit",
+      "aisle": "Produce",
+      "count": 3
     },
     {
-      "city": "Chicago",
-      "department": "Engineering",
+      "category": "Bakery",
+      "aisle": "Bakery",
       "count": 1
     },
     {
-      "city": "LA",
-      "department": "Sales",
-      "count": 1
-    },
-    {
-      "city": "NYC",
-      "department": "Sales",
+      "category": "Dairy",
+      "aisle": "Refrigerated",
       "count": 1
     }
   ],
   "value_counts_multi_col_normalized": [
     {
-      "city": "NYC",
-      "department": "Engineering",
-      "proportion": 0.4
+      "category": "Fruit",
+      "aisle": "Produce",
+      "proportion": 0.6
     },
     {
-      "city": "Chicago",
-      "department": "Engineering",
+      "category": "Bakery",
+      "aisle": "Bakery",
       "proportion": 0.2
     },
     {
-      "city": "LA",
-      "department": "Sales",
-      "proportion": 0.2
-    },
-    {
-      "city": "NYC",
-      "department": "Sales",
+      "category": "Dairy",
+      "aisle": "Refrigerated",
       "proportion": 0.2
     }
   ],
   "groupby_single_col_sum": [
     {
-      "city": "Chicago",
-      "salary": 70000.0
+      "category": "Bakery",
+      "stock": 0.0
     },
     {
-      "city": "LA",
-      "salary": 0.0
+      "category": "Dairy",
+      "stock": 30.0
     },
     {
-      "city": "NYC",
-      "salary": 180000.0
+      "category": "Fruit",
+      "stock": 225.0
     }
   ],
   "groupby_single_col_mean": [
     {
-      "department": "Engineering",
-      "age": 28.3333333333
+      "aisle": "Bakery",
+      "price": 2.5
     },
     {
-      "department": "Sales",
-      "age": 35.0
+      "aisle": "Produce",
+      "price": 1.5
+    },
+    {
+      "aisle": "Refrigerated",
+      "price": 5.0
     }
   ],
   "groupby_single_col_count": [
     {
-      "city": "Chicago",
-      "age": 1
+      "category": "Bakery",
+      "price": 1
     },
     {
-      "city": "LA",
-      "age": 1
+      "category": "Dairy",
+      "price": 1
     },
     {
-      "city": "NYC",
-      "age": 2
+      "category": "Fruit",
+      "price": 2
     }
   ],
   "groupby_multi_col": [
     {
-      "city": "Chicago",
-      "department": "Engineering",
-      "salary": 70000.0
+      "category": "Bakery",
+      "aisle": "Bakery",
+      "stock": 0.0
     },
     {
-      "city": "LA",
-      "department": "Sales",
-      "salary": 0.0
+      "category": "Dairy",
+      "aisle": "Refrigerated",
+      "stock": 30.0
     },
     {
-      "city": "NYC",
-      "department": "Engineering",
-      "salary": 100000.0
-    },
-    {
-      "city": "NYC",
-      "department": "Sales",
-      "salary": 80000.0
+      "category": "Fruit",
+      "aisle": "Produce",
+      "stock": 225.0
     }
   ],
   "groupby_multi_agg_col": [
     {
-      "city": "Chicago",
-      "salary": 70000.0,
-      "age": 35.0
+      "category": "Bakery",
+      "stock": 0.0,
+      "price": 3.0
     },
     {
-      "city": "LA",
-      "salary": 0.0,
-      "age": 40.0
+      "category": "Dairy",
+      "stock": 30.0,
+      "price": 5.0
     },
     {
-      "city": "NYC",
-      "salary": 180000.0,
-      "age": 50.0
+      "category": "Fruit",
+      "stock": 225.0,
+      "price": 3.0
     }
   ]
 }

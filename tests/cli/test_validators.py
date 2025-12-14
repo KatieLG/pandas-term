@@ -11,7 +11,7 @@ from pandas_term.cli.validators import (
 
 
 def test_validate_columns_valid(sample_df: pd.DataFrame) -> None:
-    validate_columns(sample_df, ["name", "age"])
+    validate_columns(sample_df, ["name", "price"])
 
 
 def test_validate_columns_missing(sample_df: pd.DataFrame) -> None:
@@ -20,8 +20,8 @@ def test_validate_columns_missing(sample_df: pd.DataFrame) -> None:
 
 
 def test_get_columns_valid(sample_df: pd.DataFrame) -> None:
-    result = get_columns(sample_df, "name,age")
-    assert result == ["name", "age"]
+    result = get_columns(sample_df, "name,price")
+    assert result == ["name", "price"]
 
 
 def test_get_columns_invalid_column(sample_df: pd.DataFrame) -> None:

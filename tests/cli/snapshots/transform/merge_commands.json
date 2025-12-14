@@ -1,111 +1,134 @@
 {
   "merge_on_single_inner": [
     {
-      "id": 1,
-      "dept_x": "Eng",
-      "name": "Alice",
-      "dept_y": "Eng",
-      "budget": 100000
-    },
-    {
       "id": 2,
-      "dept_x": "Sales",
-      "name": "Bob",
-      "dept_y": "Sales",
-      "budget": 80000
+      "aisle_x": "Dairy",
+      "name": "Cheese",
+      "aisle_y": "Dairy",
+      "stock": 30
     },
     {
       "id": 3,
-      "dept_x": "Eng",
-      "name": "Charlie",
-      "dept_y": "HR",
-      "budget": 90000
+      "aisle_x": "Produce",
+      "name": "Banana",
+      "aisle_y": "Bakery",
+      "stock": 50
+    }
+  ],
+  "merge_on_single_left": [
+    {
+      "id": 1,
+      "aisle_x": "Produce",
+      "name": "Apple",
+      "aisle_y": null,
+      "stock": null
+    },
+    {
+      "id": 2,
+      "aisle_x": "Dairy",
+      "name": "Cheese",
+      "aisle_y": "Dairy",
+      "stock": 30.0
+    },
+    {
+      "id": 3,
+      "aisle_x": "Produce",
+      "name": "Banana",
+      "aisle_y": "Bakery",
+      "stock": 50.0
+    }
+  ],
+  "merge_on_single_right": [
+    {
+      "id": 2,
+      "aisle_x": "Dairy",
+      "name": "Cheese",
+      "aisle_y": "Dairy",
+      "stock": 30
+    },
+    {
+      "id": 3,
+      "aisle_x": "Produce",
+      "name": "Banana",
+      "aisle_y": "Bakery",
+      "stock": 50
+    },
+    {
+      "id": 4,
+      "aisle_x": null,
+      "name": null,
+      "aisle_y": "Produce",
+      "stock": 75
     }
   ],
   "merge_on_single_outer": [
     {
       "id": 1,
-      "dept_x": "Eng",
-      "name": "Alice",
-      "dept_y": "Eng",
-      "budget": 100000
+      "aisle_x": "Produce",
+      "name": "Apple",
+      "aisle_y": null,
+      "stock": null
     },
     {
       "id": 2,
-      "dept_x": "Sales",
-      "name": "Bob",
-      "dept_y": "Sales",
-      "budget": 80000
+      "aisle_x": "Dairy",
+      "name": "Cheese",
+      "aisle_y": "Dairy",
+      "stock": 30.0
     },
     {
       "id": 3,
-      "dept_x": "Eng",
-      "name": "Charlie",
-      "dept_y": "HR",
-      "budget": 90000
+      "aisle_x": "Produce",
+      "name": "Banana",
+      "aisle_y": "Bakery",
+      "stock": 50.0
+    },
+    {
+      "id": 4,
+      "aisle_x": null,
+      "name": null,
+      "aisle_y": "Produce",
+      "stock": 75.0
     }
   ],
   "merge_on_multiple_inner": [
     {
-      "id": 1,
-      "dept": "Eng",
-      "name": "Alice",
-      "budget": 100000
-    },
-    {
       "id": 2,
-      "dept": "Sales",
-      "name": "Bob",
-      "budget": 80000
+      "aisle": "Dairy",
+      "name": "Cheese",
+      "stock": 30
     }
   ],
   "merge_on_multiple_outer": [
     {
       "id": 1,
-      "dept": "Eng",
-      "name": "Alice",
-      "budget": 100000.0
+      "aisle": "Produce",
+      "name": "Apple",
+      "stock": null
     },
     {
       "id": 2,
-      "dept": "Sales",
-      "name": "Bob",
-      "budget": 80000.0
+      "aisle": "Dairy",
+      "name": "Cheese",
+      "stock": 30.0
     },
     {
       "id": 3,
-      "dept": "Eng",
-      "name": "Charlie",
-      "budget": null
-    },
-    {
-      "id": 3,
-      "dept": "HR",
+      "aisle": "Bakery",
       "name": null,
-      "budget": 90000.0
-    }
-  ],
-  "merge_left_on_right_on": [
-    {
-      "id": 1,
-      "dept_x": "Eng",
-      "name": "Alice",
-      "dept_y": "Eng",
-      "budget": 100000
-    },
-    {
-      "id": 2,
-      "dept_x": "Sales",
-      "name": "Bob",
-      "dept_y": "Sales",
-      "budget": 80000
+      "stock": 50.0
     },
     {
       "id": 3,
-      "dept_x": "Eng",
-      "name": "Charlie",
-      "dept_y": "HR",
-      "budget": 90000
+      "aisle": "Produce",
+      "name": "Banana",
+      "stock": null
+    },
+    {
+      "id": 4,
+      "aisle": "Produce",
+      "name": null,
+      "stock": 75.0
     }
   ]
 }

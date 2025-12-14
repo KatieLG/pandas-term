@@ -1,499 +1,499 @@
 {
   "select_single": [
     {
-      "name": "Alice"
+      "name": "Apple"
     },
     {
-      "name": "Bob"
+      "name": "Bread"
     },
     {
-      "name": "Charlie"
+      "name": "Cheese"
     },
     {
-      "name": "David"
+      "name": "Banana"
     },
     {
-      "name": "Alice"
+      "name": "Apple"
     },
     {
-      "name": null
+      "name": "Croissant"
     }
   ],
   "select_multiple": [
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC"
+      "name": "Apple",
+      "price": 1.5,
+      "category": "Fruit"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "city": null
+      "name": "Bread",
+      "price": 2.0,
+      "category": null
     },
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago"
+      "name": "Cheese",
+      "price": 5.0,
+      "category": "Dairy"
     },
     {
-      "name": "David",
-      "age": null,
-      "city": "NYC"
+      "name": "Banana",
+      "price": null,
+      "category": "Fruit"
     },
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC"
+      "name": "Apple",
+      "price": 1.5,
+      "category": "Fruit"
     },
     {
-      "name": null,
-      "age": 40.0,
-      "city": "LA"
+      "name": "Croissant",
+      "price": 3.0,
+      "category": "Bakery"
     }
   ],
   "drop_single": [
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "aisle": "Produce"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "city": null,
-      "department": "Sales"
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "aisle": "Bakery"
     },
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago",
-      "department": "Engineering"
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "aisle": "Refrigerated"
     },
     {
-      "name": "David",
-      "age": null,
-      "city": "NYC",
-      "department": "Sales"
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "aisle": "Produce"
     },
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "aisle": "Produce"
     },
     {
-      "name": null,
-      "age": 40.0,
-      "city": "LA",
-      "department": "Sales"
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "aisle": "Bakery"
     }
   ],
   "drop_multiple": [
     {
-      "name": "Alice",
-      "age": 25.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "price": 1.5,
+      "aisle": "Produce"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "department": "Sales"
+      "name": "Bread",
+      "price": 2.0,
+      "aisle": "Bakery"
     },
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "department": "Engineering"
+      "name": "Cheese",
+      "price": 5.0,
+      "aisle": "Refrigerated"
     },
     {
-      "name": "David",
-      "age": null,
-      "department": "Sales"
+      "name": "Banana",
+      "price": null,
+      "aisle": "Produce"
     },
     {
-      "name": "Alice",
-      "age": 25.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "price": 1.5,
+      "aisle": "Produce"
     },
     {
-      "name": null,
-      "age": 40.0,
-      "department": "Sales"
+      "name": "Croissant",
+      "price": 3.0,
+      "aisle": "Bakery"
     }
   ],
   "sort_single_asc": [
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "city": null,
-      "salary": 60000.0,
-      "department": "Sales"
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery"
     },
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago",
-      "salary": 70000.0,
-      "department": "Engineering"
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery"
     },
     {
-      "name": null,
-      "age": 40.0,
-      "city": "LA",
-      "salary": null,
-      "department": "Sales"
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated"
     },
     {
-      "name": "David",
-      "age": null,
-      "city": "NYC",
-      "salary": 80000.0,
-      "department": "Sales"
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce"
     }
   ],
   "sort_single_desc": [
     {
-      "name": null,
-      "age": 40.0,
-      "city": "LA",
-      "salary": null,
-      "department": "Sales"
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated"
     },
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago",
-      "salary": 70000.0,
-      "department": "Engineering"
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "city": null,
-      "salary": 60000.0,
-      "department": "Sales"
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery"
     },
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "David",
-      "age": null,
-      "city": "NYC",
-      "salary": 80000.0,
-      "department": "Sales"
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce"
     }
   ],
   "sort_multiple_asc": [
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago",
-      "salary": 70000.0,
-      "department": "Engineering"
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery"
     },
     {
-      "name": null,
-      "age": 40.0,
-      "city": "LA",
-      "salary": null,
-      "department": "Sales"
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated"
     },
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "David",
-      "age": null,
-      "city": "NYC",
-      "salary": 80000.0,
-      "department": "Sales"
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "city": null,
-      "salary": 60000.0,
-      "department": "Sales"
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery"
     }
   ],
   "sort_multiple_desc": [
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "David",
-      "age": null,
-      "city": "NYC",
-      "salary": 80000.0,
-      "department": "Sales"
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce"
     },
     {
-      "name": null,
-      "age": 40.0,
-      "city": "LA",
-      "salary": null,
-      "department": "Sales"
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated"
     },
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago",
-      "salary": 70000.0,
-      "department": "Engineering"
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "city": null,
-      "salary": 60000.0,
-      "department": "Sales"
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery"
     }
   ],
   "rename_single": [
     {
-      "full_name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "product_name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "full_name": "Bob",
-      "age": 30.0,
-      "city": null,
-      "salary": 60000.0,
-      "department": "Sales"
+      "product_name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery"
     },
     {
-      "full_name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago",
-      "salary": 70000.0,
-      "department": "Engineering"
+      "product_name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated"
     },
     {
-      "full_name": "David",
-      "age": null,
-      "city": "NYC",
-      "salary": 80000.0,
-      "department": "Sales"
+      "product_name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce"
     },
     {
-      "full_name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "product_name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "full_name": null,
-      "age": 40.0,
-      "city": "LA",
-      "salary": null,
-      "department": "Sales"
+      "product_name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery"
     }
   ],
   "rename_multiple": [
     {
-      "full_name": "Alice",
-      "years": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "product_name": "Apple",
+      "category": "Fruit",
+      "cost": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "full_name": "Bob",
-      "years": 30.0,
-      "city": null,
-      "salary": 60000.0,
-      "department": "Sales"
+      "product_name": "Bread",
+      "category": null,
+      "cost": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery"
     },
     {
-      "full_name": "Charlie",
-      "years": 35.0,
-      "city": "Chicago",
-      "salary": 70000.0,
-      "department": "Engineering"
+      "product_name": "Cheese",
+      "category": "Dairy",
+      "cost": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated"
     },
     {
-      "full_name": "David",
-      "years": null,
-      "city": "NYC",
-      "salary": 80000.0,
-      "department": "Sales"
+      "product_name": "Banana",
+      "category": "Fruit",
+      "cost": null,
+      "stock": 25.0,
+      "aisle": "Produce"
     },
     {
-      "full_name": "Alice",
-      "years": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "product_name": "Apple",
+      "category": "Fruit",
+      "cost": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "full_name": null,
-      "years": 40.0,
-      "city": "LA",
-      "salary": null,
-      "department": "Sales"
+      "product_name": "Croissant",
+      "category": "Bakery",
+      "cost": 3.0,
+      "stock": null,
+      "aisle": "Bakery"
     }
   ],
   "dedup_all": [
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "city": null,
-      "salary": 60000.0,
-      "department": "Sales"
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery"
     },
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago",
-      "salary": 70000.0,
-      "department": "Engineering"
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated"
     },
     {
-      "name": "David",
-      "age": null,
-      "city": "NYC",
-      "salary": 80000.0,
-      "department": "Sales"
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce"
     },
     {
-      "name": null,
-      "age": 40.0,
-      "city": "LA",
-      "salary": null,
-      "department": "Sales"
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery"
     }
   ],
   "dedup_subset_single": [
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "city": null,
-      "salary": 60000.0,
-      "department": "Sales"
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery"
     },
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago",
-      "salary": 70000.0,
-      "department": "Engineering"
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated"
     },
     {
-      "name": "David",
-      "age": null,
-      "city": "NYC",
-      "salary": 80000.0,
-      "department": "Sales"
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce"
     },
     {
-      "name": null,
-      "age": 40.0,
-      "city": "LA",
-      "salary": null,
-      "department": "Sales"
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery"
     }
   ],
   "dedup_subset_multiple": [
     {
-      "name": "Alice",
-      "age": 25.0,
-      "city": "NYC",
-      "salary": 50000.0,
-      "department": "Engineering"
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce"
     },
     {
-      "name": "Bob",
-      "age": 30.0,
-      "city": null,
-      "salary": 60000.0,
-      "department": "Sales"
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery"
     },
     {
-      "name": "Charlie",
-      "age": 35.0,
-      "city": "Chicago",
-      "salary": 70000.0,
-      "department": "Engineering"
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated"
     },
     {
-      "name": "David",
-      "age": null,
-      "city": "NYC",
-      "salary": 80000.0,
-      "department": "Sales"
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce"
     },
     {
-      "name": null,
-      "age": 40.0,
-      "city": "LA",
-      "salary": null,
-      "department": "Sales"
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery"
     }
   ]
 }

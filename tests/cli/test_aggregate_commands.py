@@ -11,16 +11,16 @@ from tests.conftest import InputMode, get_input_args
 runner = CliRunner()
 
 AGGREGATE_COMMANDS = {
-    "value_counts_city": ["value-counts", "city"],
-    "value_counts_department": ["value-counts", "department"],
-    "value_counts_normalized": ["value-counts", "city", "--normalize"],
-    "value_counts_multi_col": ["value-counts", "city,department"],
-    "value_counts_multi_col_normalized": ["value-counts", "city,department", "--normalize"],
-    "groupby_single_col_sum": ["groupby", "city", "--col", "salary", "--agg", "sum"],
-    "groupby_single_col_mean": ["groupby", "department", "--col", "age", "--agg", "mean"],
-    "groupby_single_col_count": ["groupby", "city", "--col", "age", "--agg", "count"],
-    "groupby_multi_col": ["groupby", "city,department", "--col", "salary", "--agg", "sum"],
-    "groupby_multi_agg_col": ["groupby", "city", "--col", "salary,age", "--agg", "sum"],
+    "value_counts_category": ["value-counts", "category"],
+    "value_counts_aisle": ["value-counts", "aisle"],
+    "value_counts_normalized": ["value-counts", "category", "--normalize"],
+    "value_counts_multi_col": ["value-counts", "category,aisle"],
+    "value_counts_multi_col_normalized": ["value-counts", "category,aisle", "--normalize"],
+    "groupby_single_col_sum": ["groupby", "category", "--col", "stock", "--agg", "sum"],
+    "groupby_single_col_mean": ["groupby", "aisle", "--col", "price", "--agg", "mean"],
+    "groupby_single_col_count": ["groupby", "category", "--col", "price", "--agg", "count"],
+    "groupby_multi_col": ["groupby", "category,aisle", "--col", "stock", "--agg", "sum"],
+    "groupby_multi_agg_col": ["groupby", "category", "--col", "stock,price", "--agg", "sum"],
 }
 
 

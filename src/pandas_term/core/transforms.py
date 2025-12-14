@@ -1,4 +1,4 @@
-"""Service for dataframe transformation operations."""
+"""Functions for dataframe transformation."""
 
 import pandas as pd
 

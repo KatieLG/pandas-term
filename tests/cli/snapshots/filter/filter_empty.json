@@ -6,7 +6,7 @@
   "tail_default": [],
   "tail_n2": [],
   "dropna_any": [],
-  "dropna_subset_age": [],
-  "dropna_subset_city": [],
+  "dropna_subset_price": [],
+  "dropna_subset_category": [],
   "dropna_subset_multiple": []
 }

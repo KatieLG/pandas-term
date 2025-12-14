@@ -192,7 +192,7 @@ def batch(
     size_list = [int(s.strip()) for s in sizes.split(",")]
     batches = transforms.batch_dataframe(df, size_list)
 
-    for i, batch_df in enumerate(batches):
+    for i, batch_df in enumerate(batches, start=1):
         output_file = output_pattern.format(i)
         io_operations.write_dataframe(batch_df, OutputOptions(file=output_file))
         typer.echo(f"Written batch {i} to {output_file} ({len(batch_df)} rows)")

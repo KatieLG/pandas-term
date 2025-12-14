@@ -11,16 +11,16 @@ from tests.conftest import InputMode, get_input_args
 runner = CliRunner()
 
 FILTER_COMMANDS = {
-    "query_simple": ["query", "age > 30"],
-    "query_complex": ["query", "age > 30 and city == 'NYC'"],
+    "query_simple": ["query", "stock > 30"],
+    "query_complex": ["query", "price > 1.4 and category == 'Fruit'"],
     "head_default": ["head"],
     "head_n3": ["head", "--n", "3"],
     "tail_default": ["tail"],
     "tail_n2": ["tail", "--n", "2"],
     "dropna_any": ["dropna"],
-    "dropna_subset_age": ["dropna", "--subset", "age"],
-    "dropna_subset_city": ["dropna", "--subset", "city"],
-    "dropna_subset_multiple": ["dropna", "--subset", "age,city"],
+    "dropna_subset_price": ["dropna", "--subset", "price"],
+    "dropna_subset_category": ["dropna", "--subset", "category"],
+    "dropna_subset_multiple": ["dropna", "--subset", "price,category"],
 }
 
 

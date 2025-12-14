@@ -1,41 +1,41 @@
 {
   "describe": [
     {
-      "age": 5.0,
-      "salary": 5.0
+      "price": 5.0,
+      "stock": 5.0
     },
     {
-      "age": 31.0,
-      "salary": 62000.0
+      "price": 2.6,
+      "stock": 61.0
     },
     {
-      "age": 6.5192024052,
-      "salary": 13038.4048104053
+      "price": 1.4747881204,
+      "stock": 36.8103246386
     },
     {
-      "age": 25.0,
-      "salary": 50000.0
+      "price": 1.5,
+      "stock": 25.0
     },
     {
-      "age": 25.0,
-      "salary": 50000.0
+      "price": 1.5,
+      "stock": 30.0
     },
     {
-      "age": 30.0,
-      "salary": 60000.0
+      "price": 2.0,
+      "stock": 50.0
     },
     {
-      "age": 35.0,
-      "salary": 70000.0
+      "price": 3.0,
+      "stock": 100.0
     },
     {
-      "age": 40.0,
-      "salary": 80000.0
+      "price": 5.0,
+      "stock": 100.0
     }
   ],
-  "unique_city": "NYC\nnan\nChicago\nLA\n",
-  "unique_department": "Engineering\nSales\n",
+  "unique_category": "Fruit\nnan\nDairy\nBakery\n",
+  "unique_aisle": "Produce\nBakery\nRefrigerated\n",
   "shape": "6 rows x 5 columns\n",
-  "columns": "name\nage\ncity\nsalary\ndepartment\n",
-  "dtypes": "name: object\nage: float64\ncity: object\nsalary: float64\ndepartment: object\n"
+  "columns": "name\ncategory\nprice\nstock\naisle\n",
+  "dtypes": "name: object\ncategory: object\nprice: float64\nstock: float64\naisle: object\n"
 }

@@ -11,6 +11,9 @@ format:
 test:
 	uv run pytest
 
+snapshots:
+	uv run pytest --snapshot-update
+
 coverage:
 	uv run coverage run -m pytest
 	coverage report

@@ -78,7 +78,7 @@ def test_write_markdown(tmp_path: Path, sample_df: pd.DataFrame) -> None:
 
     content = output_path.read_text()
     assert "| name" in content
-    assert "Alice" in content
+    assert "Apple" in content
 
 
 def test_write_unsupported_format(tmp_path: Path, sample_df: pd.DataFrame) -> None:
