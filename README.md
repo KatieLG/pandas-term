@@ -2,7 +2,7 @@
 
 pandas-term is a CLI bringing [pandas](https://pandas.pydata.org/) operations to the command line.
 
-![Demo](https://vhs.charm.sh/vhs-4JpdYavE1bMhCkcupUKOiY.gif)
+![Demo](https://raw.githubusercontent.com/KatieLG/pandas-term/main/demo/demo.gif)
 
 > **Note:** Still in early experimental development and may change
 
@@ -142,19 +142,23 @@ Supported: csv, tsv, json, xlsx, parquet, md
 
 For other extensions, use redirection: `pd select name data.csv -f csv > output.txt`
 
-## Developer setup
+## Dev setup
 
 Requires [uv](https://docs.astral.sh/uv/)
 
+Install dependencies:
+
 ```bash
-# Create venv & install dependencies
 uv sync
 ```
 
-| Command         | Description            |
-| --------------- | ---------------------- |
-| `make check`    | Format, lint, and test |
-| `make test`     | Run tests              |
-| `make format`   | Format code            |
-| `make lint`     | Linting only           |
-| `make coverage` | Tests with coverage    |
+| Command          | Description                       |
+| ---------------- | --------------------------------- |
+| `make check`     | Format, lint, and test            |
+| `make format`    | Format code                       |
+| `make lint`      | Linting only                      |
+| `make test`      | Run tests                         |
+| `make snapshots` | Regenerate test snapshots         |
+| `make coverage`  | Tests with coverage               |
+| `make bump`      | Bump version number               |
+| `make demo`      | Regnerate demo gif from tape file |

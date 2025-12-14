@@ -1,3 +1,5 @@
+.PHONY: lint format test snapshots coverage check demo bump
+
 bump := "patch"
 
 lint:
@@ -19,6 +21,9 @@ coverage:
 	coverage report
 
 check: format lint test
+
+demo:
+	cd demo && vhs pd.tape
 
 bump:
 	uv version --bump $(bump)

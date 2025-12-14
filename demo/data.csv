@@ -1,0 +1,9 @@
+name,category,price,stock,aisle
+Apple,Fruit,1.50,100,Produce
+Banana,Fruit,0.75,150,Produce
+Bread,Bakery,2.50,40,Bakery
+Cheese,Dairy,5.00,30,Refrigerated
+Milk,Dairy,3.25,60,Refrigerated
+Eggs,Dairy,4.00,80,Refrigerated
+Chicken,Meat,8.50,25,Refrigerated
+Orange,Fruit,1.25,120,Produce
