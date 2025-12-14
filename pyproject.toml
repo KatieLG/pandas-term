@@ -1,6 +1,6 @@
 [project]
 name = "pandas-term"
-version = "0.1.0"
+version = "0.1.1"
 description = "CLI bringing pandas operations to the command line"
 license = { file = "LICENSE" }
 authors = [{ name = "Katie Gardner" }]

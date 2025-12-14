@@ -50,33 +50,34 @@ All commands accept an input file path (or `-` for stdin) and support `-o/--outp
 
 ```bash
 # Select columns
-pd select name,age data.csv
+pd select name,price data.csv
 
 # Drop, sort & rename
 pd drop unwanted_column data.csv
-pd sort age data.csv --descending
-pd rename "name:full_name,age:years" data.csv
+pd sort price data.csv --descending
+pd rename "price:cost,name:product_name" data.csv
 
 # Remove duplicates
 pd dedup data.csv
-pd dedup --subset name,email data.csv
+pd dedup --subset category,aisle data.csv
 
 # Merge two dataframes
-pd merge left.csv right.csv --on user_id --how inner
+pd merge left.csv right.csv --on id --how inner
 
 # Concatenate files (supports glob patterns)
-pd concat file1.csv file2.csv
+pd concat file1.csv file2.json
 pd concat "data_*.csv"
+pd concat "*"
 
-# Split into batches
-pd batch data.csv --sizes 100 -o "batch_{}.csv"
+# Split into batches (last repeats)
+pd batch data.csv --sizes 10,20,50 -o "batch_{}.csv"
 ```
 
 ### Filter
 
 ```bash
 # Query expression
-pd query "age > 30 and city == 'NYC'" data.csv
+pd query "price > 4.5 and category == 'Fruit'" data.csv
 
 # First/last N rows
 pd head --n 100 data.csv
@@ -84,7 +85,7 @@ pd tail --n 50 data.csv
 
 # Drop rows with nulls
 pd dropna data.csv
-pd dropna --subset "name,age" data.csv
+pd dropna --subset "name,category" data.csv
 ```
 
 ### Stats
@@ -101,12 +102,12 @@ pd dtypes data.csv
 
 ```bash
 # Count unique values
-pd value-counts city data.csv
-pd value-counts city,department data.csv --normalize
+pd value-counts category data.csv
+pd value-counts category,aisle data.csv --normalize
 
 # Group by and aggregate
-pd groupby department data.csv --col salary --agg sum
-pd groupby "city,department" data.csv --col salary,age --agg mean
+pd groupby category data.csv --col price --agg sum
+pd groupby "category,ailse" data.csv --col price,stock --agg mean
 ```
 
 ### Piping
@@ -114,9 +115,9 @@ pd groupby "city,department" data.csv --col salary,age --agg mean
 All commands support piping through stdin/stdout. When piping, you can omit the input file argument (it defaults to stdin):
 
 ```bash
-cat data.csv | pd query "age > 30" | pd select name,age
+cat data.csv | pd query "stock > 30" | pd select name,category
 
-pd sort age data.csv --descending | pd head --n 10 | pd select name,age
+pd sort price data.csv --descending | pd head --n 10 | pd select name,category
 ```
 
 ### Output Formats
@@ -134,8 +135,8 @@ pd head --n 10 data.csv -f md
 File output format is determined by extension:
 
 ```bash
-pd select name,age data.csv -o output.xlsx
-pd query "age > 30" data.json -o filtered.parquet
+pd select name,category data.csv -o output.xlsx
+pd query "stock > 30" data.json -o filtered.parquet
 ```
 
 Supported: csv, tsv, json, xlsx, parquet, md
