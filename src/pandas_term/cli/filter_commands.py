@@ -74,3 +74,25 @@ def dropna(
     df = io_operations.read_dataframe(input_file)
     result = df.dropna(subset=get_columns(df, subset))
     io_operations.write_dataframe(result, get_output_options(use_json, fmt, output))
+
+
+@app.command()
+def duplicated(
+    input_file: InputFileArgument = "-",
+    subset: Annotated[
+        str | None,
+        typer.Option("--subset", "-s", help="Comma-separated columns to check for duplicates"),
+    ] = None,
+    keep: Annotated[
+        str,
+        typer.Option("--keep", help="Which duplicates to mark: first, last, or False for all"),
+    ] = "first",
+    use_json: UseJsonOption = False,
+    fmt: FormatOption = None,
+    output: OutputFileOption = None,
+) -> None:
+    """Identify duplicate rows and add a duplicate marker column."""
+    df = io_operations.read_dataframe(input_file)
+    keep_value: bool | str = False if keep == "False" else keep
+    df["duplicated"] = df.duplicated(subset=get_columns(df, subset), keep=keep_value)  # type: ignore[arg-type]
+    io_operations.write_dataframe(df, get_output_options(use_json, fmt, output))

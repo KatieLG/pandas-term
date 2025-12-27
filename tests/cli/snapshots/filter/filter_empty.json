@@ -8,5 +8,9 @@
   "dropna_any": [],
   "dropna_subset_price": [],
   "dropna_subset_category": [],
-  "dropna_subset_multiple": []
+  "dropna_subset_multiple": [],
+  "duplicated_all": [],
+  "duplicated_keep_last": [],
+  "duplicated_keep_false": [],
+  "duplicated_subset_name": []
 }

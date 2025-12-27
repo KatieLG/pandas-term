@@ -291,5 +291,205 @@
       "stock": null,
       "aisle": "Bakery"
     }
+  ],
+  "duplicated_all": [
+    {
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce",
+      "duplicated": false
+    },
+    {
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery",
+      "duplicated": false
+    },
+    {
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated",
+      "duplicated": false
+    },
+    {
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce",
+      "duplicated": false
+    },
+    {
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce",
+      "duplicated": true
+    },
+    {
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery",
+      "duplicated": false
+    }
+  ],
+  "duplicated_keep_last": [
+    {
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce",
+      "duplicated": true
+    },
+    {
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery",
+      "duplicated": false
+    },
+    {
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated",
+      "duplicated": false
+    },
+    {
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce",
+      "duplicated": false
+    },
+    {
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce",
+      "duplicated": false
+    },
+    {
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery",
+      "duplicated": false
+    }
+  ],
+  "duplicated_keep_false": [
+    {
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce",
+      "duplicated": true
+    },
+    {
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery",
+      "duplicated": false
+    },
+    {
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated",
+      "duplicated": false
+    },
+    {
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce",
+      "duplicated": false
+    },
+    {
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce",
+      "duplicated": true
+    },
+    {
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery",
+      "duplicated": false
+    }
+  ],
+  "duplicated_subset_name": [
+    {
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce",
+      "duplicated": false
+    },
+    {
+      "name": "Bread",
+      "category": null,
+      "price": 2.0,
+      "stock": 50.0,
+      "aisle": "Bakery",
+      "duplicated": false
+    },
+    {
+      "name": "Cheese",
+      "category": "Dairy",
+      "price": 5.0,
+      "stock": 30.0,
+      "aisle": "Refrigerated",
+      "duplicated": false
+    },
+    {
+      "name": "Banana",
+      "category": "Fruit",
+      "price": null,
+      "stock": 25.0,
+      "aisle": "Produce",
+      "duplicated": false
+    },
+    {
+      "name": "Apple",
+      "category": "Fruit",
+      "price": 1.5,
+      "stock": 100.0,
+      "aisle": "Produce",
+      "duplicated": true
+    },
+    {
+      "name": "Croissant",
+      "category": "Bakery",
+      "price": 3.0,
+      "stock": null,
+      "aisle": "Bakery",
+      "duplicated": false
+    }
   ]
 }

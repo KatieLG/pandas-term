@@ -21,6 +21,10 @@ FILTER_COMMANDS = {
     "dropna_subset_price": ["dropna", "--subset", "price"],
     "dropna_subset_category": ["dropna", "--subset", "category"],
     "dropna_subset_multiple": ["dropna", "--subset", "price,category"],
+    "duplicated_all": ["duplicated"],
+    "duplicated_keep_last": ["duplicated", "--keep", "last"],
+    "duplicated_keep_false": ["duplicated", "--keep", "False"],
+    "duplicated_subset_name": ["duplicated", "--subset", "name"],
 }
 
 

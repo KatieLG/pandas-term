@@ -31,6 +31,7 @@ All commands accept an input file path (or `-` for stdin) and support `-o/--outp
 | `pd rename`       | `df.rename()`          | Rename columns             |
 | `pd sort`         | `df.sort_values()`     | Sort by columns            |
 | `pd dedup`        | `df.drop_duplicates()` | Remove duplicate rows      |
+| `pd duplicated`   | `df.duplicated()`      | Identify duplicate rows    |
 | `pd merge`        | `pd.merge()`           | Merge two dataframes       |
 | `pd concat`       | `pd.concat()`          | Concatenate dataframes     |
 | `pd batch`        | `df.iloc[]`            | Split into batches         |
@@ -86,6 +87,11 @@ pd tail --n 50 data.csv
 # Drop rows with nulls
 pd dropna data.csv
 pd dropna --subset "name,category" data.csv
+
+# Identify duplicate rows
+pd duplicated data.csv
+pd duplicated --subset category data.csv
+pd duplicated --keep last data.csv
 ```
 
 ### Stats
