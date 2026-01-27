@@ -4,8 +4,6 @@ pandas-term is a CLI bringing [pandas](https://pandas.pydata.org/) operations to
 
 ![Demo](https://raw.githubusercontent.com/KatieLG/pandas-term/main/demo/demo.gif)
 
-> **Note:** Still in early experimental development and may change
-
 ## Installation
 
 ```bash
